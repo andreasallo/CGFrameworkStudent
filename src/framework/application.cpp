@@ -29,7 +29,7 @@ void Application::Init(void)
 }
 
 // Render one frame
-void Application::Render(void)
+void Application::Render(void) //EL  NOSTRE CODI DEL MAIN
 {
 	// ...
 
