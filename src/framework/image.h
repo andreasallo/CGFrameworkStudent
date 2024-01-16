@@ -79,6 +79,11 @@ public:
 	bool SaveTGA(const char* filename);
 
 	void DrawRect(int x, int y, int w, int h, const Color& c);
+	
+	//
+	//DRAWING LINES (DDA ALGORITHM)
+	//
+	void Image::DrawLineDDA(int x0, int y0, int x1, int y1, const Color& c);
 
 	// Used to easy code
 	#ifndef IGNORE_LAMBDAS
@@ -125,3 +130,4 @@ public:
 
 	void Resize(unsigned int width, unsigned int height);
 };
+

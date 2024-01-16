@@ -66,6 +66,8 @@ void Image::Render()
 	glDrawPixels(width, height, bytes_per_pixel == 3 ? GL_RGB : GL_RGBA, GL_UNSIGNED_BYTE, pixels);
 }
 
+
+
 // Change image size (the old one will remain in the top-left corner)
 void Image::Resize(unsigned int width, unsigned int height)
 {

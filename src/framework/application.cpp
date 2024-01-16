@@ -21,6 +21,9 @@ Application::Application(const char* caption, int width, int height)
 
 Application::~Application()
 {
+	//DRAWING LINES
+
+
 }
 
 void Application::Init(void)
