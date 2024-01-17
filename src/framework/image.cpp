@@ -357,6 +357,39 @@ FloatImage::FloatImage(const FloatImage& c) {
 	}
 }
 
+//
+//LINEA
+//
+void Image::DrawLineDDA(int x0, int y0, int x1, int y1, const Color& c)
+{
+	int dx = x1 - x0;
+	int dy = y1 - y0;
+
+	//powerpoint
+	int d = std::max(std::abs(dx), std::abs(dy)); //d indicates how many pixels we must draw
+
+
+	//punts inicials 
+	float x = (float)x0;
+	float y = (float)y0;
+
+	//x-increment i y-increment; STEP VECTOR 
+	float x_incr = (float)dx / d;
+	float y_incr = (float)dy / d;
+
+	for (int i = 0; i <= d; i++) { //
+		int X = int(std::floor(x));
+		int Y = int(std::floor(y));
+
+		SetPixel(X, Y, c); 
+		x += x_incr;
+		y += y_incr;
+
+	}
+
+
+}
+
 // Assign operator
 FloatImage& FloatImage::operator = (const FloatImage& c)
 {

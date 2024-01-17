@@ -23,6 +23,14 @@ Application::~Application()
 {
 	//DRAWING LINES
 
+	Color color(255, 255, 255);
+	int x = 50;
+	int y = 50;
+	float time = 0.0;
+
+	framebuffer.Fill(Color::BLACK);
+	framebuffer.DrawLineDDA(x, y, x + 100 * std::cos(time), y + 100 * std::sin(time), color);
+
 
 }
 
