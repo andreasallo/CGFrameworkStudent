@@ -360,6 +360,7 @@ FloatImage::FloatImage(const FloatImage& c) {
 //
 //LINEA
 //
+
 void Image::DrawLineDDA(int x0, int y0, int x1, int y1, const Color& c)
 {
 	int dx = x1 - x0;
@@ -381,7 +382,7 @@ void Image::DrawLineDDA(int x0, int y0, int x1, int y1, const Color& c)
 		int X = int(std::floor(x));
 		int Y = int(std::floor(y));
 
-		SetPixel(X, Y, c); 
+		SetPixelSafe(X, Y, c); 
 		x += x_incr;
 		y += y_incr;
 
