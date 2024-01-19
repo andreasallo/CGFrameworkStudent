@@ -311,6 +311,36 @@ bool Image::SaveTGA(const char* filename)
 	return true;
 }
 
+//
+//RECTANGLE
+//
+void Image::DrawRectangle(int startX, int startY, int width, int height, const Color& borderColor, int borderWidth, bool isFilled, const Color& fillColor) {
+
+	if (isFilled) {
+		// Fill the rectangle
+		for (int x = startX + 1; x < (startX + width - 1); ++x) {
+			for (int y = startY + 1; y < (startY + height - 1); ++y) {
+				SetPixel(x, y, fillColor);
+			}
+		}
+	}
+
+	// Draw only the border
+	for (int x = startX; x < (startX + width); ++x)
+	{
+		SetPixel(x, startY, borderColor);
+		SetPixel(x, startY + height - 1, borderColor);
+	}
+
+	for (int y = startY + 1; y < (startY + height - 1); ++y)
+	{
+		SetPixel(startX, y, borderColor);
+		SetPixel(startX + width - 1, y, borderColor);
+	}
+
+}
+
+
 void Image::DrawRect(int x, int y, int w, int h, const Color& c)
 {
 	for (int i = 0; i < w; ++i) {

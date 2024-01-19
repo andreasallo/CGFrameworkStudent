@@ -81,6 +81,12 @@ public:
 	void DrawRect(int x, int y, int w, int h, const Color& c);
 	
 	//
+	//RECTANGLE
+	//
+	void Image::DrawRectangle(int startX, int startY, int width, int height, const Color& borderColor, int borderWidth, bool isFilled, const Color& fillColor);
+	
+	
+	//
 	//DRAWING LINES (DDA ALGORITHM)
 	//
 	void Image::DrawLineDDA(int x0, int y0, int x1, int y1, const Color& c);
