@@ -83,14 +83,17 @@ public:
 	//
 	//RECTANGLE
 	//
-	void Image::DrawRectangle(int startX, int startY, int width, int height, const Color& borderColor, int borderWidth, bool isFilled, const Color& fillColor);
+	void DrawRectangle(int startX, int startY, int width, int height, const Color& borderColor, int borderWidth, bool isFilled, const Color& fillColor);
 	
 	
 	//
 	//DRAWING LINES (DDA ALGORITHM)
 	//
-	void Image::DrawLineDDA(int x0, int y0, int x1, int y1, const Color& c);
+	void DrawLineDDA(int x0, int y0, int x1, int y1, const Color& c);
 
+    void DrawCircle(int x, int y, int r, const Color& borderColor, int borderWidth, bool isFilled, const Color& fillColor);
+    
+    
 	// Used to easy code
 	#ifndef IGNORE_LAMBDAS
 

@@ -11,6 +11,8 @@
 class Application
 {
 public:
+    //variables afegides
+    int borderWidth=20;  // Variable miembro para almacenar el ancho del borde
 
 	// Window
 

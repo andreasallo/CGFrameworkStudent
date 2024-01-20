@@ -35,33 +35,37 @@ void Application::Render(void) //EL  NOSTRE CODI DEL MAIN
 	//DRAWING LINES
 
 	Color color(255, 255, 255);
-	int x = 180;
-	int y = 180;
+    int startXline = 150;
+    int startYline = 450;
 
 	framebuffer.Fill(Color::BLACK);
-	framebuffer.DrawLineDDA(x, y, x + 100 * std::cos(time), y + 100 * std::sin(time), color);
+	framebuffer.DrawLineDDA(startXline,startYline, startXline + 100 * std::cos(time), startYline + 100 * std::sin(time), color);
 
 	//DRAWING RECTANGLE
 	int height = 150;
 	int width = 300;
-	int startX = 200;
-	int startY = 150;
+	int startXrectangle = 100;
+	int startYrectangle = 100;
 	Color wh(255, 255, 255);
-	int borderWidth = 50;
 	bool isFilled = true;
 	Color fillColor(255, 0, 0);
-
-
-	framebuffer.DrawRectangle(startX, startY, width, height, wh, borderWidth, isFilled, fillColor);
+	framebuffer.DrawRectangle(startXrectangle, startYrectangle, width, height, wh, borderWidth, isFilled, fillColor);
+    
+    //DRAWING CIRCLE
+    int radi=120;
+    int startXcircle = 600;
+    int startYcircle = 150;
+    framebuffer.DrawCircle(startXcircle, startYcircle, radi, wh, borderWidth, isFilled, fillColor);
 	
 
-	framebuffer.Render();
+	framebuffer.Render();//enviem el framebuffer a la pantalla
 }
 
+    //caldra fer modificacio del borde segons + o -
 // Called after render
 void Application::Update(float seconds_elapsed)
 {
-
+    
 }
 
 //keyboard press event 

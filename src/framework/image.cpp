@@ -8,6 +8,8 @@
 #include "utils.h"
 #include "camera.h"
 #include "mesh.h"
+#include <cmath>
+
 
 Image::Image() {
 	width = 0; height = 0;
@@ -317,7 +319,7 @@ bool Image::SaveTGA(const char* filename)
 void Image::DrawRectangle(int startX, int startY, int width, int height, const Color& borderColor, int borderWidth, bool isFilled, const Color& fillColor) {
 
 	if (isFilled) {
-		// Fill the rectangle
+		// omplim el rectangle si es vol omplert
 		for (int x = startX + 1; x < (startX + width - 1); ++x) {
 			for (int y = startY + 1; y < (startY + height - 1); ++y) {
 				SetPixel(x, y, fillColor);
@@ -325,23 +327,39 @@ void Image::DrawRectangle(int startX, int startY, int width, int height, const C
 		}
 	}
 
-	// Draw only the border
-	for (int x = startX; x < (startX + width); ++x)
+	// dibuixem el borde, b ens determina l'espai que ocupa
+    for (int b = 0; b < borderWidth; ++b) {
+            // Dibuixem linies horitzontals segons la mida del borde
+            for (int x = startX - b; x < (startX + width + b); ++x) {
+                SetPixelSafe(x, startY - b, borderColor);
+                //b per afegir linia, fer mes ample el borde
+                SetPixelSafe(x, startY + height - 1 + b, borderColor);
+            }
+        // Dibuixem linies verticals segons la mida del borde
+            for (int y = startY - b; y < (startY + height + b); ++y) {
+                SetPixelSafe(startX - b, y, borderColor);
+                SetPixelSafe(startX + width - 1 + b, y, borderColor);
+            }
+        }
+}
+    /*
+    
+	
 	{
 		SetPixel(x, startY, borderColor);
 		SetPixel(x, startY + height - 1, borderColor);
 	}
 
-	for (int y = startY + 1; y < (startY + height - 1); ++y)
+	for (int y = startY + 1; y < (startY + height - 1); ++y)//dibuixem linies verticals
 	{
 		SetPixel(startX, y, borderColor);
 		SetPixel(startX + width - 1, y, borderColor);
 	}
 
-}
+}*/
 
 
-void Image::DrawRect(int x, int y, int w, int h, const Color& c)
+/*void Image::DrawRect(int x, int y, int w, int h, const Color& c)
 {
 	for (int i = 0; i < w; ++i) {
 		SetPixel(x + i, y, c);
@@ -352,6 +370,43 @@ void Image::DrawRect(int x, int y, int w, int h, const Color& c)
 		SetPixel(x, y + j, c);
 		SetPixel(x + w - 1, y + j, c);
 	}
+}*/
+
+
+//
+//CERCLE
+//
+void Image::DrawCircle(int x, int y, int r, const Color& borderColor, int borderWidth, bool isFilled, const Color& fillColor) {
+    // CIRCUMFERENCIA
+    //creem un quadrat de mida de costat 2*radi que contingui el cercle
+    for (int dy = -r; dy <= r; ++dy) {
+        for (int dx = -r; dx <= r; ++dx) {
+            // Amb lequacio x^2+y^2<=r^2 comprovarem si el punt es troba dins del cercle
+            if (dx * dx + dy * dy <= r * r) {
+                // si tenim un minim valor de borde, podrem dibuixar
+                if (borderWidth > 1) {
+                    // verifiquem si el punt està fora del cercle interior (radi-borde), i si per tant forma part del borde
+                    if (dx * dx + dy * dy > (r - borderWidth) * (r - borderWidth)) {
+                        SetPixelSafe(x + dx, y + dy, borderColor);
+                    }
+                    
+                }
+            }
+        }
+    }
+
+    // RELLENAR
+    if (isFilled) {
+        //per tots els punts que queden dins del cercle i del borde cercle amb radi (radi-borde)
+        for (int dx = -r + borderWidth; dx <= r - borderWidth; ++dx) {
+            for (int dy = -r + borderWidth; dy <= r - borderWidth; ++dy) {
+                // verifiquem si formen part del cercle
+                if (dx * dx + dy * dy <= (r - borderWidth) * (r - borderWidth)) {
+                    SetPixelSafe(x + dx, y + dy, fillColor);
+                }
+            }
+        }
+    }
 }
 
 #ifndef IGNORE_LAMBDAS
@@ -412,7 +467,7 @@ void Image::DrawLineDDA(int x0, int y0, int x1, int y1, const Color& c)
 		int X = int(std::floor(x));
 		int Y = int(std::floor(y));
 
-		SetPixelSafe(X, Y, c); 
+		SetPixelSafe(X, Y, c);
 		x += x_incr;
 		y += y_incr;
 
