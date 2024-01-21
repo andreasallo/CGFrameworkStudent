@@ -46,17 +46,27 @@ void Application::Render(void) //EL  NOSTRE CODI DEL MAIN
 	int width = 300;
 	int startXrectangle = 100;
 	int startYrectangle = 100;
-	Color wh(255, 255, 255);
+	Color wh = Color::WHITE;
 	bool isFilled = true;
-	Color fillColor(255, 0, 0);
-	framebuffer.DrawRectangle(startXrectangle, startYrectangle, width, height, wh, borderWidth, isFilled, fillColor);
+	Color fillColor_rect = Color::RED;
+	framebuffer.DrawRectangle(startXrectangle, startYrectangle, width, height, wh, borderWidth, isFilled, fillColor_rect);
     
     //DRAWING CIRCLE
-    int radi=120;
+    int radi = 120;
     int startXcircle = 600;
     int startYcircle = 150;
-    framebuffer.DrawCircle(startXcircle, startYcircle, radi, wh, borderWidth, isFilled, fillColor);
+	Color fillColor_circle = Color::GREEN;
+	Color yel = Color::YELLOW;
+    framebuffer.DrawCircle(startXcircle, startYcircle, radi, yel, borderWidth, isFilled, fillColor_circle);
 	
+	//DRAWING TRIANGLE
+	Vector2 p0(600, 100);
+	Vector2 p1(750, 350);
+	Vector2 p2(500, 450);
+	bool isTriangleFilled = true;
+	Color fillColor_tri = Color::CYAN;
+	framebuffer.DrawTriangle(p0, p1, p2, fillColor_rect, isTriangleFilled, fillColor_tri);
+
 
 	framebuffer.Render();//enviem el framebuffer a la pantalla
 }

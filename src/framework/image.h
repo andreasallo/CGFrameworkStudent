@@ -31,6 +31,7 @@ class Image
 		unsigned char* data; // Bytes with the pixel information
 	} TGAInfo;
 
+
 public:
 	unsigned int width;
 	unsigned int height;
@@ -91,9 +92,24 @@ public:
 	//
 	void DrawLineDDA(int x0, int y0, int x1, int y1, const Color& c);
 
+	//
+	//CIRCLE
+	//
+
     void DrawCircle(int x, int y, int r, const Color& borderColor, int borderWidth, bool isFilled, const Color& fillColor);
     
-    
+	//
+	//TRIANGLE
+	//
+	struct Cell {
+		int minX = INT_MAX;
+		int maxX = INT_MIN;
+	};
+
+	void Image::ScanLineDDA(int x0, int y0, int x1, int y1, std::vector<Cell>& table);
+
+	void Image::DrawTriangle(const Vector2& p0, const Vector2& p1, const Vector2& p2, const Color& borderColor, bool isFilled, const Color& fillColor);
+
 	// Used to easy code
 	#ifndef IGNORE_LAMBDAS
 

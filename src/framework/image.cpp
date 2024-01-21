@@ -314,6 +314,40 @@ bool Image::SaveTGA(const char* filename)
 }
 
 //
+//LINEA
+//
+
+void Image::DrawLineDDA(int x0, int y0, int x1, int y1, const Color& c)
+{
+	int dx = x1 - x0;
+	int dy = y1 - y0;
+
+	//powerpoint
+	int d = std::max(std::abs(dx), std::abs(dy)); //d indicates how many pixels we must draw
+
+
+	//punts inicials 
+	float x = (float)x0;
+	float y = (float)y0;
+
+	//x-increment i y-increment; STEP VECTOR 
+	float x_incr = (float)dx / d;
+	float y_incr = (float)dy / d;
+
+	for (int i = 0; i <= d; i++) { //
+		int X = int(std::floor(x));
+		int Y = int(std::floor(y));
+
+		SetPixelSafe(X, Y, c);
+		x += x_incr;
+		y += y_incr;
+
+	}
+
+
+}
+
+//
 //RECTANGLE
 //
 void Image::DrawRectangle(int startX, int startY, int width, int height, const Color& borderColor, int borderWidth, bool isFilled, const Color& fillColor) {
@@ -407,7 +441,85 @@ void Image::DrawCircle(int x, int y, int r, const Color& borderColor, int border
             }
         }
     }
+
 }
+
+//
+//TRIANGLE
+//
+//
+
+//Algoritme actualitzat
+void Image::ScanLineDDA(int x0, int y0, int x1, int y1, std::vector<Cell>& table) {
+	int dx = x1 - x0;
+	int dy = y1 - y0;
+
+	//d=num pixel a dibuixar
+	int d = std::max(std::abs(dx), std::abs(dy));
+
+	//punts inicials
+	float x = (float)x0;
+	float y = (float)y0;
+
+	//step vector
+	float x_incr = (float)dx / d;
+	float y_incr = (float)dy / d;
+
+	for (int i = 0; i <= d; i++) {
+		int X = int(std::floor(x));
+		int Y = int(std::floor(y));
+		//update minX i minY per la current cell
+		if (Y >= 0 && Y < table.size()) {
+			table[Y].minX = std::min(table[Y].minX, X);
+			table[Y].maxX = std::max(table[Y].maxX, X);
+		}
+		x += x_incr;
+		y += y_incr;
+	}
+
+}
+
+//Triangle
+void Image::DrawTriangle(const Vector2& p0, const Vector2& p1, const Vector2& p2, const Color& borderColor, bool isFilled, const Color& fillColor) {
+	
+	//creation container (AETVariable)
+	std::vector<Cell> table;
+	table.resize(this->height);
+	
+	//scan min i max amb el ScanlineDDA
+	ScanLineDDA(p0.x, p0.y, p1.x, p1.y, table);
+	ScanLineDDA(p1.x, p1.y, p2.x, p2.y, table);
+	ScanLineDDA(p2.x, p2.y, p0.x, p0.y, table);
+
+	//iterar la taula
+
+	for (int y = 0; y < this->height; y++){
+		//valors per linea actual
+		int min_x = INT_MAX;
+		int max_x = INT_MIN;
+		for (int x = 0; x < this->width; x++) {//iterar per amplada de triangle (anar fent lineas)
+			if (table[y].minX <= x && x <= table[y].maxX) {
+				if (isFilled) {
+					//fill interior and border
+					if (x == table[y].minX || x == table[y].maxX || y == 0 || y == this->height - 1) {
+						this->SetPixel(x, y, borderColor);
+					}
+					else {
+						this->SetPixel(x, y, fillColor);
+					}
+				
+				}else{
+					//dibuixar nomes el border si isfilled=false
+					if (x == table[y].minX || x == table[y].maxX || y == 0 || y == this->height - 1) {
+						this->SetPixel(x, y, borderColor);
+					}
+				}
+			}
+		}
+	}
+}
+
+
 
 #ifndef IGNORE_LAMBDAS
 
@@ -442,39 +554,7 @@ FloatImage::FloatImage(const FloatImage& c) {
 	}
 }
 
-//
-//LINEA
-//
 
-void Image::DrawLineDDA(int x0, int y0, int x1, int y1, const Color& c)
-{
-	int dx = x1 - x0;
-	int dy = y1 - y0;
-
-	//powerpoint
-	int d = std::max(std::abs(dx), std::abs(dy)); //d indicates how many pixels we must draw
-
-
-	//punts inicials 
-	float x = (float)x0;
-	float y = (float)y0;
-
-	//x-increment i y-increment; STEP VECTOR 
-	float x_incr = (float)dx / d;
-	float y_incr = (float)dy / d;
-
-	for (int i = 0; i <= d; i++) { //
-		int X = int(std::floor(x));
-		int Y = int(std::floor(y));
-
-		SetPixelSafe(X, Y, c);
-		x += x_incr;
-		y += y_incr;
-
-	}
-
-
-}
 
 // Assign operator
 FloatImage& FloatImage::operator = (const FloatImage& c)
