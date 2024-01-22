@@ -376,21 +376,6 @@ void Image::DrawRectangle(int startX, int startY, int width, int height, const C
             }
         }
 }
-    /*
-    
-	
-	{
-		SetPixel(x, startY, borderColor);
-		SetPixel(x, startY + height - 1, borderColor);
-	}
-
-	for (int y = startY + 1; y < (startY + height - 1); ++y)//dibuixem linies verticals
-	{
-		SetPixel(startX, y, borderColor);
-		SetPixel(startX + width - 1, y, borderColor);
-	}
-
-}*/
 
 
 /*void Image::DrawRect(int x, int y, int w, int h, const Color& c)
@@ -518,6 +503,29 @@ void Image::DrawTriangle(const Vector2& p0, const Vector2& p1, const Vector2& p2
 		}
 	}
 }
+
+//
+//IMAGES TOOL DRAWING
+//
+
+void Image::DrawImage(const Image & image, int x, int y, bool top) {
+	int image_width = image.width;
+	int image_height = image.height;
+	int start_x = x;
+	int start_y = y;
+
+	if (top) {
+		start_y = height - y - image_height;
+	}
+
+	for (int i = 0; i < image_height; i++) {
+		for (int j = 0; j < image_width; j++) {
+			Color pixel = image.GetPixel(j, i);
+			SetPixel(start_x + j, start_y + i, pixel);
+		}
+	}
+}
+
 
 
 

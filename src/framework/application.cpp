@@ -27,6 +27,56 @@ Application::~Application()
 void Application::Init(void)
 {
 	std::cout << "Initiating app..." << std::endl;
+	if (framebuffer.LoadPNG("images/black.png") == false) {
+		std::cout << "Image not found!" << std::endl;
+	}
+
+	/*if (framebuffer.LoadPNG("images/blue.png") == false) {
+		std::cout << "Image not found!" << std::endl; 
+	}
+	if (framebuffer.LoadPNG("images/circle.png") == false) {
+		std::cout << "Image not found!" << std::endl;
+	}
+	if (framebuffer.LoadPNG("images/clear.png") == false) {
+		std::cout << "Image not found!" << std::endl;
+	}
+	if (framebuffer.LoadPNG("images/cyan.png") == false) {
+		std::cout << "Image not found!" << std::endl;
+	}
+	if (framebuffer.LoadPNG("images/eraser.png") == false) {
+		std::cout << "Image not found!" << std::endl;
+	}
+	if (framebuffer.LoadPNG("images/fruits.png") == false) {
+		std::cout << "Image not found!" << std::endl;
+
+	}
+	if (framebuffer.LoadPNG("images/green.png") == false) {
+		std::cout << "Image not found!" << std::endl;
+	}
+	if (framebuffer.LoadPNG("images/line.png") == false) {
+		std::cout << "Image not found!" << std::endl;
+	}
+	if (framebuffer.LoadPNG("images/load.png") == false) {
+		std::cout << "Image not found!" << std::endl;
+	}
+	if (framebuffer.LoadPNG("images/pink.png") == false) {
+		std::cout << "Image not found!" << std::endl;
+	}
+	if (framebuffer.LoadPNG("images/rectangle.png") == false) {
+		std::cout << "Image not found!" << std::endl;
+	}
+	if (framebuffer.LoadPNG("images/red.png") == false) {
+		std::cout << "Image not found!" << std::endl;
+
+	}
+	if (framebuffer.LoadPNG("images/save.png") == false) {
+		std::cout << "Image not found!" << std::endl;
+	}
+	if (framebuffer.LoadPNG("images/toolbar.png") == false) {
+		std::cout << "Image not found!" << std::endl;
+	}*/
+
+
 }
 
 // Render one frame

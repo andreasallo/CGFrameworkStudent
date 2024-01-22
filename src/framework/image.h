@@ -110,6 +110,28 @@ public:
 
 	void Image::DrawTriangle(const Vector2& p0, const Vector2& p1, const Vector2& p2, const Color& borderColor, bool isFilled, const Color& fillColor);
 
+	//
+	//DRAWING TOOL
+	//
+	class Button {
+		Image image;
+		Vector2 position;
+	};
+
+	/*bool IsMouseInside(Vector2 mousePosition) {
+		if (mousePosition.x >= position.x && mousePosition.x <= position.x + image.width &&
+			mousePosition.y >= position.y && mousePosition.y <= position.y + image.height) {
+			return true;
+		}
+		return false;
+	}
+	*/
+
+
+	void Image::DrawImage(const Image& image, int x, int y, bool top);
+	
+	
+	
 	// Used to easy code
 	#ifndef IGNORE_LAMBDAS
 
