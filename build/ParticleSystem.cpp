@@ -13,7 +13,7 @@ ParticleSystem::ParticleSystem() {
 
 	}
 	void ParticleSystem::Render(Image* framebuffer) {
-		//huhj
+		//hu
 
 	void Init() {
 
