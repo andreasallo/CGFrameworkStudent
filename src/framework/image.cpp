@@ -509,7 +509,24 @@ void Image::DrawTriangle(const Vector2& p0, const Vector2& p1, const Vector2& p2
 //
 
 void Image::DrawImage(const Image & image, int x, int y, bool top) {
-	int image_width = image.width;
+
+        int startRow = top ? y : y - image.height + 1;
+
+        for (int row = 0; row < image.height; ++row)
+        {
+            for (int col = 0; col < image.width; ++col)
+            {
+                int destX = x + col;
+                int destY = startRow + row;
+
+                if (destX >= 0 && destX < static_cast<int>(width) && destY >= 0 && destY < static_cast<int>(height))
+                {
+                    SetPixel(destX, destY, image.GetPixel(col, row));
+                }
+            }
+        }
+    }
+    /*int image_width = image.width;
 	int image_height = image.height;
 	int start_x = x;
 	int start_y = y;
@@ -524,9 +541,21 @@ void Image::DrawImage(const Image & image, int x, int y, bool top) {
 			SetPixel(start_x + j, start_y + i, pixel);
 		}
 	}
-}
+}*/
+
+//
+//POSICIO MOUSE
+//
 
 
+
+bool IsMouseInside(Vector2 mousePosition) {
+    if (image && mousePosition.x >= position.x && mousePosition.x <= position.x + image->width &&
+            mousePosition.y >= position.y && mousePosition.y <= position.y + image->height) {
+            return true;
+        }
+        return false;
+    }
 
 
 #ifndef IGNORE_LAMBDAS

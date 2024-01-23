@@ -10,6 +10,13 @@
 
 class Application
 {
+private:
+    Image::Button lineButton;
+    Image::Button rectangleButton;
+    Image::Button circleButton;
+    bool lineToolSelected;
+    bool rectangleToolSelected;
+    bool circleToolSelected;
 public:
     //variables afegides
     int borderWidth=20;  // Variable miembro para almacenar el ancho del borde

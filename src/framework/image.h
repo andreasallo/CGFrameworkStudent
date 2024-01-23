@@ -106,29 +106,26 @@ public:
 		int maxX = INT_MIN;
 	};
 
-	void Image::ScanLineDDA(int x0, int y0, int x1, int y1, std::vector<Cell>& table);
+	void ScanLineDDA(int x0, int y0, int x1, int y1, std::vector<Cell>& table);
 
-	void Image::DrawTriangle(const Vector2& p0, const Vector2& p1, const Vector2& p2, const Color& borderColor, bool isFilled, const Color& fillColor);
+	void DrawTriangle(const Vector2& p0, const Vector2& p1, const Vector2& p2, const Color& borderColor, bool isFilled, const Color& fillColor);
 
 	//
 	//DRAWING TOOL
 	//
-	class Button {
-		Image image;
-		Vector2 position;
-	};
+    class Button {
+    private:
+        const Image* image;
+        Vector2 position;
+        
+    public:
+        Button(const Image& img, const Vector2& pos) : image(&img), position(pos){}
+        bool IsMouseInside(Vector2 mousePosition) const;
+    };
 
-	/*bool IsMouseInside(Vector2 mousePosition) {
-		if (mousePosition.x >= position.x && mousePosition.x <= position.x + image.width &&
-			mousePosition.y >= position.y && mousePosition.y <= position.y + image.height) {
-			return true;
-		}
-		return false;
-	}
-	*/
+    
 
-
-	void Image::DrawImage(const Image& image, int x, int y, bool top);
+	void DrawImage(const Image& image, int x, int y, bool top);
 	
 	
 	
