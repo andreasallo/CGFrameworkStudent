@@ -547,15 +547,18 @@ void Image::DrawImage(const Image & image, int x, int y, bool top) {
 //POSICIO MOUSE
 //
 
+bool Button::IsMouseInside(const Vector2& mousePosition){
+    // Calculate button boundaries based on image size and position
+    float left = position.x;
+    float right = position.x + this->image->width();
+    float top = position.y;
+    float bottom = position.y + image->height();
+    
+    // Check if the mouse position is within the button boundaries
+    return (mousePosition.x >= left && mousePosition.x <= right &&
+            mousePosition.y >= top && mousePosition.y <= bottom);
+}
 
-
-bool IsMouseInside(Vector2 mousePosition) {
-    if (image && mousePosition.x >= position.x && mousePosition.x <= position.x + image->width &&
-            mousePosition.y >= position.y && mousePosition.y <= position.y + image->height) {
-            return true;
-        }
-        return false;
-    }
 
 
 #ifndef IGNORE_LAMBDAS

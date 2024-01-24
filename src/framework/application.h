@@ -11,16 +11,23 @@
 class Application
 {
 private:
-    Image::Button lineButton;
-    Image::Button rectangleButton;
-    Image::Button circleButton;
+    std::vector<Button*> buttons;
+    
+    Color colorselecionado;
+    bool bluecolorbuttonSelected;
     bool lineToolSelected;
     bool rectangleToolSelected;
     bool circleToolSelected;
 public:
     //variables afegides
+    bool isfilled=false;
     int borderWidth=20;  // Variable miembro para almacenar el ancho del borde
-
+    int radicircle = 120;
+    int startXcircle = 600;
+    int startYcircle = 150;
+    Color fillColor= Color::GREEN;
+    Color drawingcolor;
+    
 	// Window
 
 	SDL_Window* window = nullptr;

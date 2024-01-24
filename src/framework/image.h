@@ -111,18 +111,7 @@ public:
 
 	void DrawTriangle(const Vector2& p0, const Vector2& p1, const Vector2& p2, const Color& borderColor, bool isFilled, const Color& fillColor);
 
-	//
-	//DRAWING TOOL
-	//
-    class Button {
-    private:
-        const Image* image;
-        Vector2 position;
-        
-    public:
-        Button(const Image& img, const Vector2& pos) : image(&img), position(pos){}
-        bool IsMouseInside(Vector2 mousePosition) const;
-    };
+	
 
     
 
@@ -175,4 +164,13 @@ public:
 
 	void Resize(unsigned int width, unsigned int height);
 };
-
+class Button {
+private:
+    const Image* image;
+    Vector2 position;
+    
+public:
+    Button(const Image& img, const Vector2& pos) : image(&img), position(pos) {}
+    // Function to check if the mouse is inside the button
+    bool IsMouseInside(const Vector2& mousePosition);
+};

@@ -2,7 +2,7 @@
 #include "mesh.h"
 #include "shader.h"
 #include "utils.h" 
-#include <atlimage.h>
+//#include <atlimage.h>
 
 Application::Application(const char* caption, int width, int height)
 {
@@ -27,6 +27,7 @@ Application::~Application()
 
 void Application::Init(void)
 {
+    
 	std::cout << "Initiating app..." << std::endl;
     Image toolbar;
     if (toolbar.LoadPNG("images/toolbar.png")==false){
@@ -34,11 +35,14 @@ void Application::Init(void)
     framebuffer.DrawImage(toolbar, 10, 10, true);
     
     
+    
     Image bluecolor;
     if (bluecolor.LoadPNG("images/blue.png")==false){
         std::cout << "Image not found!" << std::endl;}
     framebuffer.DrawImage(bluecolor, 275, 25, true);
-
+    Button* bluebutton = new Button(bluecolor, Vector2(275, 25));
+    buttons.push_back(bluebutton);
+    
     Image blackcolor;
     if (blackcolor.LoadPNG("images/black.png")==false){
         std::cout << "Image not found!" << std::endl;}
@@ -59,6 +63,8 @@ void Application::Init(void)
 		std::cout << "Image not found!" << std::endl;
 	}
     framebuffer.DrawImage(circle, 550, 25, true);
+    Button* circlebutton = new Button(circle, Vector2(550, 25));
+    buttons.push_back(circlebutton);
     
     Image clear;
 	if (clear.LoadPNG("images/clear.png") == false) {
@@ -124,6 +130,7 @@ void Application::Init(void)
 // Render one frame
 void Application::Render(void) //EL  NOSTRE CODI DEL MAIN
 {
+
     /*
 	//DRAWING LINES
 
@@ -172,18 +179,21 @@ void Application::Render(void) //EL  NOSTRE CODI DEL MAIN
 // Called after render
 void Application::Update(float seconds_elapsed)
 {
+    
+    /*//ANIMACION DE PARTICULAS
     // Mueve la posición de las partículas de nieve
     particle_system.Update(seconds_elapsed);
 
     // También podrías animar otros elementos o cambiar colores según sea necesario
     object_position.x += seconds_elapsed * 10;
     image_rotation_angle += seconds_elapsed;
-    
+    */
 }
 
 //keyboard press event 
 void Application::OnKeyPressed( SDL_KeyboardEvent event )
 {
+    /*
 	// KEY CODES: https://wiki.libsdl.org/SDL2/SDL_Keycode
 	switch(event.keysym.sym) {
 		case SDLK_ESCAPE: exit(0); break; // ESC key, kill the app
@@ -214,10 +224,9 @@ void Application::OnKeyPressed( SDL_KeyboardEvent event )
         case SDLK_PLUS:
 
         case SDLK_MINUS:
-
+*/
 	}
 
-}
 
 void Application::OnMouseButtonDown( SDL_MouseButtonEvent event )
 {
@@ -225,34 +234,34 @@ void Application::OnMouseButtonDown( SDL_MouseButtonEvent event )
             Vector2 mousePos = Vector2(static_cast<float>(event.x), static_cast<float>(event.y));
 
             // Check if any button is clicked
-            if (lineButton.IsMouseInside(mousePos))
+        if (buttons[0]->IsMouseInside(mousePos)){
+            this->colorselecionado=Color::BLUE;
+            
+        }
+            /*if (lineButton.IsMouseInside(mousePos))
             {
                 // Handle line button click
-                lineToolSelected = true;
-                rectangleToolSelected = false;
-                circleToolSelected = false;
+                //lineToolSelected = true;
+                //rectangleToolSelected = false;
+                //circleToolSelected = false;
                 // ... Deselect other tools if needed
             }
             else if (rectangleButton.IsMouseInside(mousePos))
             {
                 // Handle rectangle button click
-                lineToolSelected = false;
+                //lineToolSelected = false;
                 rectangleToolSelected = true;
-                circleToolSelected = false;
+                //circleToolSelected = false;
                 // ... Deselect other tools if needed
-            }
-            else if (circleButton.IsMouseInside(mousePos))
+            }*/
+            else if (buttons[1]->IsMouseInside(mousePos))
             {
-                // Handle circle button click
-                lineToolSelected = false;
-                rectangleToolSelected = false;
-                circleToolSelected = true;
-                // ... Deselect other tools if needed
+                framebuffer.DrawCircle(this->startXcircle, this->startYcircle, this->radicircle, this->drawingcolor, this->borderWidth, this->isfilled, this->fillColor);
             }
             // ... Check other buttons
 
             // Check if the mouse is inside the drawing area
-            if (mousePos.x >= 0 && mousePos.x < window_width && mousePos.y >= 0 && mousePos.y < window_height)
+            //if (mousePos.x >= 0 && mousePos.x < window_width && mousePos.y >= 0 && mousePos.y < window_height)
             {
                 // Handle drawing in the framebuffer based on the selected tool
                 // ...
