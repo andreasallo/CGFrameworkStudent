@@ -55,11 +55,12 @@ void ParticleSystem :: Update(float dt) {
 				particles[i].inactive = true;
 			}
 
-			if(particles[i].position.y > Image::height) { //farem efecte neu, cauen d'adalt i reapareixen.
+			/*if (particles[i].position.y > Image::height) { //farem efecte neu, cauen d'adalt i reapareixen.
 				particles[i].position.y = 0; // Reubicar en la parte superior (nieve)
 				particles[i].position.x = rand() % Image::width; // Posición aleatoria en x
 				particles[i].ttl = 5.0f; // Reiniciar tiempo de vida
 				particles[i].inactive = false; // Reactivar la partícula
+			}*/
 		}
 	}
 }

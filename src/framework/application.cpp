@@ -2,6 +2,7 @@
 #include "mesh.h"
 #include "shader.h"
 #include "utils.h" 
+#include "../../build/particleSyst.h"
 //#include <atlimage.h>
 
 Application::Application(const char* caption, int width, int height)
@@ -139,7 +140,7 @@ void Application::Render(void) //EL  NOSTRE CODI DEL MAIN
     int startYline = 450;
 
 	framebuffer.Fill(Color::BLACK);
-	framebuffer.DrawLineDDA(startXline,startYline, startXline + 100 * std::cos(time), startYline + 100 * std::sin(time), color);
+	framebuffer.DrawLineDDA(200,200, 420, 500, Color::WHITE);
 
 	//DRAWING RECTANGLE
 	int height = 150;
@@ -151,6 +152,7 @@ void Application::Render(void) //EL  NOSTRE CODI DEL MAIN
 	Color fillColor_rect = Color::RED;
 	framebuffer.DrawRectangle(startXrectangle, startYrectangle, width, height, wh, borderWidth, isFilled, fillColor_rect);
     
+    
     //DRAWING CIRCLE
     int radi = 120;
     int startXcircle = 600;
@@ -158,6 +160,7 @@ void Application::Render(void) //EL  NOSTRE CODI DEL MAIN
 	Color fillColor_circle = Color::GREEN;
 	Color yel = Color::YELLOW;
     framebuffer.DrawCircle(startXcircle, startYcircle, radi, yel, borderWidth, isFilled, fillColor_circle);
+    framebuffer.DrawCircle(600, 150, 120, Color::YELLOW, borderWidth, true, Color::Green);
 	
 	//DRAWING TRIANGLE
 	Vector2 p0(600, 100);
@@ -166,6 +169,7 @@ void Application::Render(void) //EL  NOSTRE CODI DEL MAIN
 	bool isTriangleFilled = true;
 	Color fillColor_tri = Color::CYAN;
 	framebuffer.DrawTriangle(p0, p1, p2, fillColor_rect, isTriangleFilled, fillColor_tri);
+    framebuffer.DrawTriangle((600, 100), (750, 350), (500, 450), Color::RED, true, Color::Cyan);
 
     
     */
@@ -179,7 +183,13 @@ void Application::Render(void) //EL  NOSTRE CODI DEL MAIN
 // Called after render
 void Application::Update(float seconds_elapsed)
 {
-    
+    const int screenWidth = 750;
+    const int screenHeight = 550;
+
+    particleSyst snow;
+    snow.Init(screenWidth, screenHeight);
+
+ 
     /*//ANIMACION DE PARTICULAS
     // Mueve la posición de las partículas de nieve
     particle_system.Update(seconds_elapsed);
@@ -193,39 +203,43 @@ void Application::Update(float seconds_elapsed)
 //keyboard press event 
 void Application::OnKeyPressed( SDL_KeyboardEvent event )
 {
-    /*
+    
 	// KEY CODES: https://wiki.libsdl.org/SDL2/SDL_Keycode
-	switch(event.keysym.sym) {
-		case SDLK_ESCAPE: exit(0); break; // ESC key, kill the app
+    switch (event.keysym.sym) {
+    case SDLK_ESCAPE: exit(0); break; // ESC key, kill the app
 
-        case SDLK_1:
-            DrawLines();
-            break;
+    case SDLK_1:
+        framebuffer.DrawLineDDA(200, 200, 420, 500, Color::WHITE);
+        break;
 
-        case SDLK_2:
-            framebuffer.DrawRectangle();
-            break;
+    case SDLK_2:
+        framebuffer.DrawRectangle(100, 100, 300, 150, Color::RED, borderWidth, true, Color::WHITE);
+        break;
 
-        case SDLK_3:
-            framebuffer.DrawCircle();
-            break;
+    case SDLK_3:
+        framebuffer.DrawCircle(600, 150, 120, Color::YELLOW, borderWidth, true, Color::GREEN);
+        break;
 
-        case SDLK_4:
-            framebuffer.DrawTriangle();
-            brake;
+    case SDLK_4:
+        framebuffer.DrawTriangle((600, 100), (750, 350), (500, 450), Color::RED, true, Color::CYAN);
+        break;
 
-        case SDLK_5:
+    case SDLK_5:
+        break;
 
+    case SDLK_6:
+        break;
 
-        case SDLK_6:
+    case SDLK_f:
+        break;
 
-        case SDLK_f:
+    case SDLK_PLUS:
+        break;
 
-        case SDLK_PLUS:
-
-        case SDLK_MINUS:
-*/
-	}
+    case SDLK_MINUS:
+        break;
+        
+    }
 
 
 void Application::OnMouseButtonDown( SDL_MouseButtonEvent event )

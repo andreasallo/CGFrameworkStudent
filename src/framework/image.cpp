@@ -487,16 +487,16 @@ void Image::DrawTriangle(const Vector2& p0, const Vector2& p1, const Vector2& p2
 				if (isFilled) {
 					//fill interior and border
 					if (x == table[y].minX || x == table[y].maxX || y == 0 || y == this->height - 1) {
-						this->SetPixel(x, y, borderColor);
+						this->SetPixelSafe(x, y, borderColor);
 					}
 					else {
-						this->SetPixel(x, y, fillColor);
+						this->SetPixelSafe(x, y, fillColor);
 					}
 				
 				}else{
 					//dibuixar nomes el border si isfilled=false
 					if (x == table[y].minX || x == table[y].maxX || y == 0 || y == this->height - 1) {
-						this->SetPixel(x, y, borderColor);
+						this->SetPixelSafe(x, y, borderColor);
 					}
 				}
 			}
