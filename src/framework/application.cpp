@@ -221,7 +221,7 @@ void Application::OnKeyPressed( SDL_KeyboardEvent event )
         break;
 
     case SDLK_4:
-        framebuffer.DrawTriangle((600, 100), (750, 350), (500, 450), Color::RED, true, Color::CYAN);
+        //framebuffer.DrawTriangle((600, 100), (750, 350), (500, 450), Color::RED, true, Color::CYAN);
         break;
 
     case SDLK_5:
