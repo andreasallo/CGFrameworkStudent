@@ -28,7 +28,6 @@ struct Particle {
 
 class ParticleSystem{
     static const int MAX_PARTICLES = 1000;
-    
     Particle particles[MAX_PARTICLES];
 
 public:

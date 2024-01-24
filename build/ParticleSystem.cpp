@@ -24,7 +24,7 @@ ParticleSystem::ParticleSystem() {
 
 void ParticleSystem::Init() {
 	for (int i = 0; i < MAX_PARTICLES; i++) {
-		particles[i].position = Vector2(static_cast<float>(rand() % Application::window_height), static_cast<float>(rand() % Image::height));//W=780 I H=580
+		particles[i].position = Vector2(static_cast<float>(rand() % Image::width), static_cast<float>(rand() % Image::height));//W=780 I H=580
 		particles[i].velocity = Vector2(static_cast<float>((rand() % 200 - 100) / 100.0f), static_cast<float>((rand() % 200 - 100) / 100.0f));//velocitat i direccio d'entre -1 i 1
 		particles[i].velocity.Normalize(); // Make sure the velocity vector has length 1
 		particles[i].color = Color(rand() % 256, rand() % 256, rand() % 256);//color alearori
@@ -55,7 +55,7 @@ void ParticleSystem :: Update(float dt) {
 				particles[i].inactive = true;
 			}
 
-			if(particles[i].position.y > Image::height) {
+			if(particles[i].position.y > Image::height) { //farem efecte neu, cauen d'adalt i reapareixen.
 				particles[i].position.y = 0; // Reubicar en la parte superior (nieve)
 				particles[i].position.x = rand() % Image::width; // Posición aleatoria en x
 				particles[i].ttl = 5.0f; // Reiniciar tiempo de vida
