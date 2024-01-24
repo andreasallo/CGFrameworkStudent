@@ -7,6 +7,15 @@
 #include <stdlib.h>
 #include <time.h>
 #define PARTICLESYSTEM_H
+#include <stdio.h>
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+#include "GL/glew.h"
+#include <cmath>
+
+
+
 
 struct Particle {
     Vector2 position;
@@ -19,11 +28,10 @@ struct Particle {
 
 class ParticleSystem{
     static const int MAX_PARTICLES = 1000;
-    //wo
+    
     Particle particles[MAX_PARTICLES];
 
 public:
-    ParticleSystem();
     void Init();
     void Render(Image* framebuffer);
     void Update(float dt);

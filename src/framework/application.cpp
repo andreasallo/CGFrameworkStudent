@@ -2,6 +2,7 @@
 #include "mesh.h"
 #include "shader.h"
 #include "utils.h" 
+#include <atlimage.h>
 
 Application::Application(const char* caption, int width, int height)
 {
@@ -171,6 +172,12 @@ void Application::Render(void) //EL  NOSTRE CODI DEL MAIN
 // Called after render
 void Application::Update(float seconds_elapsed)
 {
+    // Mueve la posición de las partículas de nieve
+    particle_system.Update(seconds_elapsed);
+
+    // También podrías animar otros elementos o cambiar colores según sea necesario
+    object_position.x += seconds_elapsed * 10;
+    image_rotation_angle += seconds_elapsed;
     
 }
 
@@ -180,7 +187,36 @@ void Application::OnKeyPressed( SDL_KeyboardEvent event )
 	// KEY CODES: https://wiki.libsdl.org/SDL2/SDL_Keycode
 	switch(event.keysym.sym) {
 		case SDLK_ESCAPE: exit(0); break; // ESC key, kill the app
+
+        case SDLK_1:
+            DrawLines();
+            break;
+
+        case SDLK_2:
+            framebuffer.DrawRectangle();
+            break;
+
+        case SDLK_3:
+            framebuffer.DrawCircle();
+            break;
+
+        case SDLK_4:
+            framebuffer.DrawTriangle();
+            brake;
+
+        case SDLK_5:
+
+
+        case SDLK_6:
+
+        case SDLK_f:
+
+        case SDLK_PLUS:
+
+        case SDLK_MINUS:
+
 	}
+
 }
 
 void Application::OnMouseButtonDown( SDL_MouseButtonEvent event )

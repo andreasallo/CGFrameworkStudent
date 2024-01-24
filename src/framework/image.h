@@ -10,6 +10,7 @@
 #include <iostream>
 #include "framework.h"
 
+
 //remove unsafe warnings
 #ifndef _CRT_SECURE_NO_WARNINGS
 #define _CRT_SECURE_NO_WARNINGS
