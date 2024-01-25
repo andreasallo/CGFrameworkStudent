@@ -2,7 +2,7 @@
 #include "mesh.h"
 #include "shader.h"
 #include "utils.h" 
-#include "../../build/particleSyst.h"
+//#include "../../build/particleSyst.h"
 //#include <atlimage.h>
 
 Application::Application(const char* caption, int width, int height)
@@ -30,73 +30,75 @@ void Application::Init(void)
 {
     
 	std::cout << "Initiating app..." << std::endl;
-    Image toolbar;
     if (toolbar.LoadPNG("images/toolbar.png")==false){
         std::cout << "Image not found!" << std::endl;}
-    framebuffer.DrawImage(toolbar, 10, 10, true);
+    //framebuffer.DrawImage(toolbar, 10, 10, true);
     
     
     
     Image bluecolor;
     if (bluecolor.LoadPNG("images/blue.png")==false){
         std::cout << "Image not found!" << std::endl;}
-    framebuffer.DrawImage(bluecolor, 275, 25, true);
-    Button* bluebutton = new Button(bluecolor, Vector2(275, 25));
+    //framebuffer.DrawImage(bluecolor, 275, 25, true);
+    Button* bluebutton = new Button(&bluecolor, Vector2(275, 25));
     buttons.push_back(bluebutton);
+ 
     
     Image blackcolor;
     if (blackcolor.LoadPNG("images/black.png")==false){
         std::cout << "Image not found!" << std::endl;}
-    framebuffer.DrawImage(blackcolor, 125, 25, true);
+    //framebuffer.DrawImage(blackcolor, 125, 25, true);
     
     Image pinkcolor;
     if (pinkcolor.LoadPNG("images/pink.png") == false) {
         std::cout << "Image not found!" << std::endl;}
-    framebuffer.DrawImage(pinkcolor, 375, 25, true);
+    //framebuffer.DrawImage(pinkcolor, 375, 25, true);
     
     Image redcolor;
     if (redcolor.LoadPNG("images/red.png") == false) {
         std::cout << "Image not found!" << std::endl;}
-    framebuffer.DrawImage(redcolor, 175, 25, true);
+    //framebuffer.DrawImage(redcolor, 175, 25, true);
     
     Image circle;
 	if (circle.LoadPNG("images/circle.png") == false) {
 		std::cout << "Image not found!" << std::endl;
 	}
-    framebuffer.DrawImage(circle, 550, 25, true);
-    Button* circlebutton = new Button(circle, Vector2(550, 25));
+    //framebuffer.DrawImage(circle, 550, 25, true);
+    Button* circlebutton = new Button(&circle, Vector2(550, 25));
     buttons.push_back(circlebutton);
     
     Image clear;
 	if (clear.LoadPNG("images/clear.png") == false) {
 		std::cout << "Image not found!" << std::endl;
 	}
-    framebuffer.DrawImage(clear, 25, 25, true);
+    //framebuffer.DrawImage(clear, 25, 25, true);
     
     Image cyan;
 	if (cyan.LoadPNG("images/cyan.png") == false) {
 		std::cout << "Image not found!" << std::endl;
 	}
-    framebuffer.DrawImage(cyan, 425, 25, true);
+    //framebuffer.DrawImage(cyan, 425, 25, true);
     
     Image eraser;
     if (eraser.LoadPNG("images/eraser.png") == false) {
         std::cout << "Eraser image not found!" << std::endl;
     }
-    framebuffer.DrawImage(eraser,625, 25, true);
+    //framebuffer.DrawImage(eraser,625, 25, true);
 
     // Fruits
     Image fruits;
     if (fruits.LoadPNG("images/fruits.png") == false) {
         std::cout << "Fruits image not found!" << std::endl;
     }
-    framebuffer.DrawImage(fruits, 725, 25, true);
+    
+    //framebuffer.DrawImage(fruits, 725, 25, true);
 
     Image green;
     if (green.LoadPNG("images/green.png") == false) {
         std::cout << "Green image not found!" << std::endl;
     }
-    framebuffer.DrawImage(green, 225, 25, true);
+    
+    //framebuffer.DrawImage(green, 225, 25, true);
 
    /* Image line;
     if (line.LoadPNG("images/line.png") == false) {
@@ -131,7 +133,8 @@ void Application::Init(void)
 // Render one frame
 void Application::Render(void) //EL  NOSTRE CODI DEL MAIN
 {
-
+    if (drawingline==true){
+       framebuffer.DrawLineDDA(200, 200, 420, 500, Color::WHITE);}
     /*
 	//DRAWING LINES
 
@@ -183,14 +186,14 @@ void Application::Render(void) //EL  NOSTRE CODI DEL MAIN
 // Called after render
 void Application::Update(float seconds_elapsed)
 {
-    const int screenWidth = 750;
+    /*const int screenWidth = 750;
     const int screenHeight = 550;
 
     particleSyst snow;
     snow.Init(screenWidth, screenHeight);
 
  
-    /*//ANIMACION DE PARTICULAS
+    //ANIMACION DE PARTICULAS
     // Mueve la posición de las partículas de nieve
     particle_system.Update(seconds_elapsed);
 
@@ -203,77 +206,133 @@ void Application::Update(float seconds_elapsed)
 //keyboard press event 
 void Application::OnKeyPressed( SDL_KeyboardEvent event )
 {
-    
-	// KEY CODES: https://wiki.libsdl.org/SDL2/SDL_Keycode
+    Vector2 a, b, c;
+    a=Vector2{600, 100}, b=Vector2{750, 350}, c=Vector2{500, 450};
+    // KEY CODES: https://wiki.libsdl.org/SDL2/SDL_Keycode
     switch (event.keysym.sym) {
-    case SDLK_ESCAPE: exit(0); break; // ESC key, kill the app
-
-    case SDLK_1:
-        framebuffer.DrawLineDDA(200, 200, 420, 500, Color::WHITE);
-        break;
-
-    case SDLK_2:
-        framebuffer.DrawRectangle(100, 100, 300, 150, Color::RED, borderWidth, true, Color::WHITE);
-        break;
-
-    case SDLK_3:
-        framebuffer.DrawCircle(600, 150, 120, Color::YELLOW, borderWidth, true, Color::GREEN);
-        break;
-
-    case SDLK_4:
-        framebuffer.DrawTriangle((600, 100), (750, 350), (500, 450), Color::RED, true, Color::CYAN);
-        break;
-
-    case SDLK_5:
-        break;
-
-    case SDLK_6:
-        break;
-
-    case SDLK_f:
-        break;
-
-    case SDLK_PLUS:
-        break;
-
-    case SDLK_MINUS:
-        break;
+        case SDLK_ESCAPE: exit(0); break; // ESC key, kill the app
+            
+        case SDLK_1:
+            //framebuffer.DrawLineDDA(200, 200, 420, 500, Color::WHITE);
+            drawingline=true;
+            break;
+            
+        case SDLK_2:
+            framebuffer.DrawRectangle(100, 100, 300, 150, Color::RED, borderWidth, false, Color::WHITE);
+            drawingrectangle=true;
+            break;
+            
+        case SDLK_3:
+            framebuffer.DrawCircle(600, 150, 120, Color::YELLOW, borderWidth, false, Color::GREEN);
+            drawingcircle=true;
+            break;
+            
+        case SDLK_4:
+            framebuffer.DrawTriangle(a, b, c, Color::RED, false, Color::CYAN);
+            drawingtriangle=true;
+            break;
+            
+        case SDLK_5:
+            drawingline=false;
+            framebuffer.Fill(Color::BLACK);
+            framebuffer.DrawImage(toolbar, 10, 10, true);
+            framebuffer.DrawImage(bluecolor, 275, 25, true);
+            framebuffer.DrawImage(blackcolor, 125, 25, true);
+            framebuffer.DrawImage(pinkcolor, 375, 25, true);
+            framebuffer.DrawImage(redcolor, 175, 25, true);
+            framebuffer.DrawImage(circle, 550, 25, true);
+            framebuffer.DrawImage(clear, 25, 25, true);
+            framebuffer.DrawImage(cyan, 425, 25, true);
+            framebuffer.DrawImage(eraser,625, 25, true);
+            framebuffer.DrawImage(fruits, 725, 25, true);
+            framebuffer.DrawImage(green, 225, 25, true);
+            break;
+            
+        case SDLK_6:
+            exit(0);
+            break;
         
+        case SDLK_f:
+            if(drawingrectangle==true){
+                framebuffer.DrawRectangle(100, 100, 300, 150, Color::RED, borderWidth, true, Color::WHITE);
+                filledrectangle=true;}
+            if(drawingcircle==true){
+                framebuffer.DrawCircle(600, 150, 120, Color::YELLOW, borderWidth, true, Color::GREEN);
+                filledcircle=true;}
+            if(drawingtriangle==true){
+             framebuffer.DrawTriangle(a, b, c, Color::RED, true, Color::CYAN);
+                filledtriangle=true;}
+            break;
+            
+        case SDLK_PLUS:
+            borderWidth=borderWidth+10;
+            if(drawingrectangle==true){
+                if(filledrectangle==true){framebuffer.DrawRectangle(100, 100, 300, 150, Color::RED, borderWidth, true, Color::WHITE);}
+                else{framebuffer.DrawRectangle(100, 100, 300, 150, Color::RED, borderWidth, false, Color::WHITE);}
+            }
+            if(drawingcircle==true){
+                if(filledcircle==true){framebuffer.DrawCircle(600, 150, 120, Color::YELLOW, borderWidth, true, Color::GREEN);}
+                else{framebuffer.DrawCircle(600, 150, 120, Color::YELLOW, borderWidth, false, Color::GREEN);}
+            }
+            if(drawingtriangle==true){
+                if(filledtriangle==true){framebuffer.DrawTriangle(a, b, c, Color::RED, true, Color::CYAN);}
+                else{framebuffer.DrawTriangle(a, b, c, Color::RED, false, Color::CYAN);}
+            }
+            break;
+            
+        case SDLK_MINUS:
+            framebuffer.Fill(Color::BLACK);
+            if(borderWidth>10){ borderWidth=borderWidth-10;}
+            if(drawingrectangle==true){
+                if(filledrectangle==true){framebuffer.DrawRectangle(100, 100, 300, 150, Color::RED, borderWidth, true, Color::WHITE);}
+                else{framebuffer.DrawRectangle(100, 100, 300, 150, Color::RED, borderWidth, false, Color::WHITE);}
+            }
+            if(drawingcircle==true){
+                if(filledcircle==true){framebuffer.DrawCircle(600, 150, 120, Color::YELLOW, borderWidth, true, Color::GREEN);}
+                else{framebuffer.DrawCircle(600, 150, 120, Color::YELLOW, borderWidth, false, Color::GREEN);}
+            }
+            if(drawingtriangle==true){
+                if(filledtriangle==true){framebuffer.DrawTriangle(a, b, c, Color::RED, true, Color::CYAN);}
+                else{framebuffer.DrawTriangle(a, b, c, Color::RED, false, Color::CYAN);}
+            }
+            break;
+            
     }
-
-
+}
+    
+    
 void Application::OnMouseButtonDown( SDL_MouseButtonEvent event )
 {
-	if (event.button == SDL_BUTTON_LEFT) {
+        if (event.button == SDL_BUTTON_LEFT) {
             Vector2 mousePos = Vector2(static_cast<float>(event.x), static_cast<float>(event.y));
-
-            // Check if any button is clicked
-        if (buttons[0]->IsMouseInside(mousePos)){
-            this->colorselecionado=Color::BLUE;
             
-        }
-            /*if (lineButton.IsMouseInside(mousePos))
-            {
-                // Handle line button click
-                //lineToolSelected = true;
-                //rectangleToolSelected = false;
-                //circleToolSelected = false;
-                // ... Deselect other tools if needed
+            // Check if any button is clicked
+            if (buttons[0]->IsMouseInside(mousePos)){
+                this->drawingcolor=Color::BLUE;
+                
             }
-            else if (rectangleButton.IsMouseInside(mousePos))
-            {
-                // Handle rectangle button click
-                //lineToolSelected = false;
-                rectangleToolSelected = true;
-                //circleToolSelected = false;
-                // ... Deselect other tools if needed
-            }*/
+            /*if (lineButton.IsMouseInside(mousePos))
+             {
+             // Handle line button click
+             //lineToolSelected = true;
+             //rectangleToolSelected = false;
+             //circleToolSelected = false;
+             // ... Deselect other tools if needed
+             }
+             else if (rectangleButton.IsMouseInside(mousePos))
+             {
+             // Handle rectangle button click
+             //lineToolSelected = false;
+             rectangleToolSelected = true;
+             //circleToolSelected = false;
+             // ... Deselect other tools if needed
+             }*/
             else if (buttons[1]->IsMouseInside(mousePos))
             {
                 framebuffer.DrawCircle(this->startXcircle, this->startYcircle, this->radicircle, this->drawingcolor, this->borderWidth, this->isfilled, this->fillColor);
             }
             // ... Check other buttons
-
+            
             // Check if the mouse is inside the drawing area
             //if (mousePos.x >= 0 && mousePos.x < window_width && mousePos.y >= 0 && mousePos.y < window_height)
             {
@@ -281,26 +340,26 @@ void Application::OnMouseButtonDown( SDL_MouseButtonEvent event )
                 // ...
             }
         }
-
-	}
-
-
-void Application::OnMouseButtonUp( SDL_MouseButtonEvent event )
-{
-    if (event.button == SDL_BUTTON_LEFT) {
-        // Reset tool states on mouse button release if needed
-        lineToolSelected = false;
-        rectangleToolSelected = false;
-        circleToolSelected = false;
-        // ... Reset other tool states if needed
+        
     }
-}
-
-void Application::OnMouseMove(SDL_MouseButtonEvent event)
-{
+    
+    
+    void Application::OnMouseButtonUp( SDL_MouseButtonEvent event )
+    {
+        if (event.button == SDL_BUTTON_LEFT) {
+            // Reset tool states on mouse button release if needed
+            lineToolSelected = false;
+            rectangleToolSelected = false;
+            circleToolSelected = false;
+            // ... Reset other tool states if needed
+        }
+    }
+    
+    void Application::OnMouseMove(SDL_MouseButtonEvent event)
+    {
         // Handle mouse movement
         // ...
-
+        
         // Check if the left mouse button is pressed
         if (event.state & SDL_BUTTON(SDL_BUTTON_LEFT))
         {
@@ -310,7 +369,7 @@ void Application::OnMouseMove(SDL_MouseButtonEvent event)
                 Color color(255, 255, 255);
                 int startXline = 150;
                 int startYline = 450;
-
+                
                 framebuffer.Fill(Color::BLACK);
                 framebuffer.DrawLineDDA(startXline,startYline, startXline + 100 * std::cos(time), startYline + 100 * std::sin(time), color);
             }
@@ -326,16 +385,16 @@ void Application::OnMouseMove(SDL_MouseButtonEvent event)
             }
             // ... Handle other tools
         }
-}
-
-void Application::OnWheel(SDL_MouseWheelEvent event)
-{
-	float dy = event.preciseY;
-
-	// ...
-}
-
-void Application::OnFileChanged(const char* filename)
-{ 
-	Shader::ReloadSingleShader(filename);
-}
+    }
+    
+    void Application::OnWheel(SDL_MouseWheelEvent event)
+    {
+        float dy = event.preciseY;
+        
+        // ...
+    }
+    
+    void Application::OnFileChanged(const char* filename)
+    {
+        Shader::ReloadSingleShader(filename);
+    }

@@ -27,6 +27,24 @@ public:
     int startYcircle = 150;
     Color fillColor= Color::GREEN;
     Color drawingcolor;
+    bool drawingline=false;
+    bool drawingrectangle;
+    bool drawingcircle;
+    bool drawingtriangle;
+    bool filledrectangle;
+    bool filledcircle;
+    bool filledtriangle;
+    Image toolbar;
+    Image bluecolor;
+    Image blackcolor;
+    Image pinkcolor;
+    Image redcolor;
+    Image circle;
+    Image clear;
+    Image cyan;
+    Image eraser;
+    Image fruits;
+    Image green;
     
 	// Window
 

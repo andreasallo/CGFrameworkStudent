@@ -504,6 +504,7 @@ void Image::DrawTriangle(const Vector2& p0, const Vector2& p1, const Vector2& p2
 	}
 }
 
+
 //
 //IMAGES TOOL DRAWING
 //
@@ -547,17 +548,20 @@ void Image::DrawImage(const Image & image, int x, int y, bool top) {
 //POSICIO MOUSE
 //
 
-bool Button::IsMouseInside(const Vector2& mousePosition){
+
+bool Button::IsMouseInside(const Vector2 mousePosition){
     // Calculate button boundaries based on image size and position
-    float left = position.x;
-    float right = position.x + this->image->width();
-    float top = position.y;
-    float bottom = position.y + image->height();
-    
-    // Check if the mouse position is within the button boundaries
+    int left = static_cast<int>(position.x);
+    int right = static_cast<int>(position.x + image->width);
+    int top = static_cast<int>(position.y);
+    int bottom = static_cast<int>(position.y + image->height);
+
+            // Check if the mouse position is within the button boundaries
     return (mousePosition.x >= left && mousePosition.x <= right &&
-            mousePosition.y >= top && mousePosition.y <= bottom);
-}
+                    mousePosition.y >= top && mousePosition.y <= bottom);
+};
+
+  
 
 
 

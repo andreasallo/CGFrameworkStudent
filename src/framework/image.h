@@ -37,6 +37,7 @@ public:
 	unsigned int width;
 	unsigned int height;
 	unsigned int bytes_per_pixel = 3; // Bits per pixel
+    
 
 	Color* pixels;
 
@@ -111,7 +112,6 @@ public:
 
 	void DrawTriangle(const Vector2& p0, const Vector2& p1, const Vector2& p2, const Color& borderColor, bool isFilled, const Color& fillColor);
 
-	
 
     
 
@@ -166,11 +166,11 @@ public:
 };
 class Button {
 private:
-    const Image* image;
+    Image* image;
     Vector2 position;
     
 public:
-    Button(const Image& img, const Vector2& pos) : image(&img), position(pos) {}
+    Button(Image* img, Vector2 pos) : image(img), position(pos) {}
     // Function to check if the mouse is inside the button
-    bool IsMouseInside(const Vector2& mousePosition);
+    bool IsMouseInside(Vector2 mousePosition);
 };
