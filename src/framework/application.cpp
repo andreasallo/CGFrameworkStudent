@@ -129,50 +129,7 @@ void Application::Init(void)
 // Render one frame
 void Application::Render(void) //EL  NOSTRE CODI DEL MAIN
 {
-    if (drawingline==true){
-       framebuffer.DrawLineDDA(200, 200, 420, 500, Color::WHITE);}
-    /*
-	//DRAWING LINES
-
-	Color color(255, 255, 255);
-    int startXline = 150;
-    int startYline = 450;
-
-	framebuffer.Fill(Color::BLACK);
-	framebuffer.DrawLineDDA(200,200, 420, 500, Color::WHITE);
-
-	//DRAWING RECTANGLE
-	int height = 150;
-	int width = 300;
-	int startXrectangle = 100;
-	int startYrectangle = 100;
-	Color wh = Color::WHITE;
-	bool isFilled = true;
-	Color fillColor_rect = Color::RED;
-	framebuffer.DrawRectangle(startXrectangle, startYrectangle, width, height, wh, borderWidth, isFilled, fillColor_rect);
     
-    
-    //DRAWING CIRCLE
-    int radi = 120;
-    int startXcircle = 600;
-    int startYcircle = 150;
-	Color fillColor_circle = Color::GREEN;
-	Color yel = Color::YELLOW;
-    framebuffer.DrawCircle(startXcircle, startYcircle, radi, yel, borderWidth, isFilled, fillColor_circle);
-    framebuffer.DrawCircle(600, 150, 120, Color::YELLOW, borderWidth, true, Color::Green);
-	
-	//DRAWING TRIANGLE
-	Vector2 p0(600, 100);
-	Vector2 p1(750, 350);
-	Vector2 p2(500, 450);
-	bool isTriangleFilled = true;
-	Color fillColor_tri = Color::CYAN;
-	framebuffer.DrawTriangle(p0, p1, p2, fillColor_rect, isTriangleFilled, fillColor_tri);
-    framebuffer.DrawTriangle((600, 100), (750, 350), (500, 450), Color::RED, true, Color::Cyan);
-
-    
-    */
-    //drawing tool
     
 
 	framebuffer.Render();//enviem el framebuffer a la pantalla
@@ -182,21 +139,11 @@ void Application::Render(void) //EL  NOSTRE CODI DEL MAIN
 // Called after render
 void Application::Update(float seconds_elapsed)
 {
-    /*const int screenWidth = 750;
-    const int screenHeight = 550;
+    if (activeSyst) {
+        Update(seconds_elapsed);
+    }
 
-    particleSyst snow;
-    snow.Init(screenWidth, screenHeight);
-
- 
-    //ANIMACION DE PARTICULAS
-    // Mueve la posición de las partículas de nieve
-    particle_system.Update(seconds_elapsed);
-
-    // También podrías animar otros elementos o cambiar colores según sea necesario
-    object_position.x += seconds_elapsed * 10;
-    image_rotation_angle += seconds_elapsed;
-    */
+   
 }
 
 //keyboard press event 
@@ -246,6 +193,7 @@ void Application::OnKeyPressed( SDL_KeyboardEvent event )
             
         case SDLK_6:
             exit(0);
+            //ACTUAL 
             break;
         
         case SDLK_f:

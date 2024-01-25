@@ -7,6 +7,7 @@
 #include "main/includes.h"
 #include "framework.h"
 #include "image.h"
+#include "particleSyst.h"
 
 class Application
 {
@@ -53,6 +54,11 @@ public:
 	int window_height;
 
 	float time;
+
+	//PARTICLES
+	Image framebuffer;
+	particleSyst particleSyst;
+	bool activeSyst = true;
 
 	// Input
 	const Uint8* keystate;
