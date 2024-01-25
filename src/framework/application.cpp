@@ -130,12 +130,9 @@ void Application::Init(void)
 void Application::Render(void) //EL  NOSTRE CODI DEL MAIN
 {
     
-    
-
 	framebuffer.Render();//enviem el framebuffer a la pantalla
 }
 
-    //caldra fer modificacio del borde segons + o -
 // Called after render
 void Application::Update(float seconds_elapsed)
 {
