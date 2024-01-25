@@ -46,6 +46,10 @@ public:
     Image eraser;
     Image fruits;
     Image green;
+    Image line;
+    Image load;
+    Image rectangle;
+    Image save;
     
 	// Window
 
