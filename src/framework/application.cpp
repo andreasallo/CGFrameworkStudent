@@ -127,9 +127,11 @@ void Application::Init(void)
 }
 
 // Render one frame
-void Application::Render(void) //EL  NOSTRE CODI DEL MAIN
+void Application::Render(void) 
 {
-    
+    if (activeSyst) {
+        particleSyst.Render(&framebuffer);
+    }
     
 
 	framebuffer.Render();//enviem el framebuffer a la pantalla
@@ -140,10 +142,8 @@ void Application::Render(void) //EL  NOSTRE CODI DEL MAIN
 void Application::Update(float seconds_elapsed)
 {
     if (activeSyst) {
-        Update(seconds_elapsed);
-    }
-
-   
+        particleSyst.Update(seconds_elapsed);
+    }  
 }
 
 //keyboard press event 
@@ -192,8 +192,9 @@ void Application::OnKeyPressed( SDL_KeyboardEvent event )
             break;
             
         case SDLK_6:
-            exit(0);
-            //ACTUAL 
+            activeSyst = true;
+            particleSyst.Init(framebuffer.width, framebuffer.height);
+            
             break;
         
         case SDLK_f:

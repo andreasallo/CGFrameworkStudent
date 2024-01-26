@@ -56,7 +56,6 @@ public:
 	float time;
 
 	//PARTICLES
-	Image framebuffer;
 	particleSyst particleSyst;
 	bool activeSyst = true;
 
