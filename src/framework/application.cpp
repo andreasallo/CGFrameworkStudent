@@ -175,9 +175,9 @@ void Application::OnKeyPressed( SDL_KeyboardEvent event )
             framebuffer.DrawImage(fruits, 725, 25, true);
             framebuffer.DrawImage(green, 225, 25, true);
             framebuffer.DrawImage(line, 675, 25,true);
-            framebuffer.DrawImage(load, , 25, true);
-            framebuffer.DrawImage(rectangle, , 25, true);
-            framebuffer.DrawImage(save,, 25, true);
+            //framebuffer.DrawImage(load, , 25, true);
+            //framebuffer.DrawImage(rectangle, , 25, true);
+            //framebuffer.DrawImage(save,, 25, true);
             break;
             
         case SDLK_6:
