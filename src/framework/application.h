@@ -46,6 +46,10 @@ public:
     Image eraser;
     Image fruits;
     Image green;
+    Image line;
+    Image load;
+    Image rectangle;
+    Image save;
     
 	// Window
 
@@ -73,7 +77,7 @@ public:
 	void OnFileChanged(const char* filename);
 
 	// CPU Global framebuffer
-	Image framebuffer;
+	//Image framebuffer;
 
 	// Constructor and main methods
 	Application(const char* caption, int width, int height);

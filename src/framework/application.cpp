@@ -30,6 +30,8 @@ void Application::Init(void)
 {
     
 	std::cout << "Initiating app..." << std::endl;
+    
+    
     if (toolbar.LoadPNG("images/toolbar.png")==false){
         std::cout << "Image not found!" << std::endl;}
     //framebuffer.DrawImage(toolbar, 10, 10, true);
@@ -37,30 +39,27 @@ void Application::Init(void)
     
     if (bluecolor.LoadPNG("images/blue.png")==false){
         std::cout << "Image not found!" << std::endl;}
-    //framebuffer.DrawImage(bluecolor, 275, 25, true);
-    Button* bluebutton = new Button(&bluecolor, Vector2(275, 25));
+    Button* bluebutton = new Button(&bluecolor, Vector2(275, 25));//falta posar la posicio segons la imatge(posat a init)
     buttons.push_back(bluebutton);
  
     
     if (blackcolor.LoadPNG("images/black.png")==false){
         std::cout << "Image not found!" << std::endl;}
-    //framebuffer.DrawImage(blackcolor, 125, 25, true);
+    Button* blackbutton = new Button(&blackcolor, Vector2(275, 25));//same
+    buttons.push_back(blackbutton);
     
     
     if (pinkcolor.LoadPNG("images/pink.png") == false) {
         std::cout << "Image not found!" << std::endl;}
-    //framebuffer.DrawImage(pinkcolor, 375, 25, true);
     
     
     if (redcolor.LoadPNG("images/red.png") == false) {
         std::cout << "Image not found!" << std::endl;}
-    //framebuffer.DrawImage(redcolor, 175, 25, true);
     
     
 	if (circle.LoadPNG("images/circle.png") == false) {
 		std::cout << "Image not found!" << std::endl;
 	}
-    //framebuffer.DrawImage(circle, 550, 25, true);
     Button* circlebutton = new Button(&circle, Vector2(550, 25));
     buttons.push_back(circlebutton);
     
@@ -68,60 +67,47 @@ void Application::Init(void)
 	if (clear.LoadPNG("images/clear.png") == false) {
 		std::cout << "Image not found!" << std::endl;
 	}
-    //framebuffer.DrawImage(clear, 25, 25, true);
     
     
 	if (cyan.LoadPNG("images/cyan.png") == false) {
 		std::cout << "Image not found!" << std::endl;
 	}
-    //framebuffer.DrawImage(cyan, 425, 25, true);
     
     
     if (eraser.LoadPNG("images/eraser.png") == false) {
         std::cout << "Eraser image not found!" << std::endl;
     }
-    //framebuffer.DrawImage(eraser,625, 25, true);
 
     
     if (fruits.LoadPNG("images/fruits.png") == false) {
         std::cout << "Fruits image not found!" << std::endl;
     }
     
-    //framebuffer.DrawImage(fruits, 725, 25, true);
 
     
     if (green.LoadPNG("images/green.png") == false) {
         std::cout << "Green image not found!" << std::endl;
     }
     
-    //framebuffer.DrawImage(green, 225, 25, true);
 
-   /* Image line;
+   
     if (line.LoadPNG("images/line.png") == false) {
         std::cout << "Line image not found!" << std::endl;
     }
-    framebuffer.DrawImage(line, 675, 25;
+   
 
-    // Load
-    Image load;
+    
     if (load.LoadPNG("images/load.png") == false) {
         std::cout << "Load image not found!" << std::endl;
     }
-    framebuffer.DrawImage(load, , 25, true);
-
-    // Rectangle
-    Image rectangle;
+    
     if (rectangle.LoadPNG("images/rectangle.png") == false) {
         std::cout << "Rectangle image not found!" << std::endl;
     }
-    framebuffer.DrawImage(rectangle, , 25, true);
 
-    Image save;
 	if (save.LoadPNG("images/save.png") == false) {
 		std::cout << "Image not found!" << std::endl;
 	}
-    framebuffer.DrawImage(save,, 25, true);
-	}*/
 
 
 }
@@ -137,7 +123,6 @@ void Application::Render(void)
 	framebuffer.Render();//enviem el framebuffer a la pantalla
 }
 
-    //caldra fer modificacio del borde segons + o -
 // Called after render
 void Application::Update(float seconds_elapsed)
 {
@@ -156,7 +141,7 @@ void Application::OnKeyPressed( SDL_KeyboardEvent event )
         case SDLK_ESCAPE: exit(0); break; // ESC key, kill the app
             
         case SDLK_1:
-            //framebuffer.DrawLineDDA(200, 200, 420, 500, Color::WHITE);
+            framebuffer.DrawLineDDA(200, 200, 420, 500, Color::WHITE);
             drawingline=true;
             break;
             
@@ -189,6 +174,10 @@ void Application::OnKeyPressed( SDL_KeyboardEvent event )
             framebuffer.DrawImage(eraser,625, 25, true);
             framebuffer.DrawImage(fruits, 725, 25, true);
             framebuffer.DrawImage(green, 225, 25, true);
+            framebuffer.DrawImage(line, 675, 25,true);
+            framebuffer.DrawImage(load, , 25, true);
+            framebuffer.DrawImage(rectangle, , 25, true);
+            framebuffer.DrawImage(save,, 25, true);
             break;
             
         case SDLK_6:
