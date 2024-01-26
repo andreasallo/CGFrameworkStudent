@@ -480,8 +480,7 @@ void Image::DrawTriangle(const Vector2& p0, const Vector2& p1, const Vector2& p2
 
 	for (int y = 0; y < this->height; y++){
 		//valors per linea actual
-		int min_x = INT_MAX;
-		int max_x = INT_MIN;
+		
 		for (int x = 0; x < this->width; x++) {//iterar per amplada de triangle (anar fent lineas)
 			if (table[y].minX <= x && x <= table[y].maxX) {
 				if (isFilled) {

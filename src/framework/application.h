@@ -9,6 +9,7 @@
 #include "image.h"
 #include "particleSyst.h"
 
+
 class Application
 {
 private:
@@ -64,6 +65,7 @@ public:
 	//PARTICLES
 	particleSyst particleSyst;
 	bool activeSyst = true;
+
 
 	// Input
 	const Uint8* keystate;
