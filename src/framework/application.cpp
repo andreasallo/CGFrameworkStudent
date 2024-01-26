@@ -31,83 +31,85 @@ void Application::Init(void)
     
 	std::cout << "Initiating app..." << std::endl;
     
+    //guardo les imatges i creo els botons corresponents a cada una
     
     if (toolbar.LoadPNG("images/toolbar.png")==false){
         std::cout << "Image not found!" << std::endl;}
-    //framebuffer.DrawImage(toolbar, 10, 10, true);
-    
     
     if (bluecolor.LoadPNG("images/blue.png")==false){
         std::cout << "Image not found!" << std::endl;}
-    Button* bluebutton = new Button(&bluecolor, Vector2(275, 25));//falta posar la posicio segons la imatge(posat a init)
+    Button* bluebutton = new Button(&bluecolor, Vector2(275, 25));
     buttons.push_back(bluebutton);
  
     
     if (blackcolor.LoadPNG("images/black.png")==false){
         std::cout << "Image not found!" << std::endl;}
-    Button* blackbutton = new Button(&blackcolor, Vector2(275, 25));//same
+    Button* blackbutton = new Button(&blackcolor, Vector2(125, 25));
     buttons.push_back(blackbutton);
     
     
     if (pinkcolor.LoadPNG("images/pink.png") == false) {
         std::cout << "Image not found!" << std::endl;}
+    Button* pinkbutton = new Button(&pinkcolor, Vector2(375, 25));
+    buttons.push_back(pinkbutton);
     
     
     if (redcolor.LoadPNG("images/red.png") == false) {
         std::cout << "Image not found!" << std::endl;}
-    
+    Button* redbutton = new Button(&redcolor, Vector2(175, 25));
+    buttons.push_back(redbutton);
     
 	if (circle.LoadPNG("images/circle.png") == false) {
 		std::cout << "Image not found!" << std::endl;
 	}
-    Button* circlebutton = new Button(&circle, Vector2(550, 25));
+    Button* circlebutton = new Button(&circle, Vector2(575, 25));
     buttons.push_back(circlebutton);
-    
     
 	if (clear.LoadPNG("images/clear.png") == false) {
 		std::cout << "Image not found!" << std::endl;
 	}
-    
+    Button* clearbutton = new Button(&clear, Vector2(25, 25));
+    buttons.push_back(clearbutton);
     
 	if (cyan.LoadPNG("images/cyan.png") == false) {
 		std::cout << "Image not found!" << std::endl;
 	}
+    Button* cyanbutton = new Button(&cyan, Vector2(425, 25));
+    buttons.push_back(cyanbutton);
     
     
     if (eraser.LoadPNG("images/eraser.png") == false) {
         std::cout << "Eraser image not found!" << std::endl;
     }
-
-    
-    if (fruits.LoadPNG("images/fruits.png") == false) {
-        std::cout << "Fruits image not found!" << std::endl;
-    }
-    
-
-    
-    if (green.LoadPNG("images/green.png") == false) {
-        std::cout << "Green image not found!" << std::endl;
-    }
-    
+    Button* eraserbutton = new Button(&eraser, Vector2(625, 25));
+    buttons.push_back(eraserbutton);
 
    
     if (line.LoadPNG("images/line.png") == false) {
         std::cout << "Line image not found!" << std::endl;
     }
+    Button* linebutton = new Button(&line, Vector2(525, 25));
+    buttons.push_back(linebutton);
    
-
     
     if (load.LoadPNG("images/load.png") == false) {
         std::cout << "Load image not found!" << std::endl;
     }
+    Button* loadbutton = new Button(&load, Vector2(675, 25));
+    buttons.push_back(loadbutton);
     
     if (rectangle.LoadPNG("images/rectangle.png") == false) {
         std::cout << "Rectangle image not found!" << std::endl;
     }
+    Button* rectanglebutton = new Button(&rectangle, Vector2(475, 25));
+    buttons.push_back(rectanglebutton);
+    
 
 	if (save.LoadPNG("images/save.png") == false) {
 		std::cout << "Image not found!" << std::endl;
 	}
+    Button* savebutton = new Button(&save, Vector2(725, 25));
+    buttons.push_back(savebutton);
 
 
 }
@@ -137,6 +139,8 @@ void Application::OnKeyPressed( SDL_KeyboardEvent event )
     Vector2 a, b, c;
     a=Vector2{600, 100}, b=Vector2{750, 350}, c=Vector2{500, 450};
     // KEY CODES: https://wiki.libsdl.org/SDL2/SDL_Keycode
+    
+    //crido funcio segons la tecla apretada
     switch (event.keysym.sym) {
         case SDLK_ESCAPE: exit(0); break; // ESC key, kill the app
             
@@ -162,22 +166,19 @@ void Application::OnKeyPressed( SDL_KeyboardEvent event )
             
         case SDLK_5:
             drawingline=false;
-            framebuffer.Fill(Color::BLACK);
             framebuffer.DrawImage(toolbar, 10, 10, true);
-            framebuffer.DrawImage(bluecolor, 275, 25, true);
-            framebuffer.DrawImage(blackcolor, 125, 25, true);
-            framebuffer.DrawImage(pinkcolor, 375, 25, true);
-            framebuffer.DrawImage(redcolor, 175, 25, true);
-            framebuffer.DrawImage(circle, 550, 25, true);
             framebuffer.DrawImage(clear, 25, 25, true);
+            framebuffer.DrawImage(blackcolor, 125, 25, true);
+            framebuffer.DrawImage(redcolor, 175, 25, true);
+            framebuffer.DrawImage(bluecolor, 275, 25, true);
+            framebuffer.DrawImage(pinkcolor, 375, 25, true);
             framebuffer.DrawImage(cyan, 425, 25, true);
+            framebuffer.DrawImage(rectangle,475, 25, true);
+            framebuffer.DrawImage(circle, 575, 25, true);
             framebuffer.DrawImage(eraser,625, 25, true);
-            framebuffer.DrawImage(fruits, 725, 25, true);
-            framebuffer.DrawImage(green, 225, 25, true);
-            framebuffer.DrawImage(line, 675, 25,true);
-            //framebuffer.DrawImage(load, , 25, true);
-            //framebuffer.DrawImage(rectangle, , 25, true);
-            //framebuffer.DrawImage(save,, 25, true);
+            framebuffer.DrawImage(line, 525, 25,true);
+            framebuffer.DrawImage(load,675,25, true);
+            framebuffer.DrawImage(save,725, 25, true);
             break;
             
         case SDLK_6:
@@ -186,7 +187,9 @@ void Application::OnKeyPressed( SDL_KeyboardEvent event )
             
             break;
         
+            
         case SDLK_f:
+            //caldrà tenir en compte quines figures estan dibuixades per pantalla per saber quines s'han d'omplir
             if(drawingrectangle==true){
                 framebuffer.DrawRectangle(100, 100, 300, 150, Color::RED, borderWidth, true, Color::WHITE);
                 filledrectangle=true;}
@@ -199,6 +202,7 @@ void Application::OnKeyPressed( SDL_KeyboardEvent event )
             break;
             
         case SDLK_PLUS:
+            //caldrà tenir en compte quines figures estan dibuixades per pantalla per saber en quines cal augmentar el marge
             borderWidth=borderWidth+10;
             if(drawingrectangle==true){
                 if(filledrectangle==true){framebuffer.DrawRectangle(100, 100, 300, 150, Color::RED, borderWidth, true, Color::WHITE);}
@@ -215,6 +219,7 @@ void Application::OnKeyPressed( SDL_KeyboardEvent event )
             break;
             
         case SDLK_MINUS:
+            //caldrà tenir en compte quines figures estan dibuixades per pantalla per saber en quines cal disminuir el marge
             framebuffer.Fill(Color::BLACK);
             if(borderWidth>10){ borderWidth=borderWidth-10;}
             if(drawingrectangle==true){
@@ -229,6 +234,9 @@ void Application::OnKeyPressed( SDL_KeyboardEvent event )
                 if(filledtriangle==true){framebuffer.DrawTriangle(a, b, c, Color::RED, true, Color::CYAN);}
                 else{framebuffer.DrawTriangle(a, b, c, Color::RED, false, Color::CYAN);}
             }
+            if(drawingline==true){
+                framebuffer.DrawLineDDA(200, 200, 420, 500, Color::WHITE);
+            }
             break;
             
     }
@@ -237,88 +245,54 @@ void Application::OnKeyPressed( SDL_KeyboardEvent event )
     
 void Application::OnMouseButtonDown( SDL_MouseButtonEvent event )
 {
-        if (event.button == SDL_BUTTON_LEFT) {
-            Vector2 mousePos = Vector2(static_cast<float>(event.x), static_cast<float>(event.y)-float(framebuffer.height));
-            
-            // Check if any button is clicked
-            if (buttons[0]->IsMouseInside(mousePos)){
-                this->drawingcolor=Color::BLUE;
-                
-            }
-            /*if (lineButton.IsMouseInside(mousePos))
-             {
-             // Handle line button click
-             //lineToolSelected = true;
-             //rectangleToolSelected = false;
-             //circleToolSelected = false;
-             // ... Deselect other tools if needed
-             }
-             else if (rectangleButton.IsMouseInside(mousePos))
-             {
-             // Handle rectangle button click
-             //lineToolSelected = false;
-             rectangleToolSelected = true;
-             //circleToolSelected = false;
-             // ... Deselect other tools if needed
-             }*/
-            else if (buttons[1]->IsMouseInside(mousePos))
-            {
-                framebuffer.DrawCircle(this->startXcircle, this->startYcircle, this->radicircle, this->drawingcolor, this->borderWidth, this->isfilled, this->fillColor);
-            }
-            // ... Check other buttons
-            
-            // Check if the mouse is inside the drawing area
-            //if (mousePos.x >= 0 && mousePos.x < window_width && mousePos.y >= 0 && mousePos.y < window_height)
-            {
-                // Handle drawing in the framebuffer based on the selected tool
-                // ...
-            }
+    if (event.button == SDL_BUTTON_LEFT) {
+        Vector2 mousePos = Vector2(static_cast<float>(event.x), static_cast<float>(event.y)-float(framebuffer.height));
+        
+        //comprovo si s'ha apretat algun botó
+        if (buttons[0]->IsMouseInside(mousePos)){
+            this->drawingcolor=Color::BLUE;
+        }
+        
+        else if (buttons[4]->IsMouseInside(mousePos))
+        {
+            this->mousePos=mousePos;//guardo on s'ha clicat
         }
         
     }
+}
+
+//comprovem com el programa no respon de manera corresponent a les apretades de botó del ratolí
+//caldria millorar aquesta implementació
     
-    
-    void Application::OnMouseButtonUp( SDL_MouseButtonEvent event )
+void Application::OnMouseButtonUp( SDL_MouseButtonEvent event )
     {
         if (event.button == SDL_BUTTON_LEFT) {
-            // Reset tool states on mouse button release if needed
-            lineToolSelected = false;
-            rectangleToolSelected = false;
-            circleToolSelected = false;
-            // ... Reset other tool states if needed
+            //dibuixo les figures corresponents al botó apretat
+            if (buttons[4]->IsMouseInside(mousePos)){
+                framebuffer.DrawCircle(this->startXcircle, this->startYcircle, radicircle, this->drawingcolor, this->borderWidth, this->isfilled, this->fillColor);
+            }
         }
     }
     
     void Application::OnMouseMove(SDL_MouseButtonEvent event)
     {
-        // Handle mouse movement
-        // ...
-        
-        // Check if the left mouse button is pressed
-        if (event.state & SDL_BUTTON(SDL_BUTTON_LEFT))
+        /*if (event.state & SDL_BUTTON(SDL_BUTTON_LEFT))
         {
-            // Handle drawing while dragging the mouse
             if (lineToolSelected)
             {
-                Color color(255, 255, 255);
-                int startXline = 150;
-                int startYline = 450;
-                
-                framebuffer.Fill(Color::BLACK);
-                framebuffer.DrawLineDDA(startXline,startYline, startXline + 100 * std::cos(time), startYline + 100 * std::sin(time), color);
+            // Dibuixem linia depenent del moviment
+            // ...
             }
             else if (rectangleToolSelected)
             {
-                // Draw rectangles based on mouse movement
+                // Dibuixem rectangle depenent del moviment
                 // ...
             }
             else if (circleToolSelected)
             {
-                // Draw circles based on mouse movement
-                // ...
+                
             }
-            // ... Handle other tools
-        }
+        }*/
     }
     
     void Application::OnWheel(SDL_MouseWheelEvent event)

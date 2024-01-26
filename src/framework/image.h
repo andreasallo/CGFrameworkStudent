@@ -171,6 +171,5 @@ private:
     
 public:
     Button(Image* img, Vector2 pos) : image(img), position(pos) {}
-    // Function to check if the mouse is inside the button
     bool IsMouseInside(Vector2 mousePosition);
 };

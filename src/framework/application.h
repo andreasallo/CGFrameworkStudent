@@ -19,6 +19,7 @@ private:
     bool lineToolSelected;
     bool rectangleToolSelected;
     bool circleToolSelected;
+
 public:
     //variables afegides
     bool isfilled=false;
@@ -28,7 +29,7 @@ public:
     int startYcircle = 150;
     Color fillColor= Color::GREEN;
     Color drawingcolor;
-    bool drawingline=false;
+    bool drawingline;
     bool drawingrectangle;
     bool drawingcircle;
     bool drawingtriangle;
@@ -50,6 +51,7 @@ public:
     Image load;
     Image rectangle;
     Image save;
+    Vector2 mousePos;
     
 	// Window
 
