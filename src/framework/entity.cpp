@@ -38,13 +38,69 @@ void Entity::Render(Image* framebuffer, Camera* camera, const Color& c) {
 	const std::vector<Vector3>& meshVertices = mesh.GetVertices();
 
 	//iterate vertices
-	for (size_t i = 0; i < meshVertices.size(); i += 3) {
+	for (int i = 0; i < meshVertices.size(); i += 3) {
+		
 		//Vertex triangle actual
-		Vector3 v0 = meshVertices[i];
-		Vector3 v1 = meshVertices[i+1];
-		Vector3 v2 = meshVertices[i+2];
+		Vector3 vertex_0 = meshVertices[i];
+		Vector3 vertex_1 = meshVertices[i+1];
+		Vector3 vertex_2 = meshVertices[i+2];
 
 		//Transformar vertex a WORLDSPACE
+
+
+		Vector4 v0 = Vector4(vertex_0.x, vertex_0.y, vertex_0.z, 1);
+		Vector4 v1 = Vector4(vertex_1.x, vertex_1.y, vertex_1.z, 1);
+		Vector4 v2 = Vector4(vertex_2.x, vertex_2.y, vertex_2.z, 1);
+
+		//Fem la transformació a WS
+		Vector4 world0 = modelMatrix*v0;
+		Vector4 world1 = modelMatrix * v1;
+		Vector4 world2 = modelMatrix * v2;
+
+		//Agafem els vectors de la matriu en el WS
+		Vector3 v0_ws = world0.GetVector3();
+		Vector3 v1_ws = world1.GetVector3();
+		Vector3 v2_ws = world2.GetVector3();
+
+		//Passem el Clip Space
+		bool negZ0, negZ1, negZ2; //booleans per mirar si estan dins o fora.
+
+		// pantalla de menys 1 a 1
+		Vector3 clipSpace0 = camera->ProjectVector(v0_ws, negZ0);
+		Vector3 clipSpace1 = camera->ProjectVector(v1_ws, negZ1);
+		Vector3 clipSpace2 = camera->ProjectVector(v2_ws, negZ2);
+
+		
+		float sWidth = static_cast<float>(framebuffer->width);
+		float sHeight = static_cast<float>(framebuffer->height);
+		//assegurar esta dins del frustrum
+
+		//Pasar del Clip Space al Screen Space
+		Vector3 screenSpace0 = Vector3(static_cast<int>((clipSpace0.x + 1.0f) * 0.5f * framebuffer->width), static_cast<int>((clipSpace0.y + 1.0f) * 0.5f * framebuffer->height), clipSpace0.z);
+		Vector3 screenSpace1 = Vector3(static_cast<int>((clipSpace1.x + 1.0f) * 0.5f * framebuffer->width), static_cast<int>((clipSpace1.y + 1.0f) * 0.5f * framebuffer->height), clipSpace1.z);
+		Vector3 screenSpace2 = Vector3(static_cast<int>((clipSpace2.x + 1.0f) * 0.5f * framebuffer->width), static_cast<int>((clipSpace2.y + 1.0f) * 0.5f * framebuffer->height), clipSpace2.z);
+
+		//Draw triangle
+		framebuffer->DrawLineDDA(screenSpace0.x, screenSpace0.y, screenSpace1.x, screenSpace1.y,c);
+		framebuffer->DrawLineDDA(screenSpace1.x, screenSpace1.y, screenSpace1.x, screenSpace1.y, c);
+		framebuffer->DrawLineDDA(screenSpace2.x, screenSpace2.y, screenSpace2.x, screenSpace2.y, c);
+
+
+		//rotate: eye(posicion de camara apunta a center). roto vector q va del eye al center
+		//orbit: cambio el eye, roto el angulo de center . vector del center al eye.
+
+
+
+
+
+
+
+
+
+
+
+
+
 		
 	}
 }
