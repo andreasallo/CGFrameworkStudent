@@ -31,85 +31,6 @@ void Application::Init(void)
     
 	std::cout << "Initiating app..." << std::endl;
     
-    //guardo les imatges i creo els botons corresponents a cada una
-    
-    if (toolbar.LoadPNG("images/toolbar.png")==false){
-        std::cout << "Image not found!" << std::endl;}
-    
-    if (bluecolor.LoadPNG("images/blue.png")==false){
-        std::cout << "Image not found!" << std::endl;}
-    Button* bluebutton = new Button(&bluecolor, Vector2(275, 25));
-    buttons.push_back(bluebutton);
- 
-    
-    if (blackcolor.LoadPNG("images/black.png")==false){
-        std::cout << "Image not found!" << std::endl;}
-    Button* blackbutton = new Button(&blackcolor, Vector2(125, 25));
-    buttons.push_back(blackbutton);
-    
-    
-    if (pinkcolor.LoadPNG("images/pink.png") == false) {
-        std::cout << "Image not found!" << std::endl;}
-    Button* pinkbutton = new Button(&pinkcolor, Vector2(375, 25));
-    buttons.push_back(pinkbutton);
-    
-    
-    if (redcolor.LoadPNG("images/red.png") == false) {
-        std::cout << "Image not found!" << std::endl;}
-    Button* redbutton = new Button(&redcolor, Vector2(175, 25));
-    buttons.push_back(redbutton);
-    
-	if (circle.LoadPNG("images/circle.png") == false) {
-		std::cout << "Image not found!" << std::endl;
-	}
-    Button* circlebutton = new Button(&circle, Vector2(575, 25));
-    buttons.push_back(circlebutton);
-    
-	if (clear.LoadPNG("images/clear.png") == false) {
-		std::cout << "Image not found!" << std::endl;
-	}
-    Button* clearbutton = new Button(&clear, Vector2(25, 25));
-    buttons.push_back(clearbutton);
-    
-	if (cyan.LoadPNG("images/cyan.png") == false) {
-		std::cout << "Image not found!" << std::endl;
-	}
-    Button* cyanbutton = new Button(&cyan, Vector2(425, 25));
-    buttons.push_back(cyanbutton);
-    
-    
-    if (eraser.LoadPNG("images/eraser.png") == false) {
-        std::cout << "Eraser image not found!" << std::endl;
-    }
-    Button* eraserbutton = new Button(&eraser, Vector2(625, 25));
-    buttons.push_back(eraserbutton);
-
-   
-    if (line.LoadPNG("images/line.png") == false) {
-        std::cout << "Line image not found!" << std::endl;
-    }
-    Button* linebutton = new Button(&line, Vector2(525, 25));
-    buttons.push_back(linebutton);
-   
-    
-    if (load.LoadPNG("images/load.png") == false) {
-        std::cout << "Load image not found!" << std::endl;
-    }
-    Button* loadbutton = new Button(&load, Vector2(675, 25));
-    buttons.push_back(loadbutton);
-    
-    if (rectangle.LoadPNG("images/rectangle.png") == false) {
-        std::cout << "Rectangle image not found!" << std::endl;
-    }
-    Button* rectanglebutton = new Button(&rectangle, Vector2(475, 25));
-    buttons.push_back(rectanglebutton);
-    
-
-	if (save.LoadPNG("images/save.png") == false) {
-		std::cout << "Image not found!" << std::endl;
-	}
-    Button* savebutton = new Button(&save, Vector2(725, 25));
-    buttons.push_back(savebutton);
 
 
 }
@@ -117,9 +38,6 @@ void Application::Init(void)
 // Render one frame
 void Application::Render(void) 
 {
-    if (activeSyst) {
-        particleSyst.Render(&framebuffer);
-    }
     
 
 	framebuffer.Render();//enviem el framebuffer a la pantalla

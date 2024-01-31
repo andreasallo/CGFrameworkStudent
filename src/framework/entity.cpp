@@ -71,20 +71,25 @@ void Entity::Render(Image* framebuffer, Camera* camera, const Color& c) {
 		Vector3 clipSpace2 = camera->ProjectVector(v2_ws, negZ2);
 
 		
-		float sWidth = static_cast<float>(framebuffer->width);
-		float sHeight = static_cast<float>(framebuffer->height);
-		//assegurar esta dins del frustrum
+		//assegurar estar dins del frustrum
+		if (negZ0 == FALSE && negZ1 == FALSE && negZ2 == 0) {
 
-		//Pasar del Clip Space al Screen Space
-		Vector3 screenSpace0 = Vector3(static_cast<int>((clipSpace0.x + 1.0f) * 0.5f * framebuffer->width), static_cast<int>((clipSpace0.y + 1.0f) * 0.5f * framebuffer->height), clipSpace0.z);
-		Vector3 screenSpace1 = Vector3(static_cast<int>((clipSpace1.x + 1.0f) * 0.5f * framebuffer->width), static_cast<int>((clipSpace1.y + 1.0f) * 0.5f * framebuffer->height), clipSpace1.z);
-		Vector3 screenSpace2 = Vector3(static_cast<int>((clipSpace2.x + 1.0f) * 0.5f * framebuffer->width), static_cast<int>((clipSpace2.y + 1.0f) * 0.5f * framebuffer->height), clipSpace2.z);
+			float sWidth = static_cast<float>(framebuffer->width);
+			float sHeight = static_cast<float>(framebuffer->height);
 
-		//Draw triangle
-		framebuffer->DrawLineDDA(screenSpace0.x, screenSpace0.y, screenSpace1.x, screenSpace1.y,c);
-		framebuffer->DrawLineDDA(screenSpace1.x, screenSpace1.y, screenSpace1.x, screenSpace1.y, c);
-		framebuffer->DrawLineDDA(screenSpace2.x, screenSpace2.y, screenSpace2.x, screenSpace2.y, c);
+			//Pasar del Clip Space al Screen Space
+			Vector3 screenSpace0 = Vector3(static_cast<int>((clipSpace0.x + 1.0f) * 0.5f * framebuffer->width), static_cast<int>((clipSpace0.y + 1.0f) * 0.5f * framebuffer->height), clipSpace0.z);
+			Vector3 screenSpace1 = Vector3(static_cast<int>((clipSpace1.x + 1.0f) * 0.5f * framebuffer->width), static_cast<int>((clipSpace1.y + 1.0f) * 0.5f * framebuffer->height), clipSpace1.z);
+			Vector3 screenSpace2 = Vector3(static_cast<int>((clipSpace2.x + 1.0f) * 0.5f * framebuffer->width), static_cast<int>((clipSpace2.y + 1.0f) * 0.5f * framebuffer->height), clipSpace2.z);
 
+			//Draw triangle
+			framebuffer->DrawLineDDA(screenSpace0.x, screenSpace0.y, screenSpace1.x, screenSpace1.y, c);
+			framebuffer->DrawLineDDA(screenSpace1.x, screenSpace1.y, screenSpace2.x, screenSpace2.y, c);
+			framebuffer->DrawLineDDA(screenSpace2.x, screenSpace2.y, screenSpace0.x, screenSpace0.y, c);
+
+
+		}
+		
 
 		//rotate: eye(posicion de camara apunta a center). roto vector q va del eye al center
 		//orbit: cambio el eye, roto el angulo de center . vector del center al eye.
