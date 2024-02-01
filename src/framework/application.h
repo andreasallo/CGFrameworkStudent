@@ -8,6 +8,8 @@
 #include "framework.h"
 #include "image.h"
 #include "particleSyst.h"
+#include "entity.h"
+#include "camera.h"
 
 
 class Application
@@ -22,7 +24,20 @@ private:
     bool circleToolSelected;
 
 public:
-    //variables afegides
+    
+    //LAB2
+    Entity entity1;
+    Entity entity2;
+    Entity entity3;
+    Camera camera;
+    Matrix44 modelMatrix1;
+    Matrix44 modelMatrix2;
+    Matrix44 modelMatrix3;
+    Matrix44 modelMatrix4;
+    bool individual;
+    bool multiples;
+    
+    //LAB1
     bool isfilled=false;
     int borderWidth=20;  // Variable miembro para almacenar el ancho del borde
     int radicircle = 120;

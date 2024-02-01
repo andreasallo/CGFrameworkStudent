@@ -31,6 +31,61 @@ void Application::Init(void)
     
 	std::cout << "Initiating app..." << std::endl;
     
+    Mesh mesh1 = Mesh();
+    mesh1.LoadOBJ("meshes/lee.obj");
+    Mesh mesh2 = Mesh();
+    mesh2.LoadOBJ("meshes/anna.obj");
+    Mesh mesh3 = Mesh();
+    mesh3.LoadOBJ("meshes/cleo.obj");
+    
+    
+    entity1.SetMesh(mesh1);
+    entity2.SetMesh(mesh2);
+    entity3.SetMesh(mesh3);
+    
+    //cada entity tindra una transformacio diferent
+    entity1.setRotate(true);
+    entity1.setRotate(false);
+    entity1.setRotate(false);
+    
+    entity2.setRotate(false);
+    entity2.setRotate(true);
+    entity2.setRotate(false);
+    
+    entity3.setRotate(false);
+    entity3.setRotate(false);
+    entity3.setRotate(true);
+    
+    //editem les matrius model perque els objectes es trobin en posicions diferents
+    modelMatrix1.SetIdentity();
+    modelMatrix1.Translate(-0.7, 0, 0);
+    modelMatrix2.SetIdentity();
+    modelMatrix2.Translate(0, 0, 0.7);
+    modelMatrix3.SetIdentity();
+    modelMatrix3.Translate(0, 0.5, 0);
+    
+    //editem les matrius model perque els objectes siguin de mida diferent
+    modelMatrix1._11=1.7;
+    modelMatrix1._22=1.7;
+    modelMatrix1._33=1.7;
+    
+    modelMatrix2._11=1.3;
+    modelMatrix2._22=1.3;
+    modelMatrix2._33=1.3;
+    
+    //aplico les matrius resultants a cada entitat
+    entity1.SetModelMatrix(modelMatrix1);
+    entity2.SetModelMatrix(modelMatrix2);
+    entity3.SetModelMatrix(modelMatrix3);
+    
+    
+    //camera.SetPerspective(45, framebuffer.width / (float)framebuffer.height, 0.01f, 1000.0f);
+    //camera.SetOrthographic(-1, -1, 1, 1, -1, 1);
+    
+    //camera.LookAt(Vector3(1, 1, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
+    
+
+    
 
 
 }
@@ -38,14 +93,23 @@ void Application::Init(void)
 // Render one frame
 void Application::Render(void) 
 {
-    
-
-	framebuffer.Render();//enviem el framebuffer a la pantalla
+    if(individual==true){
+        entity1.Render(&framebuffer,&camera, Color::YELLOW);
+    }
+    if(multiples==true){
+        entity1.Render(&framebuffer,&camera, Color::YELLOW);
+        entity2.Render(&framebuffer,&camera, Color::GREEN);
+        entity3.Render(&framebuffer,&camera, Color::BLUE);
+    }
+    framebuffer.Render();//enviem el framebuffer a la pantalla
 }
 
 // Called after render
 void Application::Update(float seconds_elapsed)
 {
+    entity1.Update(seconds_elapsed);
+    
+    
     if (activeSyst) {
         particleSyst.Update(seconds_elapsed);
     }  
@@ -63,23 +127,21 @@ void Application::OnKeyPressed( SDL_KeyboardEvent event )
         case SDLK_ESCAPE: exit(0); break; // ESC key, kill the app
             
         case SDLK_1:
-            framebuffer.DrawLineDDA(200, 200, 420, 500, Color::WHITE);
-            drawingline=true;
+            individual=true;
+            multiples=false;
             break;
             
         case SDLK_2:
-            framebuffer.DrawRectangle(100, 100, 300, 150, Color::RED, borderWidth, false, Color::WHITE);
-            drawingrectangle=true;
+            individual=false;
+            multiples=true;
             break;
             
-        case SDLK_3:
-            framebuffer.DrawCircle(600, 150, 120, Color::YELLOW, borderWidth, false, Color::GREEN);
-            drawingcircle=true;
+        case SDLK_o:
+            //camera.SetOrthographic(-1, <#float right#>, <#float top#>, <#float bottom#>, <#float near_plane#>, <#float far_plane#>)
             break;
             
-        case SDLK_4:
-            framebuffer.DrawTriangle(a, b, c, Color::RED, false, Color::CYAN);
-            drawingtriangle=true;
+        case SDLK_p:
+            camera.SetPerspective(45, framebuffer.width / (float)framebuffer.height, 0.01f, 1000.0f);
             break;
             
         case SDLK_5:
@@ -164,7 +226,7 @@ void Application::OnKeyPressed( SDL_KeyboardEvent event )
 void Application::OnMouseButtonDown( SDL_MouseButtonEvent event )
 {
     if (event.button == SDL_BUTTON_LEFT) {
-        Vector2 mousePos = Vector2(static_cast<float>(event.x), static_cast<float>(event.y)-float(framebuffer.height));
+        /*Vector2 mousePos = Vector2(static_cast<float>(event.x), static_cast<float>(event.y)-float(framebuffer.height));
         
         //comprovo si s'ha apretat algun botó
         if (buttons[0]->IsMouseInside(mousePos)){
@@ -173,11 +235,9 @@ void Application::OnMouseButtonDown( SDL_MouseButtonEvent event )
         
         else if (buttons[4]->IsMouseInside(mousePos))
         {
-            this->mousePos=mousePos;//guardo on s'ha clicat
+            this->mousePos=mousePos;//guardo on s'ha clicat*/
         }
-        
     }
-}
 
 //comprovem com el programa no respon de manera corresponent a les apretades de botó del ratolí
 //caldria millorar aquesta implementació
@@ -185,12 +245,12 @@ void Application::OnMouseButtonDown( SDL_MouseButtonEvent event )
 void Application::OnMouseButtonUp( SDL_MouseButtonEvent event )
     {
         if (event.button == SDL_BUTTON_LEFT) {
-            //dibuixo les figures corresponents al botó apretat
+            /*dibuixo les figures corresponents al botó apretat
             if (buttons[4]->IsMouseInside(mousePos)){
-                framebuffer.DrawCircle(this->startXcircle, this->startYcircle, radicircle, this->drawingcolor, this->borderWidth, this->isfilled, this->fillColor);
+                framebuffer.DrawCircle(this->startXcircle, this->startYcircle, radicircle, this->drawingcolor, this->borderWidth, this->isfilled, this->fillColor);*/
             }
-        }
-    }
+}
+
     
     void Application::OnMouseMove(SDL_MouseButtonEvent event)
     {
