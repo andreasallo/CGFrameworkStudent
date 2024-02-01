@@ -111,11 +111,8 @@ void Entity::Update(float seconds_elapsed){
     if (escalar==true){
         
         //escalar un 10%, potser molt poc?
-        float num_scale = 1.0f + seconds_elapsed * 0.1f;
-        
-        for (int i = 0; i < 16; i++) {
-            modelMatrix.m[i] *= num_scale;
-        }
+        //float num_scale = 1.0f + seconds_elapsed * 0.1f;
+        //modelMatrix.Scale()
         
         }
     if (translate == true) {

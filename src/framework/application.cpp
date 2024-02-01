@@ -48,7 +48,7 @@ void Application::Init(void)
     entity1.setEscalate(false);
     entity1.setTranslate(false);
    
-    entity2.setRotate(true);
+    entity2.setRotate(false);
     entity2.setEscalate(true);
     entity2.setTranslate(false);
     
