@@ -45,24 +45,27 @@ void Application::Init(void)
     
     //cada entity tindra una transformacio diferent
     entity1.setRotate(true);
-    entity1.setRotate(false);
-    entity1.setRotate(false);
-    
-    entity2.setRotate(false);
+    entity1.setEscalate(false);
+    entity1.setTranslate(false);
+   
     entity2.setRotate(true);
-    entity2.setRotate(false);
+    entity2.setEscalate(true);
+    entity2.setTranslate(false);
     
     entity3.setRotate(false);
-    entity3.setRotate(false);
-    entity3.setRotate(true);
+    entity3.setEscalate(false);
+    entity3.setTranslate(true);
+
+
+
     
     //editem les matrius model perque els objectes es trobin en posicions diferents
     modelMatrix1.SetIdentity();
-    modelMatrix1.Translate(-0.7, 0, 0);
+    modelMatrix1.Translate(-0.5, 0, 0);
     modelMatrix2.SetIdentity();
-    modelMatrix2.Translate(0, 0, 0.7);
+    modelMatrix2.Translate(0.7, -0.4, 0);
     modelMatrix3.SetIdentity();
-    modelMatrix3.Translate(0, 0.5, 0);
+    modelMatrix3.Translate(0, 0.4, 0);
     
     //editem les matrius model perque els objectes siguin de mida diferent
     modelMatrix1._11=1.7;
@@ -77,6 +80,7 @@ void Application::Init(void)
     entity1.SetModelMatrix(modelMatrix1);
     entity2.SetModelMatrix(modelMatrix2);
     entity3.SetModelMatrix(modelMatrix3);
+
     
     
     //camera.SetPerspective(45, framebuffer.width / (float)framebuffer.height, 0.01f, 1000.0f);
@@ -108,11 +112,9 @@ void Application::Render(void)
 void Application::Update(float seconds_elapsed)
 {
     entity1.Update(seconds_elapsed);
+    entity2.Update(seconds_elapsed);
+    entity3.Update(seconds_elapsed);
     
-    
-    if (activeSyst) {
-        particleSyst.Update(seconds_elapsed);
-    }  
 }
 
 //keyboard press event 
@@ -137,12 +139,18 @@ void Application::OnKeyPressed( SDL_KeyboardEvent event )
             break;
             
         case SDLK_o:
-            //camera.SetOrthographic(-1, <#float right#>, <#float top#>, <#float bottom#>, <#float near_plane#>, <#float far_plane#>)
+            //camera.SetOrthographic(-1, <float> right, <#float top#>, <#float bottom#>, <#float near_plane#>, <#float far_plane#>)
             break;
             
         case SDLK_p:
             camera.SetPerspective(45, framebuffer.width / (float)framebuffer.height, 0.01f, 1000.0f);
             break;
+
+        case SDLK_n:
+
+        case SDLK_f:
+
+      
             
         case SDLK_5:
             drawingline=false;
@@ -168,7 +176,7 @@ void Application::OnKeyPressed( SDL_KeyboardEvent event )
             break;
         
             
-        case SDLK_f:
+        /*case SDLK_f:
             //caldrà tenir en compte quines figures estan dibuixades per pantalla per saber quines s'han d'omplir
             if(drawingrectangle==true){
                 framebuffer.DrawRectangle(100, 100, 300, 150, Color::RED, borderWidth, true, Color::WHITE);
@@ -179,7 +187,7 @@ void Application::OnKeyPressed( SDL_KeyboardEvent event )
             if(drawingtriangle==true){
              framebuffer.DrawTriangle(a, b, c, Color::RED, true, Color::CYAN);
                 filledtriangle=true;}
-            break;
+            */
             
         case SDLK_PLUS:
             //caldrà tenir en compte quines figures estan dibuixades per pantalla per saber en quines cal augmentar el marge

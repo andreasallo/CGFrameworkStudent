@@ -91,27 +91,27 @@ void Camera::UpdateViewMatrix()
 
 	// Remember how to fill a Matrix4x4 (check framework slides)
 	// Careful with the order of matrix multiplications, and be sure to use normalized vectors!
-	Vector3 F = (center - eye).Normalize(); //forward
-	Vector3 S = F.Cross(up).Normalize(); //side
-	Vector3 T = F.Cross(F).Normalize(); //top 
+	Vector3 forward = (center - eye).Normalize(); //forward
+	Vector3 side = forward.Cross(up).Normalize(); //side
+	Vector3 top = forward.Cross(forward).Normalize(); //top 
 
 	// view_matrix.M[3][3] = 1.0;
 	//FILA 0
-	view_matrix.M[0][0] = S.x; 
-	view_matrix.M[0][1] = T.x;
-	view_matrix.M[0][2] = -F.x;
+	view_matrix.M[0][0] = side.x; 
+	view_matrix.M[0][1] = top.x;
+	view_matrix.M[0][2] = -forward.x;
 	view_matrix.M[0][3] = 0;
 
 	//FILA 1
-	view_matrix.M[1][0] = S.y;
-	view_matrix.M[1][1] = T.y;
-	view_matrix.M[1][2] = -F.y;
+	view_matrix.M[1][0] = side.y;
+	view_matrix.M[1][1] = top.y;
+	view_matrix.M[1][2] = -forward.y;
 	view_matrix.M[1][3] = 0;
 
 	//FILA 2
-	view_matrix.M[2][0] = S.z;
-	view_matrix.M[2][1] = T.z;
-	view_matrix.M[2][2] = -F.z;
+	view_matrix.M[2][0] = side.z;
+	view_matrix.M[2][1] = top.z;
+	view_matrix.M[2][2] = -forward.z;
 	view_matrix.M[2][3] = 0;
 
 	//FILA 3
@@ -139,11 +139,11 @@ void Camera::UpdateProjectionMatrix()
 	
 	if (type == PERSPECTIVE) {
 		
-		float f = (1.0f / tan(fov * DEG2RAD / 2)); //cotangent 
+		float f = 1.0f / (tan((fov * DEG2RAD) / 2)); //de grados a radianes, DEG2RAD EXPRESA RELACION ENTRE GRADOS Y RADIANES
 		// projection_matrix.M[2][3] = -1;
 
 		//FILA 0
-		projection_matrix.M[0][0] = (f/aspect);
+		projection_matrix.M[0][0] = f/aspect;
 		projection_matrix.M[0][1] = 0;
 		projection_matrix.M[0][2] = 0;
 		projection_matrix.M[0][3] = 0;
@@ -163,8 +163,8 @@ void Camera::UpdateProjectionMatrix()
 		//FILA 3
 		projection_matrix.M[3][0] = 0;
 		projection_matrix.M[3][1] = 0;
-		projection_matrix.M[3][2] = 2*(far_plane+near_plane)/(near_plane-far_plane);
-		projection_matrix.M[3][3] = 1;
+		projection_matrix.M[3][2] = 2 * ((far_plane*near_plane)/(near_plane-far_plane));
+		projection_matrix.M[3][3] = 0;
 
 
 
@@ -185,7 +185,7 @@ void Camera::UpdateProjectionMatrix()
 		//FILA 2
 		projection_matrix.M[2][0] = 0;
 		projection_matrix.M[2][1] = 0;
-		projection_matrix.M[2][2] = -2/(far_plane + near_plane);
+		projection_matrix.M[2][2] = ((-2) / (far_plane - near_plane));
 		projection_matrix.M[2][3] = -1.*((far_plane + near_plane)/(far_plane - near_plane));
 
 		//FILA 3
