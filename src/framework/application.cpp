@@ -44,17 +44,7 @@ void Application::Init(void)
     entity3.SetMesh(mesh3);
     
     //cada entity tindra una transformacio diferent
-    entity1.setRotate(true);
-    entity1.setEscalate(false);
-    entity1.setTranslate(false);
-   
-    entity2.setRotate(false);
-    entity2.setEscalate(true);
-    entity2.setTranslate(false);
     
-    entity3.setRotate(false);
-    entity3.setEscalate(false);
-    entity3.setTranslate(true);
 
 
 
@@ -129,11 +119,23 @@ void Application::OnKeyPressed( SDL_KeyboardEvent event )
         case SDLK_ESCAPE: exit(0); break; // ESC key, kill the app
             
         case SDLK_1:
+            entity1.setRotate(false);
             individual=true;
             multiples=false;
             break;
             
         case SDLK_2:
+            entity1.setRotate(true);
+            entity1.setEscalate(false);
+            entity1.setTranslate(false);
+
+            entity2.setRotate(false);
+            entity2.setEscalate(true);
+            entity2.setTranslate(false);
+
+            entity3.setRotate(false);
+            entity3.setEscalate(false);
+            entity3.setTranslate(true);
             individual=false;
             multiples=true;
             break;
