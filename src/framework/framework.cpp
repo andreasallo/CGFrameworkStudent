@@ -187,13 +187,6 @@ Vector3 Matrix44::RotateVector(const Vector3& v)
 	return temp * v;
 }
 
-void Matrix44::TranslateLocal(float x, float y, float z)
-{
-	Matrix44 T;
-	T.SetTranslation(x, y, z);
-	*this = T * *this;
-}
-
 void Matrix44::RotateLocal( float angle_in_rad, const Vector3& axis )
 {
 	Matrix44 R;
@@ -208,6 +201,12 @@ void Matrix44::SetTranslation(float x, float y, float z)
 	m[12] = x;
 	m[13] = y;
 	m[14] = z;
+}
+void Matrix44::TranslateLocal(float x, float y, float z)
+{
+    Matrix44 T;
+    T.SetTranslation(x, y, z);
+    *this = T * *this;
 }
 
 //To create a rotation matrix
@@ -242,6 +241,24 @@ Matrix44 Matrix44::GetRotationOnly()
 	trans.Transpose();
 	trans.Inverse();
 	return trans;
+}
+
+//per crear una escalada
+void Matrix44::SetEscalat(float x, float y, float z){
+    SetIdentity();
+    m[0]=x;
+    m[5]=y;
+    m[10]=z;
+}
+void Matrix44::Escalar(float x, float y, float z){
+    Matrix44 E;
+    E.SetEscalat(x, y, z);
+    *this=*this*E;
+}
+void Matrix44::EscalarLocal(float x, float y, float z){
+    Matrix44 E;
+    E.SetEscalat(x, y, z);
+    *this=E* *this;
 }
 
 bool Matrix44::GetXYZ(float* euler) const

@@ -26,17 +26,33 @@ private:
 public:
     
     //LAB2
+
+    Camera camera= Camera();
+    Mesh mesh2_lee = Mesh();
+    Mesh mesh3_anna = Mesh();
+    Mesh mesh4_cleo = Mesh();
+    
     Entity entity1;
     Entity entity2;
     Entity entity3;
-    Camera camera;
-    Matrix44 modelMatrix1;
-    Matrix44 modelMatrix2;
-    Matrix44 modelMatrix3;
-    Matrix44 modelMatrix4;
+    Entity entity4;
+    
     bool individual;
     bool multiples;
     float camera_n = 0.0f;
+    float fov=13;
+    float pla_aprop=0.01;
+    float pla_lluny=100;
+
+    float left = -5;
+    float right = 5;
+    float top = 2;
+    float bottom = -2;
+        
+    Vector3 eye = {0, -0.2, 5};
+    Vector3 center = {0, 0, 0};
+
+        Camera camara = Camera();
     
     //LAB1
     bool isfilled=false;

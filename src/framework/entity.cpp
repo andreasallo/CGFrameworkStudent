@@ -104,10 +104,15 @@ void Entity::Render(Image* framebuffer, Camera* camera, const Color& c) {
 }
     
 void Entity::Update(float seconds_elapsed){
-    if (rotar == true) {
-         
-        modelMatrix.RotateLocal(seconds_elapsed * (PI / 10.0f), Vector3(0.0f,1.0f,0.0f));
-        }
+    /*for (float radians = 0; radians <= 1; radians += 0.01) {
+     modelMatrix.RotateLocal(radians, { 0, 1, 0 });
+     if (radians == 1) {
+     radians = 0;
+     }
+     
+     }*/
+    modelMatrix.RotateLocal(seconds_elapsed * (PI / 10.0f), Vector3(0.0f,1.0f,0.0f));
+
     if (escalar==true){
         
         //escalar un 10%, potser molt poc?

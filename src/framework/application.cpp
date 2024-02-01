@@ -31,16 +31,19 @@ void Application::Init(void)
     
 	std::cout << "Initiating app..." << std::endl;
     
-    Mesh mesh1_lee = Mesh();
-    mesh1_lee.LoadOBJ("meshes/lee.obj");
-    Mesh mesh2_anna = Mesh();
-    mesh2_anna.LoadOBJ("meshes/anna.obj");
-    Mesh mesh3_leo = Mesh();
-    mesh3_leo.LoadOBJ("meshes/cleo.obj");
+    
+    camera.SetPerspective(fov, framebuffer.width / (float)framebuffer.height, pla_aprop, pla_lluny);
+    //camera.SetOrthographic(-1, -1, 1, 1, -1, 1);
+    
+    camera.LookAt(eye, center, Vector3(0, -1, 0));
     
     
-    entity1.SetMesh(mesh1_lee);
-    entity2.SetMesh(mesh2_anna);
+    
+    
+    
+    
+    
+    /*entity2.SetMesh(mesh2_anna);
     entity3.SetMesh(mesh3_leo);
     
     //cada entity tindra una transformacio diferent
@@ -54,14 +57,14 @@ void Application::Init(void)
 
     entity3.setRotate(false);
     entity3.setEscalate(false);
-    entity3.setTranslate(true);
+    entity3.setTranslate(true);*/
     
     
 
 
     
 
-    //editem les matrius model perque els objectes es trobin en posicions diferents
+    /*editem les matrius model perque els objectes es trobin en posicions diferents
     modelMatrix1.SetIdentity();
     modelMatrix1.Translate(-0.5, 0, 0);
     modelMatrix2.SetIdentity();
@@ -79,19 +82,14 @@ void Application::Init(void)
     modelMatrix2._33=1.3;
     
     //aplico les matrius resultants a cada entitat
-    entity1.SetModelMatrix(modelMatrix1);
-    entity2.SetModelMatrix(modelMatrix2);
-    entity3.SetModelMatrix(modelMatrix3);
+    //entity1.SetModelMatrix(modelMatrix1);
+    //entity2.SetModelMatrix(modelMatrix2);
+    //entity3.SetModelMatrix(modelMatrix3);
 
     
     
-    //camera.SetPerspective(45, framebuffer.width / (float)framebuffer.height, 0.01f, 1000.0f);
-    //camera.SetOrthographic(-1, -1, 1, 1, -1, 1);
-    
-    //camera.LookAt(Vector3(1, 1, 1), Vector3(0, 0, 0), Vector3(0, 1, 0));
-    
 
-    
+    */
 
 
 }
@@ -99,68 +97,95 @@ void Application::Init(void)
 // Render one frame
 void Application::Render(void) 
 {
-    if(individual==true){
-        entity1.Render(&framebuffer,&camera, Color::YELLOW);
-    }
-    if(multiples==true){
-        entity1.Render(&framebuffer,&camera, Color::YELLOW);
-        entity2.Render(&framebuffer,&camera, Color::GREEN);
-        entity3.Render(&framebuffer,&camera, Color::BLUE);
-    }
     framebuffer.Render();//enviem el framebuffer a la pantalla
 }
 
 // Called after render
 void Application::Update(float seconds_elapsed)
 {
-    entity1.Update(seconds_elapsed);
-    entity2.Update(seconds_elapsed);
-    entity3.Update(seconds_elapsed);
-    
+    /*entity2.Update(seconds_elapsed);
+     
+     entity3.Update(seconds_elapsed);
+     
+     entity4.Update(seconds_elapsed);
+     
+     }
+     if (mult==true){
+     entity2.Update(seconds_elapsed);
+     entity3.Update(seconds_elapsed);*/
 }
 
 //keyboard press event 
 void Application::OnKeyPressed( SDL_KeyboardEvent event )
 {
-    Vector2 a, b, c;
-    a=Vector2{600, 100}, b=Vector2{750, 350}, c=Vector2{500, 450};
     // KEY CODES: https://wiki.libsdl.org/SDL2/SDL_Keycode
     
     //crido funcio segons la tecla apretada
     switch (event.keysym.sym) {
         case SDLK_ESCAPE: exit(0); break; // ESC key, kill the app
+    }
+    if (event.keysym.sym == SDLK_1) {
+        framebuffer.Fill(Color::BLACK);
+        Mesh mesh1_lee = Mesh();
+        mesh1_lee.LoadOBJ("meshes/lee.obj");
+        Entity entity1 = Entity(mesh1_lee);
+        entity1.modelMatrix.Escalar(1.25, 1.25, 1.25);
+        entity1.modelMatrix.Translate(0, -0.3, 0);
+        entity1.Render(&framebuffer, &camara, Color::CYAN);
+                
+                //entity1.setRotate(false);
+                //individual=true;
+                //multiples=false;
+            }
             
-        case SDLK_1:
-            framebuffer.Fill(Color::BLACK);
-            entity1.Render(&framebuffer, &camera, Color::CYAN);
-            //entity1.setRotate(false);
-            //individual=true;
-            //multiples=false;
-            break;
+    if (event.keysym.sym == SDLK_2) {
+        framebuffer.Fill(Color::BLACK);
+        
+        
+        mesh2_lee.LoadOBJ("meshes/lee.obj");
+        entity2 = Entity(mesh2_lee);
+        entity2.modelMatrix.Escalar(1.25, 1.25, 1.25);
+        entity2.modelMatrix.Translate(0, -0.3, 0);
+        entity2.Render(&framebuffer, &camera, Color::YELLOW);
+        
+        
+        mesh3_anna.LoadOBJ("meshes/anna.obj");
+        entity3 = Entity(mesh3_anna);
+        entity3.modelMatrix.Translate(-0.55, 0.35, 0);
+        entity3.Render(&framebuffer, &camera, Color::CYAN);
+        
+        mesh4_cleo.LoadOBJ("meshes/cleo.obj");
+        entity4 = Entity(mesh4_cleo);
+        entity4.modelMatrix.Translate(0.75, 0, 0);
+        entity4.modelMatrix.Escalar(1.4,1.4,1.4);
+        entity4.modelMatrix.Rotate(0.4, Vector3(-1,1,0));
+        entity4.Render(&framebuffer, &camera, Color::BLUE);
+        
+        
+        
+        
+        
+        
+        
+        
+        //entity2.Render(&framebuffer, &camera, Color::YELLOW);
+         //entity3.Render(&framebuffer, &camera, Color::GREEN);
+         //entity4.Render(&framebuffer, &camera, Color::BLUE);
+         
+         individual=false;
+         multiples=true;
+    }
             
-        case SDLK_2:
-            framebuffer.Fill(Color::BLACK);
-           
+    /*if (event.keysym.sym == SDLK_o) {
+        framebuffer.Fill(Color::BLACK);
+        camera.SetOrthographic(left, right, top, bottom, pla_aprop, pla_lluny);
+    }
+            
+    if (event.keysym.sym == SDLK_p) {
+        framebuffer.Fill(Color::BLACK);
+        camera.SetPerspective(fov, framebuffer.width / (float)framebuffer.height, pla_aprop, pla_lluny);}
 
-            entity1.Render(&framebuffer, &camera, Color::YELLOW);
-            entity2.Render(&framebuffer, &camera, Color::GREEN);
-            entity3.Render(&framebuffer, &camera, Color::BLUE);
-
-            individual=false;
-            multiples=true;
-            break;
-            
-        case SDLK_o:
-            framebuffer.Fill(Color::BLACK);
-            //camera.SetOrthographic(-1, <float> right, <#float top#>, <#float bottom#>, <#float near_plane#>, <#float far_plane#>)
-            break;
-            
-        case SDLK_p:
-            
-            camera.SetPerspective(45, static_cast<float>(framebuffer.width) / static_cast<float>(framebuffer.height), 0.01f, 1000.0f);
-            break;
-
-        case SDLK_n:
+        /*case SDLK_n:
             camera_n = camera.near_plane;
 
 
@@ -193,7 +218,7 @@ void Application::OnKeyPressed( SDL_KeyboardEvent event )
             break;
         
             
-        /*case SDLK_f:
+        case SDLK_f:
             //caldrà tenir en compte quines figures estan dibuixades per pantalla per saber quines s'han d'omplir
             if(drawingrectangle==true){
                 framebuffer.DrawRectangle(100, 100, 300, 150, Color::RED, borderWidth, true, Color::WHITE);
@@ -204,7 +229,7 @@ void Application::OnKeyPressed( SDL_KeyboardEvent event )
             if(drawingtriangle==true){
              framebuffer.DrawTriangle(a, b, c, Color::RED, true, Color::CYAN);
                 filledtriangle=true;}
-            */
+            
             
         case SDLK_PLUS:
             //caldrà tenir en compte quines figures estan dibuixades per pantalla per saber en quines cal augmentar el marge
@@ -243,9 +268,10 @@ void Application::OnKeyPressed( SDL_KeyboardEvent event )
                 framebuffer.DrawLineDDA(200, 200, 420, 500, Color::WHITE);
             }
             break;
+            */
             
     }
-}
+
     
     
 void Application::OnMouseButtonDown( SDL_MouseButtonEvent event )

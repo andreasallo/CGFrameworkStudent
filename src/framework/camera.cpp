@@ -91,9 +91,9 @@ void Camera::UpdateViewMatrix()
 
 	// Remember how to fill a Matrix4x4 (check framework slides)
 	// Careful with the order of matrix multiplications, and be sure to use normalized vectors!
-	Vector3 forward = (center - eye).Normalize(); //forward
-	Vector3 side = forward.Cross(up).Normalize(); //side
-	Vector3 top = forward.Cross(forward).Normalize(); //top 
+    Vector3 forward((center - eye).Normalize()); //forward
+    Vector3 side(forward.Cross(up).Normalize()); //side
+    Vector3 top(forward.Cross(forward).Normalize()); //top
 
 	// view_matrix.M[3][3] = 1.0;
 	//FILA 0
