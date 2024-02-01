@@ -31,24 +31,36 @@ void Application::Init(void)
     
 	std::cout << "Initiating app..." << std::endl;
     
-    Mesh mesh1 = Mesh();
-    mesh1.LoadOBJ("meshes/lee.obj");
-    Mesh mesh2 = Mesh();
-    mesh2.LoadOBJ("meshes/anna.obj");
-    Mesh mesh3 = Mesh();
-    mesh3.LoadOBJ("meshes/cleo.obj");
+    Mesh mesh1_lee = Mesh();
+    mesh1_lee.LoadOBJ("meshes/lee.obj");
+    Mesh mesh2_anna = Mesh();
+    mesh2_anna.LoadOBJ("meshes/anna.obj");
+    Mesh mesh3_leo = Mesh();
+    mesh3_leo.LoadOBJ("meshes/cleo.obj");
     
     
-    entity1.SetMesh(mesh1);
-    entity2.SetMesh(mesh2);
-    entity3.SetMesh(mesh3);
+    entity1.SetMesh(mesh1_lee);
+    entity2.SetMesh(mesh2_anna);
+    entity3.SetMesh(mesh3_leo);
     
     //cada entity tindra una transformacio diferent
+    entity1.setRotate(true);
+    entity1.setEscalate(false);
+    entity1.setTranslate(false);
+
+    entity2.setRotate(false);
+    entity2.setEscalate(true);
+    entity2.setTranslate(false);
+
+    entity3.setRotate(false);
+    entity3.setEscalate(false);
+    entity3.setTranslate(true);
+    
     
 
 
-
     
+
     //editem les matrius model perque els objectes es trobin en posicions diferents
     modelMatrix1.SetIdentity();
     modelMatrix1.Translate(-0.5, 0, 0);
@@ -119,38 +131,41 @@ void Application::OnKeyPressed( SDL_KeyboardEvent event )
         case SDLK_ESCAPE: exit(0); break; // ESC key, kill the app
             
         case SDLK_1:
-            entity1.setRotate(false);
-            individual=true;
-            multiples=false;
+            framebuffer.Fill(Color::BLACK);
+            entity1.Render(&framebuffer, &camera, Color::CYAN);
+            //entity1.setRotate(false);
+            //individual=true;
+            //multiples=false;
             break;
             
         case SDLK_2:
-            entity1.setRotate(true);
-            entity1.setEscalate(false);
-            entity1.setTranslate(false);
+            framebuffer.Fill(Color::BLACK);
+           
 
-            entity2.setRotate(false);
-            entity2.setEscalate(true);
-            entity2.setTranslate(false);
+            entity1.Render(&framebuffer, &camera, Color::YELLOW);
+            entity2.Render(&framebuffer, &camera, Color::GREEN);
+            entity3.Render(&framebuffer, &camera, Color::BLUE);
 
-            entity3.setRotate(false);
-            entity3.setEscalate(false);
-            entity3.setTranslate(true);
             individual=false;
             multiples=true;
             break;
             
         case SDLK_o:
+            framebuffer.Fill(Color::BLACK);
             //camera.SetOrthographic(-1, <float> right, <#float top#>, <#float bottom#>, <#float near_plane#>, <#float far_plane#>)
             break;
             
         case SDLK_p:
-            camera.SetPerspective(45, framebuffer.width / (float)framebuffer.height, 0.01f, 1000.0f);
+            
+            camera.SetPerspective(45, static_cast<float>(framebuffer.width) / static_cast<float>(framebuffer.height), 0.01f, 1000.0f);
             break;
 
         case SDLK_n:
+            camera_n = camera.near_plane;
+
 
         case SDLK_f:
+            camera_n = camera.far_plane;
 
       
             

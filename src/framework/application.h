@@ -36,6 +36,7 @@ public:
     Matrix44 modelMatrix4;
     bool individual;
     bool multiples;
+    float camera_n = 0.0f;
     
     //LAB1
     bool isfilled=false;
