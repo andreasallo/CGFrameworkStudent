@@ -38,7 +38,20 @@ void Application::Init(void)
     camera.LookAt(eye, center, Vector3(0, -1, 0));
     
     
+    mesh2_lee.LoadOBJ("meshes/lee.obj");
+    entity2 = Entity(mesh2_lee);
+    entity2.modelMatrix.Escalar(1.25, 1.25, 1.25);
+    entity2.modelMatrix.Translate(0, -0.3, 0);
     
+    mesh3_anna.LoadOBJ("meshes/anna.obj");
+    entity3 = Entity(mesh3_anna);
+    entity3.modelMatrix.Translate(-0.55, 0.35, 0);
+    
+    mesh4_cleo.LoadOBJ("meshes/cleo.obj");
+    entity4 = Entity(mesh4_cleo);
+    entity4.modelMatrix.Translate(0.75, 0, 0);
+    entity4.modelMatrix.Escalar(1.4,1.4,1.4);
+    entity4.modelMatrix.Rotate(0.4, Vector3(-1,1,0));
     
     
     
@@ -126,153 +139,146 @@ void Application::OnKeyPressed( SDL_KeyboardEvent event )
     }
     if (event.keysym.sym == SDLK_1) {
         framebuffer.Fill(Color::BLACK);
-        Mesh mesh1_lee = Mesh();
+        
         mesh1_lee.LoadOBJ("meshes/lee.obj");
-        Entity entity1 = Entity(mesh1_lee);
+        entity1 = Entity(mesh1_lee);
         entity1.modelMatrix.Escalar(1.25, 1.25, 1.25);
         entity1.modelMatrix.Translate(0, -0.3, 0);
         entity1.Render(&framebuffer, &camara, Color::CYAN);
-                
-                //entity1.setRotate(false);
-                //individual=true;
-                //multiples=false;
-            }
-            
+        
+        //entity1.setRotate(false);
+        //individual=true;
+        //multiples=false;
+    }
+    
     if (event.keysym.sym == SDLK_2) {
         framebuffer.Fill(Color::BLACK);
         
-        
-        mesh2_lee.LoadOBJ("meshes/lee.obj");
-        entity2 = Entity(mesh2_lee);
-        entity2.modelMatrix.Escalar(1.25, 1.25, 1.25);
-        entity2.modelMatrix.Translate(0, -0.3, 0);
         entity2.Render(&framebuffer, &camera, Color::YELLOW);
-        
-        
-        mesh3_anna.LoadOBJ("meshes/anna.obj");
-        entity3 = Entity(mesh3_anna);
-        entity3.modelMatrix.Translate(-0.55, 0.35, 0);
         entity3.Render(&framebuffer, &camera, Color::CYAN);
-        
-        mesh4_cleo.LoadOBJ("meshes/cleo.obj");
-        entity4 = Entity(mesh4_cleo);
-        entity4.modelMatrix.Translate(0.75, 0, 0);
-        entity4.modelMatrix.Escalar(1.4,1.4,1.4);
-        entity4.modelMatrix.Rotate(0.4, Vector3(-1,1,0));
         entity4.Render(&framebuffer, &camera, Color::BLUE);
         
         
         
-        
-        
-        
-        
-        
-        //entity2.Render(&framebuffer, &camera, Color::YELLOW);
-         //entity3.Render(&framebuffer, &camera, Color::GREEN);
-         //entity4.Render(&framebuffer, &camera, Color::BLUE);
-         
-         individual=false;
-         multiples=true;
+        individual=false;
+        multiples=true;
     }
-            
-    /*if (event.keysym.sym == SDLK_o) {
+    
+    if (event.keysym.sym == SDLK_o) {
         framebuffer.Fill(Color::BLACK);
         camera.SetOrthographic(left, right, top, bottom, pla_aprop, pla_lluny);
+        is_o=true;
     }
-            
+    
     if (event.keysym.sym == SDLK_p) {
         framebuffer.Fill(Color::BLACK);
-        camera.SetPerspective(fov, framebuffer.width / (float)framebuffer.height, pla_aprop, pla_lluny);}
-
-        /*case SDLK_n:
-            camera_n = camera.near_plane;
-
-
-        case SDLK_f:
-            camera_n = camera.far_plane;
-
-      
-            
-        case SDLK_5:
-            drawingline=false;
-            framebuffer.DrawImage(toolbar, 10, 10, true);
-            framebuffer.DrawImage(clear, 25, 25, true);
-            framebuffer.DrawImage(blackcolor, 125, 25, true);
-            framebuffer.DrawImage(redcolor, 175, 25, true);
-            framebuffer.DrawImage(bluecolor, 275, 25, true);
-            framebuffer.DrawImage(pinkcolor, 375, 25, true);
-            framebuffer.DrawImage(cyan, 425, 25, true);
-            framebuffer.DrawImage(rectangle,475, 25, true);
-            framebuffer.DrawImage(circle, 575, 25, true);
-            framebuffer.DrawImage(eraser,625, 25, true);
-            framebuffer.DrawImage(line, 525, 25,true);
-            framebuffer.DrawImage(load,675,25, true);
-            framebuffer.DrawImage(save,725, 25, true);
-            break;
-            
-        case SDLK_6:
-            activeSyst = true;
-            particleSyst.Init(framebuffer.width, framebuffer.height);
-            
-            break;
-        
-            
-        case SDLK_f:
-            //caldrà tenir en compte quines figures estan dibuixades per pantalla per saber quines s'han d'omplir
-            if(drawingrectangle==true){
-                framebuffer.DrawRectangle(100, 100, 300, 150, Color::RED, borderWidth, true, Color::WHITE);
-                filledrectangle=true;}
-            if(drawingcircle==true){
-                framebuffer.DrawCircle(600, 150, 120, Color::YELLOW, borderWidth, true, Color::GREEN);
-                filledcircle=true;}
-            if(drawingtriangle==true){
-             framebuffer.DrawTriangle(a, b, c, Color::RED, true, Color::CYAN);
-                filledtriangle=true;}
-            
-            
-        case SDLK_PLUS:
-            //caldrà tenir en compte quines figures estan dibuixades per pantalla per saber en quines cal augmentar el marge
-            borderWidth=borderWidth+10;
-            if(drawingrectangle==true){
-                if(filledrectangle==true){framebuffer.DrawRectangle(100, 100, 300, 150, Color::RED, borderWidth, true, Color::WHITE);}
-                else{framebuffer.DrawRectangle(100, 100, 300, 150, Color::RED, borderWidth, false, Color::WHITE);}
-            }
-            if(drawingcircle==true){
-                if(filledcircle==true){framebuffer.DrawCircle(600, 150, 120, Color::YELLOW, borderWidth, true, Color::GREEN);}
-                else{framebuffer.DrawCircle(600, 150, 120, Color::YELLOW, borderWidth, false, Color::GREEN);}
-            }
-            if(drawingtriangle==true){
-                if(filledtriangle==true){framebuffer.DrawTriangle(a, b, c, Color::RED, true, Color::CYAN);}
-                else{framebuffer.DrawTriangle(a, b, c, Color::RED, false, Color::CYAN);}
-            }
-            break;
-            
-        case SDLK_MINUS:
-            //caldrà tenir en compte quines figures estan dibuixades per pantalla per saber en quines cal disminuir el marge
-            framebuffer.Fill(Color::BLACK);
-            if(borderWidth>10){ borderWidth=borderWidth-10;}
-            if(drawingrectangle==true){
-                if(filledrectangle==true){framebuffer.DrawRectangle(100, 100, 300, 150, Color::RED, borderWidth, true, Color::WHITE);}
-                else{framebuffer.DrawRectangle(100, 100, 300, 150, Color::RED, borderWidth, false, Color::WHITE);}
-            }
-            if(drawingcircle==true){
-                if(filledcircle==true){framebuffer.DrawCircle(600, 150, 120, Color::YELLOW, borderWidth, true, Color::GREEN);}
-                else{framebuffer.DrawCircle(600, 150, 120, Color::YELLOW, borderWidth, false, Color::GREEN);}
-            }
-            if(drawingtriangle==true){
-                if(filledtriangle==true){framebuffer.DrawTriangle(a, b, c, Color::RED, true, Color::CYAN);}
-                else{framebuffer.DrawTriangle(a, b, c, Color::RED, false, Color::CYAN);}
-            }
-            if(drawingline==true){
-                framebuffer.DrawLineDDA(200, 200, 420, 500, Color::WHITE);
-            }
-            break;
-            */
-            
-    }
-
+        camera.SetPerspective(fov, framebuffer.width / (float)framebuffer.height, pla_aprop, pla_lluny);
+        is_p=true;}
     
+    if (event.keysym.sym == SDLK_PLUS) {
+        framebuffer.Fill(Color::BLACK);
+        pla_aprop=pla_aprop+0,1;
+        if(is_o==true){
+            camera.SetOrthographic(left, right, top, bottom, pla_aprop, pla_lluny);
+        }
+        if(is_p==true){
+            camera.SetPerspective(fov, framebuffer.width / (float)framebuffer.height, pla_aprop, pla_lluny);}
+        //tenir en compte f o n, afegir variables
+        if (event.keysym.sym == SDLK_MINUS) {
+        }
+        
+        /*if case SDLK_n:
+         if (SDLK_PLUS) {
+         camera.near_plane += 100.0f;
+         camera.UpdateProjectionMatrix();
+         break;
+         
+         
+         
+         case SDLK_f:
+         camera_n = camera.far_plane;
+         
+         
+         
+         case SDLK_5:
+         drawingline=false;
+         framebuffer.DrawImage(toolbar, 10, 10, true);
+         framebuffer.DrawImage(clear, 25, 25, true);
+         framebuffer.DrawImage(blackcolor, 125, 25, true);
+         framebuffer.DrawImage(redcolor, 175, 25, true);
+         framebuffer.DrawImage(bluecolor, 275, 25, true);
+         framebuffer.DrawImage(pinkcolor, 375, 25, true);
+         framebuffer.DrawImage(cyan, 425, 25, true);
+         framebuffer.DrawImage(rectangle,475, 25, true);
+         framebuffer.DrawImage(circle, 575, 25, true);
+         framebuffer.DrawImage(eraser,625, 25, true);
+         framebuffer.DrawImage(line, 525, 25,true);
+         framebuffer.DrawImage(load,675,25, true);
+         framebuffer.DrawImage(save,725, 25, true);
+         break;
+         
+         case SDLK_6:
+         activeSyst = true;
+         particleSyst.Init(framebuffer.width, framebuffer.height);
+         
+         break;
+         
+         
+         case SDLK_f:
+         //caldrà tenir en compte quines figures estan dibuixades per pantalla per saber quines s'han d'omplir
+         if(drawingrectangle==true){
+         framebuffer.DrawRectangle(100, 100, 300, 150, Color::RED, borderWidth, true, Color::WHITE);
+         filledrectangle=true;}
+         if(drawingcircle==true){
+         framebuffer.DrawCircle(600, 150, 120, Color::YELLOW, borderWidth, true, Color::GREEN);
+         filledcircle=true;}
+         if(drawingtriangle==true){
+         framebuffer.DrawTriangle(a, b, c, Color::RED, true, Color::CYAN);
+         filledtriangle=true;}
+         
+         
+         case SDLK_PLUS:
+         //caldrà tenir en compte quines figures estan dibuixades per pantalla per saber en quines cal augmentar el marge
+         borderWidth=borderWidth+10;
+         if(drawingrectangle==true){
+         if(filledrectangle==true){framebuffer.DrawRectangle(100, 100, 300, 150, Color::RED, borderWidth, true, Color::WHITE);}
+         else{framebuffer.DrawRectangle(100, 100, 300, 150, Color::RED, borderWidth, false, Color::WHITE);}
+         }
+         if(drawingcircle==true){
+         if(filledcircle==true){framebuffer.DrawCircle(600, 150, 120, Color::YELLOW, borderWidth, true, Color::GREEN);}
+         else{framebuffer.DrawCircle(600, 150, 120, Color::YELLOW, borderWidth, false, Color::GREEN);}
+         }
+         if(drawingtriangle==true){
+         if(filledtriangle==true){framebuffer.DrawTriangle(a, b, c, Color::RED, true, Color::CYAN);}
+         else{framebuffer.DrawTriangle(a, b, c, Color::RED, false, Color::CYAN);}
+         }
+         break;
+         
+         case SDLK_MINUS:
+         //caldrà tenir en compte quines figures estan dibuixades per pantalla per saber en quines cal disminuir el marge
+         framebuffer.Fill(Color::BLACK);
+         if(borderWidth>10){ borderWidth=borderWidth-10;}
+         if(drawingrectangle==true){
+         if(filledrectangle==true){framebuffer.DrawRectangle(100, 100, 300, 150, Color::RED, borderWidth, true, Color::WHITE);}
+         else{framebuffer.DrawRectangle(100, 100, 300, 150, Color::RED, borderWidth, false, Color::WHITE);}
+         }
+         if(drawingcircle==true){
+         if(filledcircle==true){framebuffer.DrawCircle(600, 150, 120, Color::YELLOW, borderWidth, true, Color::GREEN);}
+         else{framebuffer.DrawCircle(600, 150, 120, Color::YELLOW, borderWidth, false, Color::GREEN);}
+         }
+         if(drawingtriangle==true){
+         if(filledtriangle==true){framebuffer.DrawTriangle(a, b, c, Color::RED, true, Color::CYAN);}
+         else{framebuffer.DrawTriangle(a, b, c, Color::RED, false, Color::CYAN);}
+         }
+         if(drawingline==true){
+         framebuffer.DrawLineDDA(200, 200, 420, 500, Color::WHITE);
+         }
+         break;
+         */
+        
+    }
+    
+}
     
 void Application::OnMouseButtonDown( SDL_MouseButtonEvent event )
 {

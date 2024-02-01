@@ -28,6 +28,7 @@ public:
     //LAB2
 
     Camera camera= Camera();
+    Mesh mesh1_lee = Mesh();
     Mesh mesh2_lee = Mesh();
     Mesh mesh3_anna = Mesh();
     Mesh mesh4_cleo = Mesh();
@@ -43,6 +44,9 @@ public:
     float fov=13;
     float pla_aprop=0.01;
     float pla_lluny=100;
+    
+    bool is_o;
+    bool is_p;
 
     float left = -5;
     float right = 5;
