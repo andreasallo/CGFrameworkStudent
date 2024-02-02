@@ -83,7 +83,7 @@ void Entity::Render(Image* framebuffer, Camera* camera, const Color& c) {
         
         
         //assegurar estar dins del frustrum
-        if (negZ0 == false && negZ1 == false && negZ2 == FALSE) {
+        if (negZ0 == false && negZ1 == false && negZ2 == false) {
             
             float sWidth = static_cast<float>(framebuffer->width);
             float sHeight = static_cast<float>(framebuffer->height);
@@ -104,16 +104,8 @@ void Entity::Render(Image* framebuffer, Camera* camera, const Color& c) {
 }
     
 void Entity::Update(float seconds_elapsed){
-    /*for (float radians = 0; radians <= 1; radians += 0.01) {
-     modelMatrix.RotateLocal(radians, { 0, 1, 0 });
-     if (radians == 1) {
-     radians = 0;
-     }
-     
-     }*/
-    
-    modelMatrix.RotateLocal(seconds_elapsed * (PI / 10.0f), Vector3(0.0f,1.0f,0.0f));
-
+    modelMatrix.RotateLocal(0.01 * (PI / 10.0f), Vector3(0.0f,1.0f,0.0f));
+/*
     if (escalar == true) {
 
         //escalar un 10%, potser molt poc?
@@ -128,12 +120,9 @@ void Entity::Update(float seconds_elapsed){
         modelMatrix.TranslateLocal(0.0f, seconds_elapsed * translation_vel, 0.0f);
     }
     
-       
-        //modelMatrix.Translate(<#float x#>, <#float y#>, <#float z#>)
-        //*/
 }
 
 		//rotate: eye(posicion de camara apunta a center). roto vector q va del eye al center
-		//orbit: cambio el eye, roto el angulo de center . vector del center al eye.
+		//orbit: cambio el eye, roto el angulo de center . vector del center al eye.*/
 
-
+}

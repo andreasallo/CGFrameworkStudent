@@ -31,10 +31,8 @@ void Application::Init(void)
     
 	std::cout << "Initiating app..." << std::endl;
     
-    
+    //predeterminem a camara en perspectiva
     camera.SetPerspective(fov, framebuffer.width / (float)framebuffer.height, near_plane, far_plane);
-    //camera.SetOrthographic(-1, -1, 1, 1, -1, 1);
-    
     camera.LookAt(eye, center, up);
 
     
@@ -141,122 +139,121 @@ void Application::Render(void)
 void Application::Update(float seconds_elapsed)
 {
     
-   
-    entity7.Render(&framebuffer, &camara, Color::GREEN);
-    entity7.Update(seconds_elapsed);
-    entity7.Render(&framebuffer, &camara, Color::GREEN);
-
-    entity8.Render(&framebuffer, &camara, Color::BLUE);
-    entity8.Update(seconds_elapsed);
-    entity8.Render(&framebuffer, &camara, Color::BLUE);
-
-    entity9.Render(&framebuffer, &camara, Color::PURPLE);
-    entity9.Update(seconds_elapsed);
-    entity9.Render(&framebuffer, &camara, Color::PURPLE);
-
-
+    //animen les entities
     
-     //if (mult==true){
-     //entity2.Update(seconds_elapsed);
-     //entity3.Update(seconds_elapsed);*/
-}
-
-//keyboard press event 
-void Application::OnKeyPressed(SDL_KeyboardEvent event)
-{
-    // KEY CODES: https://wiki.libsdl.org/SDL2/SDL_Keycode
-
-    //crido funcio segons la tecla apretada
-    switch (event.keysym.sym) {
-    case SDLK_ESCAPE:
-        exit(0);
-        break;
-
-    case SDLK_1: {
+    if (multiples==true){
         framebuffer.Fill(Color::BLACK);
-        Mesh mesh1_lee = Mesh();
-        mesh1_lee.LoadOBJ("meshes/lee.obj");
-        Entity entity1 = Entity(mesh1_lee);
-        entity1.modelMatrix.Escalar(1.25, 1.25, 1.25);
-        entity1.modelMatrix.Translate(0, -0.3, 0);
-        entity1.Render(&framebuffer, &camara, Color::CYAN);
-        break;
-    }
-
-    case SDLK_2: {
-        framebuffer.Fill(Color::BLACK);
-
-        mesh7_lee.LoadOBJ("meshes/lee.obj");
-        entity7 = Entity(mesh7_lee);
-        entity7.modelMatrix.Escalar(1.25, 1.25, 1.25);
-        entity7.modelMatrix.Translate(0, -0.3, 0);
+        
+        entity7.Update(seconds_elapsed);
         entity7.Render(&framebuffer, &camara, Color::GREEN);
-
-        mesh8_anna.LoadOBJ("meshes/anna.obj");
-        entity8 = Entity(mesh8_anna);
-        entity8.modelMatrix.Escalar(1.00, 1.00, 1.00);
-        entity8.modelMatrix.Translate(-0.5, -0.8, 0);
-        entity8.modelMatrix.Rotate(0.4, Vector3(0.5, -0.5, 0));
+        
+        entity8.Update(seconds_elapsed);
         entity8.Render(&framebuffer, &camara, Color::BLUE);
-
-        mesh8_leo.LoadOBJ("meshes/cleo.obj");
-        entity9 = Entity(mesh8_leo);
-        entity9.modelMatrix.Escalar(1.0, 1.0, 1.0);
-        entity9.modelMatrix.Translate(0.5, 0.0, 0.0);
+        
+        entity9.Update(seconds_elapsed);
         entity9.Render(&framebuffer, &camara, Color::PURPLE);
-
-        entity2.Render(&framebuffer, &camera, Color::YELLOW);
-        break;
-    }
-
-    case SDLK_o:
-        framebuffer.Fill(Color::BLACK);
-        camera.SetOrthographic(left, right, top, bottom, near_plane, far_plane);
-        break;
-
-    case SDLK_p:
-        framebuffer.Fill(Color::BLACK);
-        camera.SetPerspective(fov, framebuffer.width / (float)framebuffer.height, near_plane, far_plane);
-        break;
-
-    case SDLK_n:
-        camera.near_plane += 100.0f;
-        camera.UpdateProjectionMatrix();
-        break;
-
-    case SDLK_f:
-        camera.far_plane -= 100.f;
-        camera.UpdateProjectionMatrix();
-        break;
-
-    case SDLK_PLUS:
-        camera.fov += 2.0f;
-        camera.UpdateProjectionMatrix();
-        break;
-
-    case SDLK_MINUS:
-        camera.fov -= 2.0f;
-        camera.UpdateProjectionMatrix();
-        break;
+        
+        
     }
 }
     
-void Application::OnMouseButtonDown(SDL_MouseButtonEvent event)
-{ //MIRAR CUANDO SE PRESIONA EL BOTON
-    if (event.button == SDL_BUTTON_LEFT) {
-        leftMouse = true; //el boton que se ha picado es el izquierdo
-        previMouseX = event.x; //guardar x del raton
-        previMouseY = event.y; //guardar y del raton
-
+    //keyboard press event
+    void Application::OnKeyPressed(SDL_KeyboardEvent event)
+    {
+        // KEY CODES: https://wiki.libsdl.org/SDL2/SDL_Keycode
+        
+        //crido funcio segons la tecla apretada
+        switch (event.keysym.sym) {
+            case SDLK_ESCAPE:
+                exit(0);
+                break;
+                
+            case SDLK_1: {
+                framebuffer.Fill(Color::BLACK);
+                Mesh mesh1_lee = Mesh();
+                mesh1_lee.LoadOBJ("meshes/lee.obj");
+                entity1 = Entity(mesh1_lee);
+                entity1.modelMatrix.Escalar(1.25, 1.25, 1.25);
+                entity1.modelMatrix.Translate(0, -0.3, 0);
+                entity1.Render(&framebuffer, &camara, Color::CYAN);
+                break;
+            }
+                
+            case SDLK_2: {
+                framebuffer.Fill(Color::BLACK);
+                multiples=true;
+                
+                mesh7_lee.LoadOBJ("meshes/lee.obj");
+                entity7 = Entity(mesh7_lee);
+                entity7.modelMatrix.Escalar(1.25, 1.25, 1.25);
+                entity7.modelMatrix.Translate(0, -0.3, 0);
+                entity7.Render(&framebuffer, &camara, Color::GREEN);
+                
+                mesh8_anna.LoadOBJ("meshes/anna.obj");
+                entity8 = Entity(mesh8_anna);
+                entity8.modelMatrix.Escalar(1.00, 1.00, 1.00);
+                entity8.modelMatrix.Translate(-0.5, -0.8, 0);
+                entity8.modelMatrix.Rotate(0.4, Vector3(0.5, -0.5, 0));
+                entity8.Render(&framebuffer, &camara, Color::BLUE);
+                
+                mesh8_leo.LoadOBJ("meshes/cleo.obj");
+                entity9 = Entity(mesh8_leo);
+                entity9.modelMatrix.Escalar(1.0, 1.0, 1.0);
+                entity9.modelMatrix.Translate(0.5, 0.0, 0.0);
+                entity9.Render(&framebuffer, &camara, Color::PURPLE);
+                
+                
+                break;
+            }
+                
+            case SDLK_o:
+                framebuffer.Fill(Color::BLACK);
+                camera.SetOrthographic(left, right, top, bottom, near_plane, far_plane);
+                break;
+                
+            case SDLK_p:
+                framebuffer.Fill(Color::BLACK);
+                camera.SetPerspective(fov, framebuffer.width / (float)framebuffer.height, near_plane, far_plane);
+                break;
+                
+            case SDLK_n:
+                camera.near_plane += 100.0f;
+                camera.UpdateProjectionMatrix();
+                break;
+                
+            case SDLK_f:
+                camera.far_plane -= 100.f;
+                camera.UpdateProjectionMatrix();
+                break;
+                
+            case SDLK_PLUS:
+                camera.fov += 2.0f;
+                camera.UpdateProjectionMatrix();
+                break;
+                
+            case SDLK_MINUS:
+                camera.fov -= 2.0f;
+                camera.UpdateProjectionMatrix();
+                break;
+        }
     }
-    if (event.button == SDL_BUTTON_RIGHT) {
-        rightMouse = true;
-        previMouseX = event.x;
-        previMouseY = event.y;
+    
+    void Application::OnMouseButtonDown(SDL_MouseButtonEvent event)
+    { //MIRAR CUANDO SE PRESIONA EL BOTON
+        if (event.button == SDL_BUTTON_LEFT) {
+            leftMouse = true; //el boton que se ha picado es el izquierdo
+            previMouseX = event.x; //guardar x del raton
+            previMouseY = event.y; //guardar y del raton
+            
+        }
+        if (event.button == SDL_BUTTON_RIGHT) {
+            rightMouse = true;
+            previMouseX = event.x;
+            previMouseY = event.y;
+        }
+        
+        
     }
-
-
-}
 
     
 void Application::OnMouseButtonUp( SDL_MouseButtonEvent event ){
