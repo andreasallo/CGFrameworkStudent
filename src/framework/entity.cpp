@@ -130,7 +130,7 @@ void Entity::Update(float seconds_elapsed){
     
        
         //modelMatrix.Translate(<#float x#>, <#float y#>, <#float z#>)
-        //
+        //*/
 }
 
 		//rotate: eye(posicion de camara apunta a center). roto vector q va del eye al center

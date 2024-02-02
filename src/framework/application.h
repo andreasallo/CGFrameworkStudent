@@ -28,6 +28,7 @@ public:
     //LAB2
 
     Camera camera= Camera();
+    Mesh mesh1_lee = Mesh();
     Mesh mesh2_lee = Mesh();
     Mesh mesh3_anna = Mesh();
     //Mesh mesh4_cleo = Mesh();
