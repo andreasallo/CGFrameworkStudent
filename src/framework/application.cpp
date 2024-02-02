@@ -80,6 +80,7 @@ void Application::OnKeyPressed(SDL_KeyboardEvent event)
         break;
 
     case SDLK_1: {
+        multiples=false;
         framebuffer.Fill(Color::BLACK); //pantalla negra
 
         //fem load i renderitzem Lee

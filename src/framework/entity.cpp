@@ -93,10 +93,17 @@ void Entity::Render(Image* framebuffer, Camera* camera, const Color& c) {
             Vector3 screenSpace1 = Vector3(static_cast<int>((clipSpace1.x + 1.0f) * 0.5f * framebuffer->width), static_cast<int>((clipSpace1.y + 1.0f) * 0.5f * framebuffer->height), clipSpace1.z);
             Vector3 screenSpace2 = Vector3(static_cast<int>((clipSpace2.x + 1.0f) * 0.5f * framebuffer->width), static_cast<int>((clipSpace2.y + 1.0f) * 0.5f * framebuffer->height), clipSpace2.z);
             
+            
             //Draw triangle
-            framebuffer->DrawLineDDA(screenSpace0.x, screenSpace0.y, screenSpace1.x, screenSpace1.y, c);
+            Vector2 vec1= Vector2(screenSpace0.x, screenSpace0.y);
+            Vector2 vec2= Vector2(screenSpace1.x, screenSpace1.y);
+            Vector2 vec3= Vector2(screenSpace2.x, screenSpace2.y);
+            framebuffer->DrawTriangle(vec1, vec2, vec3, Color::PURPLE, true, Color::PURPLE);
+            
+            
+            /*framebuffer->DrawLineDDA(screenSpace0.x, screenSpace0.y, screenSpace1.x, screenSpace1.y, c);
             framebuffer->DrawLineDDA(screenSpace1.x, screenSpace1.y, screenSpace2.x, screenSpace2.y, c);
-            framebuffer->DrawLineDDA(screenSpace2.x, screenSpace2.y, screenSpace0.x, screenSpace0.y, c);
+            framebuffer->DrawLineDDA(screenSpace2.x, screenSpace2.y, screenSpace0.x, screenSpace0.y, c);*/
             
             
         }
