@@ -83,7 +83,7 @@ void Entity::Render(Image* framebuffer, Camera* camera, const Color& c) {
         
         
         //assegurar estar dins del frustrum
-        if (negZ0 == false && negZ1 == false && negZ2 == 0) {
+        if (negZ0 == false && negZ1 == false && negZ2 == FALSE) {
             
             float sWidth = static_cast<float>(framebuffer->width);
             float sHeight = static_cast<float>(framebuffer->height);
@@ -111,22 +111,23 @@ void Entity::Update(float seconds_elapsed){
      }
      
      }*/
+    
     modelMatrix.RotateLocal(seconds_elapsed * (PI / 10.0f), Vector3(0.0f,1.0f,0.0f));
 
-    if (escalar==true){
-        
+    if (escalar == true) {
+
         //escalar un 10%, potser molt poc?
         float num_scale = 1.0f + seconds_elapsed * 0.1f;
         for (int i = 0; i < 16; ++i) {
             modelMatrix.m[i] *= num_scale;
         }
-        
-        }
+    }
     if (translate == true) {
         //Translación en el eje y.
         float translation_vel = 0.3f;
         modelMatrix.TranslateLocal(0.0f, seconds_elapsed * translation_vel, 0.0f);
     }
+    
        
         //modelMatrix.Translate(<#float x#>, <#float y#>, <#float z#>)
         //

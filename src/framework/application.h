@@ -30,29 +30,43 @@ public:
     Camera camera= Camera();
     Mesh mesh2_lee = Mesh();
     Mesh mesh3_anna = Mesh();
-    Mesh mesh4_cleo = Mesh();
+    //Mesh mesh4_cleo = Mesh();
     
     Entity entity1;
     Entity entity2;
     Entity entity3;
-    Entity entity4;
+    //Entity entity4;
+    //CODI FUNCIONA
+    Mesh mesh7_lee = Mesh();
+    Entity entity7;
+    Mesh mesh8_anna = Mesh();
+    Entity entity8 = Entity(mesh8_anna);
+    Mesh mesh8_leo = Mesh();
+    Entity entity9 = Entity(mesh8_leo);
+
     
     bool individual;
     bool multiples;
     float camera_n = 0.0f;
     float fov=13;
-    float pla_aprop=0.01;
-    float pla_lluny=100;
+    float near_plane =0.01f;
+    float far_plane =100.0f;
 
     float left = -5;
     float right = 5;
     float top = 2;
     float bottom = -2;
         
-    Vector3 eye = {0, -0.2, 5};
-    Vector3 center = {0, 0, 0};
+    Vector3 eye = Vector3(0.0f, -0.2f, 5.0f);
+    Vector3 center = Vector3(0.0f, 0.0f, 0.0f);
+    Vector3 up = Vector3(0.0f, 1.0f, 0.0f);
 
-        Camera camara = Camera();
+    Camera camara = Camera();
+
+    bool leftMouse=false;
+    bool rightMouse = false;
+    int previMouseY, previMouseX;
+    float cameraDistance;
     
     //LAB1
     bool isfilled=false;
