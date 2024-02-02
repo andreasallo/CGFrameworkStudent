@@ -66,8 +66,8 @@ public:
 
     bool leftMouse=false;
     bool rightMouse = false;
-    int previMouseY, previMouseX;
-    float cameraDistance;
+    int previ_MouseY, previ_MouseX;
+    float distance_camera;
     
     //LAB1
     bool isfilled=false;

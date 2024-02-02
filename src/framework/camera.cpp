@@ -140,7 +140,7 @@ void Camera::UpdateProjectionMatrix()
 	if (type == PERSPECTIVE) {
 		
 		float f = 1.0f / (tan((fov * DEG2RAD) / 2)); //de grados a radianes, DEG2RAD EXPRESA RELACION ENTRE GRADOS Y RADIANES
-		// projection_matrix.M[2][3] = - 1;
+		// projection_matrix.M[2][3] = -1;
 
 		//FILA 0
 		projection_matrix.M[0][0] = f/aspect;

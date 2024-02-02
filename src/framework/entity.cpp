@@ -10,7 +10,7 @@ Entity::Entity(const Mesh& mesh, const Matrix44& modelMatrix) {
 	this->mesh=mesh;
 	this->modelMatrix=modelMatrix;
 } //toma ya un mesh y una matriz y los asigna como variables de entity
-//forma de crear una entidad con una malla específica y una matriz de modelo personalizada. /
+//forma de crear una entidad con una malla específica y una matriz de modelo personalizada. 
 
 Entity::Entity(const Mesh& mesh) : mesh(mesh) {
 	modelMatrix.SetIdentity();
@@ -105,6 +105,8 @@ void Entity::Render(Image* framebuffer, Camera* camera, const Color& c) {
     
 void Entity::Update(float seconds_elapsed){
     modelMatrix.RotateLocal(0.01 * (PI / 10.0f), Vector3(0.0f,1.0f,0.0f));
+
+    //NO ENS FUNCIONEN LES ALTRES OPCIONS
 /*
     if (escalar == true) {
 
