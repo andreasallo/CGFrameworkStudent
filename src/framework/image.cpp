@@ -502,7 +502,60 @@ void Image::DrawTriangle(const Vector2& p0, const Vector2& p1, const Vector2& p2
 		}
 	}
 }
+//INTERPOLACIO DE TRIANGLES
+void Image::DrawTriangleInterpolated(const Vector3& p0, const Vector3& p1, const Vector3& p2, const Color& c0, const Color& c1, const Color& c2){
+    Matrix44 bar_to_screen_m;
+    Matrix44 screen_to_bar_m;
+    Vector3 barCoord;
+    Vector3 check;
+    Vector3 barNormalized;
+    
+    
+    
+    bar_to_screen_m.M[0][0]=p0.x;
+    bar_to_screen_m.M[1][0]=p1.x;
+    bar_to_screen_m.M[2][0]=p2.x;
+    bar_to_screen_m.M[0][1]=p0.y;
+    bar_to_screen_m.M[1][1]=p1.y;
+    bar_to_screen_m.M[2][1]=p2.y;
+    bar_to_screen_m.M[0][2]=1;
+    bar_to_screen_m.M[1][2]=1;
+    bar_to_screen_m.M[2][2]=1;
+    
+    
+    bar_to_screen_m.Inverse();
+   
+    //creation container (AETVariable)
+    std::vector<Cell> table;
+    table.resize(this->height);
+    
+    //EDITANT CODI DE DRAW TRIANGLE SEGONS CADA COLOR
+    
+    //scan min i max amb el ScanlineDDA
+    ScanLineDDA(p0.x, p0.y, p1.x, p1.y, table);
+    ScanLineDDA(p1.x, p1.y, p2.x, p2.y, table);
+    ScanLineDDA(p2.x, p2.y, p0.x, p0.y, table);
+ 
+    
+    //iterar la taula
 
+    for (int y = 0; y < this->height; y++){
+        //valors per linea actual
+        for (int x = 0; x < this->width; x++) {//iterar per amplada de triangle (anar fent lineas)
+            if (table[y].minX <= x && x <= table[y].maxX) {
+                    //fill interior
+                    //calculem els pesos de les coordenades baricentriques
+                    barCoord=bar_to_screen_m*Vector3(x,y,1);
+                    barCoord.Clamp(0, 1);
+                    float coorSum= barCoord.x+barCoord.y+barCoord.y;
+                    barNormalized=barCoord/coorSum;
+                    //calculem el color resultant del pixel
+                    
+                    this->SetPixelSafe(x, y, c0*barNormalized.x+c1*barNormalized.y+c2*barNormalized.z);
+            }
+        }
+    }
+}
 
 //
 //IMAGES TOOL DRAWING

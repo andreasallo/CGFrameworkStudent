@@ -98,8 +98,10 @@ void Entity::Render(Image* framebuffer, Camera* camera, const Color& c) {
             Vector2 vec1= Vector2(screenSpace0.x, screenSpace0.y);
             Vector2 vec2= Vector2(screenSpace1.x, screenSpace1.y);
             Vector2 vec3= Vector2(screenSpace2.x, screenSpace2.y);
+            
             framebuffer->DrawTriangle(vec1, vec2, vec3, Color::PURPLE, true, Color::PURPLE);
             
+            //framebuffer->DrawTriangleInterpolated({vec1.x, vec1.y, 1}, {vec2.x, vec2.y, 1},{vec3.x, vec3.y, 1},Color::PURPLE, Color::BLUE, Color::RED);
             
             /*framebuffer->DrawLineDDA(screenSpace0.x, screenSpace0.y, screenSpace1.x, screenSpace1.y, c);
             framebuffer->DrawLineDDA(screenSpace1.x, screenSpace1.y, screenSpace2.x, screenSpace2.y, c);

@@ -34,6 +34,7 @@ void Application::Init(void)
     //predeterminem a camara en perspectiva
     camera.SetPerspective(fov, framebuffer.width / (float)framebuffer.height, near_plane, far_plane);
     camera.LookAt(eye, center, up);
+    
 
 
 }
@@ -41,8 +42,13 @@ void Application::Init(void)
 // Render one frame
 void Application::Render(void) 
 {
-
+    framebuffer.Fill(Color::BLACK);
+    entity7.Render(&framebuffer, &camara, Color::GREEN);
+    entity8.Render(&framebuffer, &camara, Color::BLUE);
+    entity9.Render(&framebuffer, &camara, Color::PURPLE);
+    
     framebuffer.Render();//enviem el framebuffer a la pantalla
+    
 }
 
 // Called after render
@@ -52,16 +58,16 @@ void Application::Update(float seconds_elapsed)
     //animen les entities
     
     if (multiples==true){
-        framebuffer.Fill(Color::BLACK);
+        
         
         entity7.Update(seconds_elapsed);
-        entity7.Render(&framebuffer, &camara, Color::GREEN);
+        
         
         entity8.Update(seconds_elapsed);
-        entity8.Render(&framebuffer, &camara, Color::BLUE);
+        
         
         entity9.Update(seconds_elapsed);
-        entity9.Render(&framebuffer, &camara, Color::PURPLE);
+        
         
         
     }
@@ -98,14 +104,14 @@ void Application::OnKeyPressed(SDL_KeyboardEvent event)
         multiples = true;
 
         // fem load i renderitzem Lee
-        mesh7_lee.LoadOBJ("meshes/lee.obj");
+        
         entity7 = Entity(mesh7_lee);
         entity7.modelMatrix.Escalar(1.25, 1.25, 1.25);
         entity7.modelMatrix.Translate(0, -0.3, 0);
         entity7.Render(&framebuffer, &camara, Color::GREEN);
 
         // fem load i renderitzem ANA, apliquem transformacions
-        mesh8_anna.LoadOBJ("meshes/anna.obj");
+    
         entity8 = Entity(mesh8_anna);
         entity8.modelMatrix.Escalar(1.00, 1.00, 1.00);
         entity8.modelMatrix.Translate(-0.5, -0.8, 0);
@@ -114,7 +120,7 @@ void Application::OnKeyPressed(SDL_KeyboardEvent event)
 
 
         // fem load i renderitzem Leo, apliquem transformacions
-        mesh8_leo.LoadOBJ("meshes/cleo.obj");
+        
         entity9 = Entity(mesh8_leo);
         entity9.modelMatrix.Escalar(1.0, 1.0, 1.0);
         entity9.modelMatrix.Translate(0.5, 0.0, 0.0);
