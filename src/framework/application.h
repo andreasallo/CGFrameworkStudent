@@ -24,6 +24,8 @@ private:
     bool circleToolSelected;
 
 public:
+    //LAB3
+    FloatImage zBuffer;
     
     //LAB2
 

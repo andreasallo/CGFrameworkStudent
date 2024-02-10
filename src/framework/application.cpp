@@ -31,9 +31,14 @@ void Application::Init(void)
     
 	std::cout << "Initiating app..." << std::endl;
     
+    mesh1_lee.LoadOBJ("meshes/lee.obj");
+    
+    
     //predeterminem a camara en perspectiva
     camera.SetPerspective(fov, framebuffer.width / (float)framebuffer.height, near_plane, far_plane);
     camera.LookAt(eye, center, up);
+    zBuffer=FloatImage(this->window_width, this->window_height);
+    zBuffer.Fill(1232177);
     
 
 
@@ -43,9 +48,10 @@ void Application::Init(void)
 void Application::Render(void) 
 {
     framebuffer.Fill(Color::BLACK);
-    entity7.Render(&framebuffer, &camara, Color::GREEN);
-    entity8.Render(&framebuffer, &camara, Color::BLUE);
-    entity9.Render(&framebuffer, &camara, Color::PURPLE);
+    entity1.Render(&framebuffer, &camara, Color::CYAN, &zBuffer);
+    //entity7.Render(&framebuffer, &camara, Color::GREEN);
+    //entity8.Render(&framebuffer, &camara, Color::BLUE);
+    //entity9.Render(&framebuffer, &camara, Color::PURPLE);
     
     framebuffer.Render();//enviem el framebuffer a la pantalla
     
@@ -59,14 +65,14 @@ void Application::Update(float seconds_elapsed)
     
     if (multiples==true){
         
-        
+        /*
         entity7.Update(seconds_elapsed);
         
         
         entity8.Update(seconds_elapsed);
         
         
-        entity9.Update(seconds_elapsed);
+        entity9.Update(seconds_elapsed);*/
         
         
         
@@ -85,30 +91,39 @@ void Application::OnKeyPressed(SDL_KeyboardEvent event)
         exit(0);
         break;
 
-    case SDLK_1: {
-        multiples=false;
-        framebuffer.Fill(Color::BLACK); //pantalla negra
-
-        //fem load i renderitzem Lee
-        Mesh mesh1_lee = Mesh();
-        mesh1_lee.LoadOBJ("meshes/lee.obj");
-        entity1 = Entity(mesh1_lee);
-        entity1.modelMatrix.Escalar(1.25, 1.25, 1.25);
-        entity1.modelMatrix.Translate(0, -0.3, 0);
-        entity1.Render(&framebuffer, &camara, Color::CYAN);
+    case SDLK_c: {
+        if(entity1.entityInitialized==false){//comprovem que no estigui la entity ja inicialitzada
+            entity1 = Entity(mesh1_lee);
+            entity1.modelMatrix.Escalar(2.5, 2.5, 2.5);
+            entity1.modelMatrix.Translate(0, -0.3, 0);
+            entity1.entityInitialized=true;}
+        else{
+            entity1.drawInterpolatedColors=!entity1.drawInterpolatedColors;//canviem el bolea per fer laltre operació
+        }
+        entity1.tecla_z=false;
+        entity1.tecla_c=true;
         break;
     }
 
-    case SDLK_2: {
-        framebuffer.Fill(Color::BLACK);
-        multiples = true;
+    case SDLK_z: {
+        if(entity1.entityInitialized==false){//comprovem que no estigui la entity ja inicialitzada
+            entity1 = Entity(mesh1_lee);
+            entity1.modelMatrix.Escalar(2.5, 2.5, 2.5);
+            entity1.modelMatrix.Translate(0, -0.3, 0);
+            entity1.entityInitialized=true;}
+        else{
+            entity1.rasterize_with_Zbuffer=!entity1.rasterize_with_Zbuffer;//canviem el bolea per fer laltre operació
+        }
+        entity1.tecla_c=false;
+        entity1.tecla_z=true;
+        break;
 
         // fem load i renderitzem Lee
         
         entity7 = Entity(mesh7_lee);
         entity7.modelMatrix.Escalar(1.25, 1.25, 1.25);
         entity7.modelMatrix.Translate(0, -0.3, 0);
-        entity7.Render(&framebuffer, &camara, Color::GREEN);
+        
 
         // fem load i renderitzem ANA, apliquem transformacions
     
@@ -116,7 +131,6 @@ void Application::OnKeyPressed(SDL_KeyboardEvent event)
         entity8.modelMatrix.Escalar(1.00, 1.00, 1.00);
         entity8.modelMatrix.Translate(-0.5, -0.8, 0);
         entity8.modelMatrix.Rotate(0.4, Vector3(0.5, -0.5, 0));
-        entity8.Render(&framebuffer, &camara, Color::BLUE);
 
 
         // fem load i renderitzem Leo, apliquem transformacions
@@ -124,7 +138,6 @@ void Application::OnKeyPressed(SDL_KeyboardEvent event)
         entity9 = Entity(mesh8_leo);
         entity9.modelMatrix.Escalar(1.0, 1.0, 1.0);
         entity9.modelMatrix.Translate(0.5, 0.0, 0.0);
-        entity9.Render(&framebuffer, &camara, Color::PURPLE);
 
 
         break;

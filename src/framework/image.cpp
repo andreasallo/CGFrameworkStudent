@@ -503,7 +503,7 @@ void Image::DrawTriangle(const Vector2& p0, const Vector2& p1, const Vector2& p2
 	}
 }
 //INTERPOLACIO DE TRIANGLES
-void Image::DrawTriangleInterpolated(const Vector3& p0, const Vector3& p1, const Vector3& p2, const Color& c0, const Color& c1, const Color& c2){
+void Image::DrawTriangleInterpolated(const Vector3& p0, const Vector3& p1, const Vector3& p2, const Color& c0, const Color& c1, const Color& c2, FloatImage* zBuffer){
     Matrix44 bar_to_screen_m;
     Matrix44 screen_to_bar_m;
     Vector3 barCoord;
@@ -524,7 +524,7 @@ void Image::DrawTriangleInterpolated(const Vector3& p0, const Vector3& p1, const
     
     
     bar_to_screen_m.Inverse();
-   
+    
     //creation container (AETVariable)
     std::vector<Cell> table;
     table.resize(this->height);
@@ -535,27 +535,60 @@ void Image::DrawTriangleInterpolated(const Vector3& p0, const Vector3& p1, const
     ScanLineDDA(p0.x, p0.y, p1.x, p1.y, table);
     ScanLineDDA(p1.x, p1.y, p2.x, p2.y, table);
     ScanLineDDA(p2.x, p2.y, p0.x, p0.y, table);
- 
+    
     
     //iterar la taula
-
+    
     for (int y = 0; y < this->height; y++){
         //valors per linea actual
         for (int x = 0; x < this->width; x++) {//iterar per amplada de triangle (anar fent lineas)
             if (table[y].minX <= x && x <= table[y].maxX) {
-                    //fill interior
-                    //calculem els pesos de les coordenades baricentriques
-                    barCoord=bar_to_screen_m*Vector3(x,y,1);
-                    barCoord.Clamp(0, 1);
-                    float coorSum= barCoord.x+barCoord.y+barCoord.y;
-                    barNormalized=barCoord/coorSum;
-                    //calculem el color resultant del pixel
-                    
+                //fill interior
+                //calculem els pesos de les coordenades baricentriques
+                barCoord=bar_to_screen_m*Vector3(x,y,1);
+                barCoord.Clamp(0, 1);
+                float coorSum= barCoord.x+barCoord.y+barCoord.y;
+                barNormalized=barCoord/coorSum;
+                //calculem el color resultant del pixel
+                if (zBuffer==NULL){
                     this->SetPixelSafe(x, y, c0*barNormalized.x+c1*barNormalized.y+c2*barNormalized.z);
+                }
+                else{
+                    //interpolem la coordenada Z amb les baricentriques de la mateixa manera com feiem els colors
+                    //respecte la z en cada vertex del triangle
+                    float interpCoorZ= p0.z*barNormalized.x+p1.z*barNormalized.y+p2.z*barNormalized.z;
+                    //comprovem que en la posicio actual no hi hagi un pixel mes proper a la camera
+                    if(interpCoorZ< zBuffer->GetPixel(x, y)){
+                        //si es la distancia mes propera a la camera la podem guardar en el zbuffer i pintar
+                        zBuffer->SetPixel(x,y,interpCoorZ);
+                        SetPixelSafe(x, y, c0 * barNormalized.x + c1 * barNormalized.y + c2 * barNormalized.z);
+                    }
+                }
             }
         }
     }
 }
+    /*
+for (int y = 0; y < this->height; y++){
+    //valors per linea actual
+    for (int x = 0; x < this->width; x++) {//iterar per amplada de triangle (anar fent lineas)
+        if (table[y].minX <= x && x <= table[y].maxX) {
+                //fill interior
+                //calculem els pesos de les coordenades baricentriques
+                barCoord=bar_to_screen_m*Vector3(x,y,1);
+                barCoord.Clamp(0, 1);
+                float coorSum= barCoord.x+barCoord.y+barCoord.y;
+                barNormalized=barCoord/coorSum;
+                //calculem el color resultant del pixel
+            //interpolem la coordenada Z amb les baricentriques de la mateixa manera com feiem els colors
+            //respecte la z en cada vertex del triangle
+            float interpCoorZ= p0.z*barNormalized.x+p1.z*barNormalized.y+p2.z*barNormalized.z;
+            //comprovem que en la posicio actual no hi hagi un pixel mes proper a la camera
+            if(interpCoorZ< zBuffer->GetPixel(x, y)){
+                //si es la distancia mes propera a la camera la podem guardar en el zbuffer i pintar
+                zBuffer->SetPixel(x,y,interpCoorZ);
+                SetPixelSafe(x, y, c0 * barNormalized.x + c1 * barNormalized.y + c2 * barNormalized.z);
+            }*/
 
 //
 //IMAGES TOOL DRAWING

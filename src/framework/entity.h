@@ -4,6 +4,7 @@
 #include "image.h"
 #include "camera.h"
 
+
 class Entity
 {
 private:
@@ -15,7 +16,12 @@ public:
     bool rotar;
     bool escalar;
     bool translate;
+    bool entityInitialized=false;
     
+    bool tecla_c;
+    bool tecla_z;
+    bool drawInterpolatedColors=false;
+    bool rasterize_with_Zbuffer=false;
     
     
 	Entity();
@@ -28,7 +34,7 @@ public:
 	const Mesh& GetMesh() const;
 	const Matrix44& GetModelMatrix() const;
 
-    void Render(Image* framebuffer, Camera* camera, const Color& c);
+    void Render(Image* framebuffer, Camera* camera, const Color& c, FloatImage* zBuffer);
     void Update(float seconds_elapsed);
     
     void setRotate(bool rotate);

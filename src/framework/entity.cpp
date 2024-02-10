@@ -44,7 +44,7 @@ const Matrix44& Entity::GetModelMatrix() const {
 	return modelMatrix;
 }
 
-void Entity::Render(Image* framebuffer, Camera* camera, const Color& c) {
+void Entity::Render(Image* framebuffer, Camera* camera, const Color& c, FloatImage* zBuffer) {
     //get the vertices of the mesh
     const std::vector<Vector3>& meshVertices = mesh.GetVertices();
     
@@ -99,10 +99,16 @@ void Entity::Render(Image* framebuffer, Camera* camera, const Color& c) {
             Vector2 vec2= Vector2(screenSpace1.x, screenSpace1.y);
             Vector2 vec3= Vector2(screenSpace2.x, screenSpace2.y);
             
-            framebuffer->DrawTriangle(vec1, vec2, vec3, Color::PURPLE, true, Color::PURPLE);
-            
-            //framebuffer->DrawTriangleInterpolated({vec1.x, vec1.y, 1}, {vec2.x, vec2.y, 1},{vec3.x, vec3.y, 1},Color::PURPLE, Color::BLUE, Color::RED);
-            
+            if(tecla_c){
+                if (drawInterpolatedColors){
+                    framebuffer->DrawTriangleInterpolated(screenSpace0, screenSpace1,screenSpace2,Color::RED, Color::BLUE, Color::YELLOW, NULL);}
+                else{ framebuffer->DrawTriangle(vec1, vec2, vec3, Color::PURPLE, true, Color::PURPLE);}
+            }
+            if(tecla_z){
+                if(rasterize_with_Zbuffer){
+                    framebuffer->DrawTriangleInterpolated(screenSpace0, screenSpace1,screenSpace2,Color::PURPLE, Color::BLUE, Color::RED, zBuffer);}
+                else{framebuffer->DrawTriangleInterpolated(screenSpace0, screenSpace1,screenSpace2,Color::PURPLE, Color::BLUE, Color::RED, NULL);}
+            }
             /*framebuffer->DrawLineDDA(screenSpace0.x, screenSpace0.y, screenSpace1.x, screenSpace1.y, c);
             framebuffer->DrawLineDDA(screenSpace1.x, screenSpace1.y, screenSpace2.x, screenSpace2.y, c);
             framebuffer->DrawLineDDA(screenSpace2.x, screenSpace2.y, screenSpace0.x, screenSpace0.y, c);*/
