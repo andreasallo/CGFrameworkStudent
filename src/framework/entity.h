@@ -3,6 +3,7 @@
 #include "framework.h"
 #include "image.h"
 #include "camera.h"
+#include "texture.h"
 
 
 class Entity
@@ -13,6 +14,8 @@ private:
 public:
     Mesh mesh;
     Matrix44 modelMatrix;
+    Image* texture;
+
     bool rotar;
     bool escalar;
     bool translate;
@@ -20,8 +23,11 @@ public:
     
     bool tecla_c;
     bool tecla_z;
+    bool tecla_t;
     bool drawInterpolatedColors=false;
     bool rasterize_with_Zbuffer=false;
+    bool mesh_texture = false;
+    
     
     
 	Entity();
@@ -40,6 +46,8 @@ public:
     void setRotate(bool rotate);
     void setTranslate(bool translate);
     void setEscalate(bool escalate);
+    void setTexture(Image* textures);
+    const Texture* Entity::GetTexture() const;
 
 };
 

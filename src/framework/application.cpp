@@ -2,6 +2,7 @@
 #include "mesh.h"
 #include "shader.h"
 #include "utils.h" 
+#include "texture.h"
 //#include "../../build/particleSyst.h"
 //#include <atlimage.h>
 
@@ -32,21 +33,26 @@ void Application::Init(void)
 	std::cout << "Initiating app..." << std::endl;
     
     mesh1_lee.LoadOBJ("meshes/lee.obj");
-    
-    
-    //predeterminem a camara en perspectiva
-    camera.SetPerspective(fov, framebuffer.width / (float)framebuffer.height, near_plane, far_plane);
-    camera.LookAt(eye, center, up);
-    zBuffer=FloatImage(this->window_width, this->window_height);
-    zBuffer.Fill(1232177);
+    textureLee = new Image();
+    textureLee->LoadTGA("textures/lee_normal.tga");
     
 
+
+    //modelMatrix4.RotateLocal(1*(PI/10.0f),rotation_axis);
+    
+    //predeterminem a camara en perspectiva
+    camera.LookAt(eye, center, up);
+    camera.SetPerspective(fov, framebuffer.width / (float)framebuffer.height, near_plane, far_plane);
+    zBuffer=FloatImage(this->window_width, this->window_height);
+    
+    
 
 }
 
 // Render one frame
 void Application::Render(void) 
 {
+    zBuffer.Fill(INT_MAX);
     framebuffer.Fill(Color::BLACK);
     entity1.Render(&framebuffer, &camara, Color::CYAN, &zBuffer);
     //entity7.Render(&framebuffer, &camara, Color::GREEN);
@@ -92,91 +98,56 @@ void Application::OnKeyPressed(SDL_KeyboardEvent event)
         break;
 
     case SDLK_c: {
-        if(entity1.entityInitialized==false){//comprovem que no estigui la entity ja inicialitzada
+        if (entity1.entityInitialized == false) {//comprovem que no estigui la entity ja inicialitzada
             entity1 = Entity(mesh1_lee);
             entity1.modelMatrix.Escalar(2.5, 2.5, 2.5);
             entity1.modelMatrix.Translate(0, -0.3, 0);
-            entity1.entityInitialized=true;}
-        else{
-            entity1.drawInterpolatedColors=!entity1.drawInterpolatedColors;//canviem el bolea per fer laltre operació
+            entity1.entityInitialized = true;
         }
-        entity1.tecla_z=false;
-        entity1.tecla_c=true;
+        else {
+            entity1.drawInterpolatedColors = !entity1.drawInterpolatedColors;//canviem el bolea per fer laltre operació
+        }
+        entity1.tecla_z = false;
+        entity1.tecla_c = true;
+        entity1.tecla_t = false;
         break;
     }
 
     case SDLK_z: {
-        if(entity1.entityInitialized==false){//comprovem que no estigui la entity ja inicialitzada
+        if (entity1.entityInitialized == false) {//comprovem que no estigui la entity ja inicialitzada
             entity1 = Entity(mesh1_lee);
             entity1.modelMatrix.Escalar(2.5, 2.5, 2.5);
             entity1.modelMatrix.Translate(0, -0.3, 0);
-            entity1.entityInitialized=true;}
-        else{
-            entity1.rasterize_with_Zbuffer=!entity1.rasterize_with_Zbuffer;//canviem el bolea per fer laltre operació
+            entity1.entityInitialized = true;
         }
-        entity1.tecla_c=false;
-        entity1.tecla_z=true;
-        break;
-
-        // fem load i renderitzem Lee
-        
-        entity7 = Entity(mesh7_lee);
-        entity7.modelMatrix.Escalar(1.25, 1.25, 1.25);
-        entity7.modelMatrix.Translate(0, -0.3, 0);
-        
-
-        // fem load i renderitzem ANA, apliquem transformacions
-    
-        entity8 = Entity(mesh8_anna);
-        entity8.modelMatrix.Escalar(1.00, 1.00, 1.00);
-        entity8.modelMatrix.Translate(-0.5, -0.8, 0);
-        entity8.modelMatrix.Rotate(0.4, Vector3(0.5, -0.5, 0));
-
-
-        // fem load i renderitzem Leo, apliquem transformacions
-        
-        entity9 = Entity(mesh8_leo);
-        entity9.modelMatrix.Escalar(1.0, 1.0, 1.0);
-        entity9.modelMatrix.Translate(0.5, 0.0, 0.0);
-
-
+        else {
+            entity1.rasterize_with_Zbuffer = !entity1.rasterize_with_Zbuffer;//canviem el bolea per fer laltre operació
+        }
+        entity1.tecla_c = false;
+        entity1.tecla_z = true;
+        entity1.tecla_t = false;
         break;
     }
-              //TODA ESTA PARTE NO FUNCIONA CORRECTAMENTE, NO HEMOS LOGRADO LOCALIZAR LOS FALLOS EN EL CODIGO//
-    case SDLK_o:
-        framebuffer.Fill(Color::BLACK);
-        //Orthographic projection
-        camera.SetOrthographic(left, right, top, bottom, near_plane, far_plane);
-        break;
 
-    case SDLK_p:
-        framebuffer.Fill(Color::BLACK);
-        //Perspective Projection
-        camera.SetPerspective(fov, framebuffer.width / (float)framebuffer.height, near_plane, far_plane);
-        break;
+    case SDLK_t: {
+        if (entity1.entityInitialized == false) {//comprovem que no estigui la entity ja inicialitzada
+            entity1 = Entity(mesh1_lee);
+            
+            //entity1.setTexture(textureLee);
+            entity1.modelMatrix.Escalar(2.5, 2.5, 2.5);
+            entity1.modelMatrix.Translate(0, -0.3, 0);
+            entity1.entityInitialized = true;
+        }
+        else {
+            entity1.mesh_texture = !entity1.mesh_texture;
+        }
 
-    case SDLK_n:
-        //incrementem valor de el near plane de camera
-        camera.near_plane += 100.0f;
-        camera.UpdateProjectionMatrix();
+        entity1.tecla_c = false;
+        entity1.tecla_z = false;
+        entity1.tecla_t = true;
         break;
+    }
 
-    case SDLK_f:
-        camera.far_plane -= 100.f;
-        camera.UpdateProjectionMatrix();
-        break;
-
-    case SDLK_PLUS:
-        //TODA ESTA PARTE NO FUNCIONA CORRECTAMENTE, NO HEMOS LOGRADO LOCALIZAR LOS FALLOS EN EL CODIGO
-        camera.fov += 2.0f;
-        camera.UpdateProjectionMatrix();
-        break;
-
-    case SDLK_MINUS:
-        //TODA ESTA PARTE NO FUNCIONA CORRECTAMENTE, NO HEMOS LOGRADO LOCALIZAR LOS FALLOS EN EL CODIGO
-        camera.fov -= 2.0f;
-        camera.UpdateProjectionMatrix();
-        break;
     }
 }
 
@@ -216,9 +187,16 @@ void Application::OnMouseButtonUp(SDL_MouseButtonEvent event) {
 
 //PARA CUANDO EL RATON ESTA EN MOVIMIENTO
 void Application::OnMouseMove(SDL_MouseButtonEvent event) {
-    //cambio de cordenadas del raton, posicion actual con anterior
+
     int deltaX = event.x - previ_MouseX;
     int deltaY = event.y - previ_MouseY;
+    float sensitivity = 0.02f;
+
+    
+    if (event.button == SDL_BUTTON_LEFT) {
+        camera.Orbit(-mouse_delta.x * 0.01, Vector3::UP);
+        camera.Orbit(-mouse_delta.y * 0.01, Vector3::RIGHT);
+    }
 
     if (leftMouse) {
 
@@ -235,7 +213,7 @@ void Application::OnMouseMove(SDL_MouseButtonEvent event) {
     }
 
     if (rightMouse) {
-        float sensitivity = 0.02f;
+       
         //mover de izq a derecha
         camera.Move(Vector3(-deltaX * sensitivity, 0, 0));
 
@@ -251,20 +229,8 @@ void Application::OnMouseMove(SDL_MouseButtonEvent event) {
 
 void Application::OnWheel(SDL_MouseWheelEvent event)
 {
-    //INTENTO, CREO QUE FALTAN COSAS
-
-    float sensitivity = 0.1f; //sensibilidad para zoom de camera ¿VALOR CORRECTO?
-    distance_camera -= event.y * sensitivity; //depende de rueda, variamos distancia
-
-    //Para poner limites a la camera, QUE NO DE ERROR
-    distance_camera = std::max(distance_camera, 1.0f);
-    distance_camera = std::min(distance_camera, 1000.0f);
-
-    float proporcion_window = static_cast<float>(window_width) / static_cast<float>(window_height);
-    camera.SetPerspective(fov, proporcion_window, 0.01f, 1000.0f);//nueva prespectiva
-
-    camera.UpdateViewMatrix();
-
+    float dy = event.preciseY;
+    camera.Zoom(dy < 0 ? 1.1 : 0.9);
 
 }
 

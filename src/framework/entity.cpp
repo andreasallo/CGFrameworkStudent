@@ -1,5 +1,6 @@
-#include "entity.h"
-
+ #include "entity.h"
+#include"texture.h"
+#include "application.h"
 
 Entity::Entity() {
 	modelMatrix.SetIdentity();
@@ -44,9 +45,13 @@ const Matrix44& Entity::GetModelMatrix() const {
 	return modelMatrix;
 }
 
+
+
+
 void Entity::Render(Image* framebuffer, Camera* camera, const Color& c, FloatImage* zBuffer) {
     //get the vertices of the mesh
     const std::vector<Vector3>& meshVertices = mesh.GetVertices();
+
     
     //iterate vertices
     for (int i = 0; i < meshVertices.size(); i += 3) {
@@ -92,23 +97,44 @@ void Entity::Render(Image* framebuffer, Camera* camera, const Color& c, FloatIma
             Vector3 screenSpace0 = Vector3(static_cast<int>((clipSpace0.x + 1.0f) * 0.5f * framebuffer->width), static_cast<int>((clipSpace0.y + 1.0f) * 0.5f * framebuffer->height), clipSpace0.z);
             Vector3 screenSpace1 = Vector3(static_cast<int>((clipSpace1.x + 1.0f) * 0.5f * framebuffer->width), static_cast<int>((clipSpace1.y + 1.0f) * 0.5f * framebuffer->height), clipSpace1.z);
             Vector3 screenSpace2 = Vector3(static_cast<int>((clipSpace2.x + 1.0f) * 0.5f * framebuffer->width), static_cast<int>((clipSpace2.y + 1.0f) * 0.5f * framebuffer->height), clipSpace2.z);
-            
+           
+            const std::vector<Vector2>& uvs = mesh.GetUVs();
+            //Texture
+            //uvs=mesh->GetUVS()
+            Vector2 uv0 = uvs[i];
+            Vector2 uv1 = uvs[i + 1];
+            Vector2 uv2 = uvs[i + 2];
+            // (0..W - 1, 0..H - 1)
+            uv0.x = ((uv0.x+1) * (sWidth - 1))/2;
+            uv0.y = ((uv0.y+1) * (sHeight - 1))/2;
+            uv1.x = ((uv1.x + 1) * (sWidth - 1)) / 2;;
+            uv1.y = ((uv1.y + 1) * (sHeight - 1)) / 2;
+            uv2.x = ((uv2.x + 1) * (sWidth - 1)) / 2;;
+            uv2.y = ((uv2.y + 1) * (sHeight - 1)) / 2;
             
             //Draw triangle
             Vector2 vec1= Vector2(screenSpace0.x, screenSpace0.y);
             Vector2 vec2= Vector2(screenSpace1.x, screenSpace1.y);
-            Vector2 vec3= Vector2(screenSpace2.x, screenSpace2.y);
+            Vector2 vec3 = Vector2(screenSpace2.x, screenSpace2.y);
+            
+
             
             if(tecla_c){
                 if (drawInterpolatedColors){
-                    framebuffer->DrawTriangleInterpolated(screenSpace0, screenSpace1,screenSpace2,Color::RED, Color::BLUE, Color::YELLOW, NULL);}
+                    framebuffer->DrawTriangleInterpolated(screenSpace0, screenSpace1,screenSpace2,Color::RED, Color::BLUE, Color::YELLOW, NULL, NULL, Vector2(), Vector2(), Vector2());}
                 else{ framebuffer->DrawTriangle(vec1, vec2, vec3, Color::PURPLE, true, Color::PURPLE);}
             }
             if(tecla_z){
                 if(rasterize_with_Zbuffer){
-                    framebuffer->DrawTriangleInterpolated(screenSpace0, screenSpace1,screenSpace2,Color::PURPLE, Color::BLUE, Color::RED, zBuffer);}
-                else{framebuffer->DrawTriangleInterpolated(screenSpace0, screenSpace1,screenSpace2,Color::PURPLE, Color::BLUE, Color::RED, NULL);}
+                    framebuffer->DrawTriangleInterpolated(screenSpace0, screenSpace1,screenSpace2,Color::PURPLE, Color::BLUE, Color::RED, zBuffer,NULL, Vector2(), Vector2(), Vector2());}
+                else{framebuffer->DrawTriangleInterpolated(screenSpace0, screenSpace1,screenSpace2,Color::PURPLE, Color::BLUE, Color::RED, NULL,NULL,Vector2(), Vector2(), Vector2());}
             }
+            if (tecla_t) {
+                if (mesh_texture) {
+                    framebuffer->DrawTriangleInterpolated(screenSpace0, screenSpace1, screenSpace2, Color::GREEN, Color::GRAY, Color::YELLOW, zBuffer, texture, uv0, uv1, uv2);
+                }
+            }
+            //else { framebuffer->DrawTriangle(vec1, vec2, vec3, Color::PURPLE, true, Color::PURPLE); }
             /*framebuffer->DrawLineDDA(screenSpace0.x, screenSpace0.y, screenSpace1.x, screenSpace1.y, c);
             framebuffer->DrawLineDDA(screenSpace1.x, screenSpace1.y, screenSpace2.x, screenSpace2.y, c);
             framebuffer->DrawLineDDA(screenSpace2.x, screenSpace2.y, screenSpace0.x, screenSpace0.y, c);*/

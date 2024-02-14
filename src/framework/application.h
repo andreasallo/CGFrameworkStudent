@@ -10,6 +10,7 @@
 #include "particleSyst.h"
 #include "entity.h"
 #include "camera.h"
+#include "texture.h"
 
 
 class Application
@@ -34,6 +35,10 @@ public:
     Mesh mesh2_lee = Mesh();
     Mesh mesh3_anna = Mesh();
     //Mesh mesh4_cleo = Mesh();
+
+    //TEXTURE
+    Image* textureLee;
+  
     
     Entity entity1;
     Entity entity2;
@@ -60,7 +65,7 @@ public:
     float top = 2;
     float bottom = -2;
         
-    Vector3 eye = Vector3(0.0f, -0.2f, 5.0f);
+    Vector3 eye = Vector3(0.0f, 0.5f, 2.0f);
     Vector3 center = Vector3(0.0f, 0.0f, 0.0f);
     Vector3 up = Vector3(0.0f, 1.0f, 0.0f);
 
