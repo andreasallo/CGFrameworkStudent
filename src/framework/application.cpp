@@ -36,6 +36,7 @@ void Application::Init(void)
     textureLee = new Image();
     textureLee->LoadTGA("textures/lee_normal.tga");
     
+    
 
 
     //modelMatrix4.RotateLocal(1*(PI/10.0f),rotation_axis);
@@ -133,9 +134,9 @@ void Application::OnKeyPressed(SDL_KeyboardEvent event)
         if (entity1.entityInitialized == false) {//comprovem que no estigui la entity ja inicialitzada
             entity1 = Entity(mesh1_lee);
             
-            //entity1.setTexture(textureLee);
             entity1.modelMatrix.Escalar(2.5, 2.5, 2.5);
             entity1.modelMatrix.Translate(0, -0.3, 0);
+            entity1.setTexture(textureLee);
             entity1.entityInitialized = true;
         }
         else {

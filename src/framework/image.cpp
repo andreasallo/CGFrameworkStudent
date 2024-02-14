@@ -572,7 +572,6 @@ void Image::DrawTriangleInterpolated(const Vector3& p0, const Vector3& p1, const
 	Vector3 barCoord;
 	Vector3 check;
 	Vector3 barNormalized;
-	bool hasTexture = (texture != NULL);
 
 
 
@@ -625,12 +624,12 @@ void Image::DrawTriangleInterpolated(const Vector3& p0, const Vector3& p1, const
 					if (interpCoorZ < zBuffer->GetPixel(x, y)) {
 						//si es la distancia mes propera a la camera la podem guardar en el zbuffer i pintar
 						zBuffer->SetPixel(x, y, interpCoorZ);
-						if (!hasTexture) {
+						if (texture==nullptr) {
 							SetPixelSafe(x, y, c0 * barNormalized.x + c1 * barNormalized.y + c2 * barNormalized.z);
 						}
 						else {
 							Vector2 interpolatedUV = (uv0 * barNormalized.x + uv1 * barNormalized.y + uv2 * barNormalized.z); //calcular barycentric interpolation
-							
+							interpolatedUV.Clamp(0, 1);
 							//Pasar de UV a Texture Space, 
 							int textureX = (int)(interpolatedUV.x * (texture->width - 1));
 							int textureY = (int)(interpolatedUV.y * (texture->height - 1));

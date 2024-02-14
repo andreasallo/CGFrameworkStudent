@@ -45,6 +45,10 @@ const Matrix44& Entity::GetModelMatrix() const {
 	return modelMatrix;
 }
 
+void Entity::setTexture(Image* newTexture) {
+    texture = newTexture;
+}
+
 
 
 
@@ -105,8 +109,8 @@ void Entity::Render(Image* framebuffer, Camera* camera, const Color& c, FloatIma
             Vector2 uv1 = uvs[i + 1];
             Vector2 uv2 = uvs[i + 2];
             // (0..W - 1, 0..H - 1)
-            uv0.x = ((uv0.x+1) * (sWidth - 1))/2;
-            uv0.y = ((uv0.y+1) * (sHeight - 1))/2;
+            uv0.x = ((uv0.x + 1) * (sWidth - 1))/2;
+            uv0.y = ((uv0.y + 1) * (sHeight - 1))/2;
             uv1.x = ((uv1.x + 1) * (sWidth - 1)) / 2;;
             uv1.y = ((uv1.y + 1) * (sHeight - 1)) / 2;
             uv2.x = ((uv2.x + 1) * (sWidth - 1)) / 2;;
@@ -133,6 +137,7 @@ void Entity::Render(Image* framebuffer, Camera* camera, const Color& c, FloatIma
                 if (mesh_texture) {
                     framebuffer->DrawTriangleInterpolated(screenSpace0, screenSpace1, screenSpace2, Color::GREEN, Color::GRAY, Color::YELLOW, zBuffer, texture, uv0, uv1, uv2);
                 }
+                else{ framebuffer->DrawTriangleInterpolated(screenSpace0, screenSpace1, screenSpace2, Color::GREEN, Color::GRAY, Color::YELLOW, zBuffer, texture, uv0, uv1, uv2); }
             }
             //else { framebuffer->DrawTriangle(vec1, vec2, vec3, Color::PURPLE, true, Color::PURPLE); }
             /*framebuffer->DrawLineDDA(screenSpace0.x, screenSpace0.y, screenSpace1.x, screenSpace1.y, c);
