@@ -628,14 +628,20 @@ void Image::DrawTriangleInterpolated(const Vector3& p0, const Vector3& p1, const
 							SetPixelSafe(x, y, c0 * barNormalized.x + c1 * barNormalized.y + c2 * barNormalized.z);
 						}
 						else {
-							Vector2 interpolatedUV = (uv0 * barNormalized.x + uv1 * barNormalized.y + uv2 * barNormalized.z); //calcular barycentric interpolation
-							interpolatedUV.Clamp(0, 1);
+							Vector2 interpolated;
+							interpolated.x = (uv0.x * barNormalized.x + uv1.x * barNormalized.y + uv2.x * barNormalized.z);
+							interpolated.y = (uv0.y * barNormalized.x + uv1.y * barNormalized.y + uv2.y * barNormalized.z);
+							//Vector2 interpolatedUV = (uv0 * barNormalized.x + uv1 * barNormalized.y + uv2 * barNormalized.z); //calcular barycentric interpolation
+							//const float inter = (p0.z * barNormalized.x) + (p1.z * barNormalized.y) + (p2.z * barNormalized.z);
+							//interpolatedUV.Clamp(0, 1);
 							//Pasar de UV a Texture Space, 
-							int textureX = (int)(interpolatedUV.x * (texture->width - 1));
-							int textureY = (int)(interpolatedUV.y * (texture->height - 1));
+							//int textureX = (int)(interpolatedUV.x * (texture->width - 1));
+							//int textureY = (int)(interpolatedUV.y * (texture->height - 1));
+							//texture->width - 1)-interpolatedUV.x, (texture->height-1) - interpolatedUV.y
 
-							Color textureColor = texture->GetPixelSafe(textureX, textureY);//llegir el color del pixel de la textura
+							Color textureColor = texture->GetPixelSafe(interpolated.x, interpolated.y);//llegir el color del pixel de la textura
 							SetPixelSafe(x, y, textureColor);
+							//zBuffer->SetPixel(x, y, inter);
 						}
 					}
 				}

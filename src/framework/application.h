@@ -30,7 +30,7 @@ public:
     
     //LAB2
 
-    Camera camera= Camera();
+    Camera camera;
     Mesh mesh1_lee = Mesh();
     Mesh mesh2_lee = Mesh();
     Mesh mesh3_anna = Mesh();
@@ -38,7 +38,7 @@ public:
 
     //TEXTURE
     Image* textureLee;
-  
+    Matrix44 modelMatrix_txt;
     
     Entity entity1;
     Entity entity2;
@@ -56,9 +56,9 @@ public:
     bool individual;
     bool multiples;
     float camera_n = 0.0f;
-    float fov=13;
-    float near_plane =0.01f;
-    float far_plane =100.0f;
+    float fov=PI/4;
+    float near_plane =0.01;
+    float far_plane =100.0;
 
     float left = -5;
     float right = 5;

@@ -34,16 +34,20 @@ void Application::Init(void)
     
     mesh1_lee.LoadOBJ("meshes/lee.obj");
     textureLee = new Image();
-    textureLee->LoadTGA("textures/lee_normal.tga");
+    textureLee->LoadTGA("textures/lee_color_specular.tga",true);
+    textureLee->FlipY();
+    entity1.texture = textureLee;
+    
+    camera = Camera();
     
     
-
 
     //modelMatrix4.RotateLocal(1*(PI/10.0f),rotation_axis);
     
     //predeterminem a camara en perspectiva
     camera.LookAt(eye, center, up);
     camera.SetPerspective(fov, framebuffer.width / (float)framebuffer.height, near_plane, far_plane);
+
     zBuffer=FloatImage(this->window_width, this->window_height);
     
     
@@ -59,6 +63,7 @@ void Application::Render(void)
     //entity7.Render(&framebuffer, &camara, Color::GREEN);
     //entity8.Render(&framebuffer, &camara, Color::BLUE);
     //entity9.Render(&framebuffer, &camara, Color::PURPLE);
+
     
     framebuffer.Render();//enviem el framebuffer a la pantalla
     
@@ -132,11 +137,13 @@ void Application::OnKeyPressed(SDL_KeyboardEvent event)
 
     case SDLK_t: {
         if (entity1.entityInitialized == false) {//comprovem que no estigui la entity ja inicialitzada
-            entity1 = Entity(mesh1_lee);
+            //modelMatrix_txt = Matrix44();
+            //modelMatrix_txt.SetIdentity();
+            entity1 = Entity(mesh1_lee,modelMatrix_txt,textureLee);
             
             entity1.modelMatrix.Escalar(2.5, 2.5, 2.5);
             entity1.modelMatrix.Translate(0, -0.3, 0);
-            entity1.setTexture(textureLee);
+            //entity1.setTexture(textureLee);
             entity1.entityInitialized = true;
         }
         else {
@@ -157,7 +164,7 @@ void Application::OnKeyPressed(SDL_KeyboardEvent event)
 //TODA ESTA PARTE NO FUNCIONA CORRECTAMENTE, NO HEMOS LOGRADO LOCALIZAR LOS FALLOS EN EL CODIGO
 
 void Application::OnMouseButtonDown(SDL_MouseButtonEvent event)
-{ //MIRAR CUANDO SE PRESIONA EL BOTON
+{ /*//MIRAR CUANDO SE PRESIONA EL BOTON
     if (event.button == SDL_BUTTON_LEFT) {
         leftMouse = true; //el boton que se ha picado es el izquierdo
         previ_MouseX = event.x; //guardar x del raton
@@ -170,28 +177,24 @@ void Application::OnMouseButtonDown(SDL_MouseButtonEvent event)
         previ_MouseY = event.y;
     }
 
-
+    */
 }
 
 
 void Application::OnMouseButtonUp(SDL_MouseButtonEvent event) {
     //MIRAR CUANDO SE DEJA DE PULSAR EL BOTON
 
-    if (event.button == SDL_BUTTON_LEFT) {
+    /*if (event.button == SDL_BUTTON_LEFT) {
         leftMouse = false; //boton izq ya no esta presionado
     }
 
     if (event.button == SDL_BUTTON_RIGHT) {
         rightMouse = false;
-    }
+    }*/
 }
 
 //PARA CUANDO EL RATON ESTA EN MOVIMIENTO
 void Application::OnMouseMove(SDL_MouseButtonEvent event) {
-
-    int deltaX = event.x - previ_MouseX;
-    int deltaY = event.y - previ_MouseY;
-    float sensitivity = 0.02f;
 
     
     if (event.button == SDL_BUTTON_LEFT) {
@@ -199,31 +202,6 @@ void Application::OnMouseMove(SDL_MouseButtonEvent event) {
         camera.Orbit(-mouse_delta.y * 0.01, Vector3::RIGHT);
     }
 
-    if (leftMouse) {
-
-        //0.2 SENSIBILIDAD VALOR BIEN? MUY RAPIDO?
-
-        float sensitivity = 0.02f;
-        //rotar ejes X y Y
-        camera.Rotate(deltaX * sensitivity, Vector3(0, 1, 0));
-        camera.Rotate(deltaY * sensitivity, camera.GetLocalVector(Vector3(1, 0, 0)));
-        //Actualizar posiciones
-        previ_MouseX = event.x;
-        previ_MouseY = event.y;
-
-    }
-
-    if (rightMouse) {
-       
-        //mover de izq a derecha
-        camera.Move(Vector3(-deltaX * sensitivity, 0, 0));
-
-        //mover vertical
-        camera.Move(Vector3(0, deltaY * sensitivity, 0));
-
-        previ_MouseX = event.x;
-        previ_MouseY = event.y;
-    }
 }
 
 

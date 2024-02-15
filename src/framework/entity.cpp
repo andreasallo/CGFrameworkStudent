@@ -17,6 +17,12 @@ Entity::Entity(const Mesh& mesh) : mesh(mesh) {
 	modelMatrix.SetIdentity();
 }//útil cuando solo tienes una malla y no necesitas especificar una matriz de modelo
 
+Entity::Entity(Mesh& mesh, Matrix44 modelMatrix, Image* text) {
+    this->mesh = mesh;
+    this->modelMatrix = modelMatrix;
+    this->texture = text;
+}
+
 void Entity::SetMesh(const Mesh& mesh) {
 	this->mesh = mesh;
 }//permite cambiar la malla(mesh)
@@ -108,14 +114,10 @@ void Entity::Render(Image* framebuffer, Camera* camera, const Color& c, FloatIma
             Vector2 uv0 = uvs[i];
             Vector2 uv1 = uvs[i + 1];
             Vector2 uv2 = uvs[i + 2];
-            // (0..W - 1, 0..H - 1)
-            uv0.x = ((uv0.x + 1) * (sWidth - 1))/2;
-            uv0.y = ((uv0.y + 1) * (sHeight - 1))/2;
-            uv1.x = ((uv1.x + 1) * (sWidth - 1)) / 2;;
-            uv1.y = ((uv1.y + 1) * (sHeight - 1)) / 2;
-            uv2.x = ((uv2.x + 1) * (sWidth - 1)) / 2;;
-            uv2.y = ((uv2.y + 1) * (sHeight - 1)) / 2;
             
+            
+
+          
             //Draw triangle
             Vector2 vec1= Vector2(screenSpace0.x, screenSpace0.y);
             Vector2 vec2= Vector2(screenSpace1.x, screenSpace1.y);
@@ -125,19 +127,26 @@ void Entity::Render(Image* framebuffer, Camera* camera, const Color& c, FloatIma
             
             if(tecla_c){
                 if (drawInterpolatedColors){
-                    framebuffer->DrawTriangleInterpolated(screenSpace0, screenSpace1,screenSpace2,Color::RED, Color::BLUE, Color::YELLOW, NULL, NULL, Vector2(), Vector2(), Vector2());}
+                    framebuffer->DrawTriangleInterpolated(screenSpace0, screenSpace1,screenSpace2,Color::RED, Color::BLUE, Color::YELLOW, nullptr, nullptr, Vector2(), Vector2(), Vector2());}
                 else{ framebuffer->DrawTriangle(vec1, vec2, vec3, Color::PURPLE, true, Color::PURPLE);}
             }
             if(tecla_z){
                 if(rasterize_with_Zbuffer){
-                    framebuffer->DrawTriangleInterpolated(screenSpace0, screenSpace1,screenSpace2,Color::PURPLE, Color::BLUE, Color::RED, zBuffer,NULL, Vector2(), Vector2(), Vector2());}
-                else{framebuffer->DrawTriangleInterpolated(screenSpace0, screenSpace1,screenSpace2,Color::PURPLE, Color::BLUE, Color::RED, NULL,NULL,Vector2(), Vector2(), Vector2());}
+                    framebuffer->DrawTriangleInterpolated(screenSpace0, screenSpace1,screenSpace2,Color::PURPLE, Color::BLUE, Color::RED, zBuffer, nullptr, Vector2(), Vector2(), Vector2());}
+                else{framebuffer->DrawTriangleInterpolated(screenSpace0, screenSpace1,screenSpace2,Color::PURPLE, Color::BLUE, Color::RED, nullptr, nullptr,Vector2(), Vector2(), Vector2());}
             }
             if (tecla_t) {
+                // (0..W - 1, 0..H - 1
+                uv0.x = (uv0.x) * (texture->width - 1);
+                uv0.y = (uv0.y) * (texture->height - 1);
+                uv1.x = (uv1.x) * (texture->width - 1);
+                uv1.y = (uv1.y) * (texture->height - 1);
+                uv2.x = (uv2.x) * (texture->width - 1);
+                uv2.y = (uv2.y) * (texture->height - 1);
                 if (mesh_texture) {
                     framebuffer->DrawTriangleInterpolated(screenSpace0, screenSpace1, screenSpace2, Color::GREEN, Color::GRAY, Color::YELLOW, zBuffer, texture, uv0, uv1, uv2);
                 }
-                else{ framebuffer->DrawTriangleInterpolated(screenSpace0, screenSpace1, screenSpace2, Color::GREEN, Color::GRAY, Color::YELLOW, zBuffer, texture, uv0, uv1, uv2); }
+                else{ framebuffer->DrawTriangle(vec1, vec2, vec3, Color::GREEN, true, Color::GREEN); }
             }
             //else { framebuffer->DrawTriangle(vec1, vec2, vec3, Color::PURPLE, true, Color::PURPLE); }
             /*framebuffer->DrawLineDDA(screenSpace0.x, screenSpace0.y, screenSpace1.x, screenSpace1.y, c);

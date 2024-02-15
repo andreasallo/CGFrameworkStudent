@@ -33,6 +33,7 @@ public:
 	Entity();
 	Entity(const Mesh& mesh, const Matrix44& modelMatrix);
 	Entity(const Mesh& mesh);
+    Entity(Mesh& mesh, Matrix44 modelMatrix, Image* text);
 
 	void SetMesh(const Mesh& mesh);
 	void SetModelMatrix(const Matrix44& modelMatrix);
