@@ -35,7 +35,10 @@ void Application::Init(void)
     mesh1_lee.LoadOBJ("meshes/lee.obj");
     textureLee = new Image();
     textureLee->LoadTGA("textures/lee_color_specular.tga",true);
-    textureLee->FlipY();
+    //textureLee->FlipY(); 
+    // 
+    //  VEMOS QUE NUESTRO PROBLEMA NO ESTA RELACIONADO CON LA TEXTURA SINO CON LA MATRIZ. CUANDO HACEMOS EL FLIP SE VE LA CARA INVERTIDA CORRECTAMENTE, ES DECIR QUE LA TEXTURA FUNCIONA BIEN.
+    // 
     entity1.texture = textureLee;
     
     camera = Camera();

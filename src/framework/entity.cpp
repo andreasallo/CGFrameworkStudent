@@ -144,9 +144,9 @@ void Entity::Render(Image* framebuffer, Camera* camera, const Color& c, FloatIma
                 uv2.x = (uv2.x) * (texture->width - 1);
                 uv2.y = (uv2.y) * (texture->height - 1);
                 if (mesh_texture) {
-                    framebuffer->DrawTriangleInterpolated(screenSpace0, screenSpace1, screenSpace2, Color::GREEN, Color::GRAY, Color::YELLOW, zBuffer, texture, uv0, uv1, uv2);
+                    framebuffer->DrawTriangleInterpolated(screenSpace0, screenSpace1, screenSpace2, Color::GREEN, Color::GREEN, Color::GREEN, zBuffer, nullptr, uv0, uv1, uv2);
                 }
-                else{ framebuffer->DrawTriangle(vec1, vec2, vec3, Color::GREEN, true, Color::GREEN); }
+                else{ framebuffer->DrawTriangleInterpolated(screenSpace0, screenSpace1, screenSpace2, Color::GREEN, Color::GRAY, Color::YELLOW, zBuffer, texture, uv0, uv1, uv2); }
             }
             //else { framebuffer->DrawTriangle(vec1, vec2, vec3, Color::PURPLE, true, Color::PURPLE); }
             /*framebuffer->DrawLineDDA(screenSpace0.x, screenSpace0.y, screenSpace1.x, screenSpace1.y, c);
