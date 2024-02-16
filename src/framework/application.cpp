@@ -28,11 +28,13 @@ Application::~Application()
 }
 
 void Application::Init(void)
-{
+{    
     
 	std::cout << "Initiating app..." << std::endl;
     
     mesh1_lee.LoadOBJ("meshes/lee.obj");
+    
+    //TEXTURA
     textureLee = new Image();
     textureLee->LoadTGA("textures/lee_color_specular.tga",true);
     //textureLee->FlipY(); 
@@ -140,13 +142,10 @@ void Application::OnKeyPressed(SDL_KeyboardEvent event)
 
     case SDLK_t: {
         if (entity1.entityInitialized == false) {//comprovem que no estigui la entity ja inicialitzada
-            //modelMatrix_txt = Matrix44();
-            //modelMatrix_txt.SetIdentity();
             entity1 = Entity(mesh1_lee,modelMatrix_txt,textureLee);
             
             entity1.modelMatrix.Escalar(2.5, 2.5, 2.5);
             entity1.modelMatrix.Translate(0, -0.3, 0);
-            //entity1.setTexture(textureLee);
             entity1.entityInitialized = true;
         }
         else {

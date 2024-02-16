@@ -1,4 +1,8 @@
 Andrea Salló - andrea.sallo01@estudiant.upf.edu - NIA:268587
 Mar Retamal - mar.retamal01@estudiant.upf.edu - NIA:268346
 
-El programa no respon de manera corresponent a les apretades de botó del ratolí, caldria millorar aquesta implementació.
+El programa no respon de manera corresponent, sobretot en l'apartat relacionat amb la textura.
+
+Pel que fa a la textura, observem que en fer "flip" a aquesta, apareix definida la imatge i es poden veure els ulls i la barba (del reves). No obstant això, quan la posem correctament, apareixen dos forats en els ulls i la boca, tot i que es veu de manera definida les orelles i una mica la barba. Per tant, creiem que l'error no es troba en aquesta part del codi sinó en alguna cosa relacionada amb les matrius.
+
+També hem afegit el codi proporcionat pel funcionament de la càmera, i tampoc funciona correctament. Tot i revisar el codi moltes vegades, no hem aconseguit localitzar l'error. Després d'analitzar el codi amb profunditat, creiem que aquests errors es deuen a la pràctica anterior i després de molts intents no els hem aconseguit solucionar correctament.

@@ -494,74 +494,8 @@ void Image::DrawTriangle(const Vector2& p0, const Vector2& p1, const Vector2& p2
 
 }
 
-//INTERPOLACIO DE TRIANGLES
-/*
-void Image::DrawTriangleInterpolated(const Vector3& p0, const Vector3& p1, const Vector3& p2, const Color& c0, const Color& c1, const Color& c2, FloatImage* zBuffer){
-    Matrix44 bar_to_screen_m;
-    Matrix44 screen_to_bar_m;
-    Vector3 barCoord;
-    Vector3 check;
-    Vector3 barNormalized;
-    
-    
-    
-    bar_to_screen_m.M[0][0]=p0.x;
-    bar_to_screen_m.M[1][0]=p1.x;
-    bar_to_screen_m.M[2][0]=p2.x;
-    bar_to_screen_m.M[0][1]=p0.y;
-    bar_to_screen_m.M[1][1]=p1.y;
-    bar_to_screen_m.M[2][1]=p2.y;
-    bar_to_screen_m.M[0][2]=1;
-    bar_to_screen_m.M[1][2]=1;
-    bar_to_screen_m.M[2][2]=1;
-    
-    
-    bar_to_screen_m.Inverse();
-    
-    //creation container (AETVariable)
-    std::vector<Cell> table(height);
-   
-    //EDITANT CODI DE DRAW TRIANGLE SEGONS CADA COLOR
-    
-    //scan min i max amb el ScanlineDDA
-    ScanLineDDA(p0.x, p0.y, p1.x, p1.y, table);
-    ScanLineDDA(p1.x, p1.y, p2.x, p2.y, table);
-    ScanLineDDA(p2.x, p2.y, p0.x, p0.y, table);
-    
-    
-    //iterar la taula
-    
-    for (int y = 0; y < table.size(); y++){
-        //valors per linea actual
-		if (table[y].minX <= table[y].maxX) {
-			for (int x = table[y].minX; x <= table[y].maxX; x++) {//iterar per amplada de triangle (anar fent lineas
-                //fill interior
-                //calculem els pesos de les coordenades baricentriques
-                barCoord=bar_to_screen_m*Vector3(x,y,1);
-                barCoord.Clamp(0, 1);
-                float coorSum= barCoord.x+barCoord.y+barCoord.z;
-                barNormalized=barCoord/coorSum;
 
-                //calculem el color resultant del pixel
-                if (zBuffer==NULL){
-                    this->SetPixelSafe(x, y, c0*barNormalized.x+c1*barNormalized.y+c2*barNormalized.z);
-                }
-                else{
-                    //interpolem la coordenada Z amb les baricentriques de la mateixa manera com feiem els colors
-                    //respecte la z en cada vertex del triangle
-                    float interpCoorZ= p0.z*barNormalized.x+p1.z*barNormalized.y+p2.z*barNormalized.z;
-                    //comprovem que en la posicio actual no hi hagi un pixel mes proper a la camera
-                    if(interpCoorZ< zBuffer->GetPixel(x, y)){
-                        //si es la distancia mes propera a la camera la podem guardar en el zbuffer i pintar
-                        zBuffer->SetPixel(x,y,interpCoorZ);
-                        SetPixelSafe(x, y, c0 * barNormalized.x + c1 * barNormalized.y + c2 * barNormalized.z);
-                    }
-                }
-            }
-        }
-    }
-}}*/
-
+//interpolacio triangles
 void Image::DrawTriangleInterpolated(const Vector3& p0, const Vector3& p1, const Vector3& p2,
 	const Color& c0, const Color& c1, const Color& c2,
 	FloatImage* zBuffer, Image* texture,
@@ -628,19 +562,28 @@ void Image::DrawTriangleInterpolated(const Vector3& p0, const Vector3& p1, const
 							SetPixelSafe(x, y, c0 * barNormalized.x + c1 * barNormalized.y + c2 * barNormalized.z);
 						}
 						else {
+
+							//Interpolació baricentrica per obtenir les coordenades de la textura
+							
 							Vector2 interpolated;
 							interpolated.x = (uv0.x * barNormalized.x + uv1.x * barNormalized.y + uv2.x * barNormalized.z);
 							interpolated.y = (uv0.y * barNormalized.x + uv1.y * barNormalized.y + uv2.y * barNormalized.z);
+							
+							//ALTRES INTENTS D'AQUEST CODI
+							// 
 							//Vector2 interpolatedUV = (uv0 * barNormalized.x + uv1 * barNormalized.y + uv2 * barNormalized.z); //calcular barycentric interpolation
 							//const float inter = (p0.z * barNormalized.x) + (p1.z * barNormalized.y) + (p2.z * barNormalized.z);
 							//interpolatedUV.Clamp(0, 1);
 							//Pasar de UV a Texture Space, 
 							//int textureX = (int)(interpolatedUV.x * (texture->width - 1));
 							//int textureY = (int)(interpolatedUV.y * (texture->height - 1));
-							//texture->width - 1)-interpolatedUV.x, (texture->height-1) - interpolatedUV.y
+							
 
+
+							//obtenim el color del pixel de la textura
 							Color textureColor = texture->GetPixelSafe(interpolated.x, interpolated.y);//llegir el color del pixel de la textura
-							SetPixelSafe(x, y, textureColor);
+							SetPixelSafe(x, y, textureColor); //establim color al pixel
+							
 							//zBuffer->SetPixel(x, y, inter);
 						}
 					}
@@ -652,29 +595,6 @@ void Image::DrawTriangleInterpolated(const Vector3& p0, const Vector3& p1, const
 
 
 
-
-
-    /*
-for (int y = 0; y < this->height; y++){
-    //valors per linea actual
-    for (int x = 0; x < this->width; x++) {//iterar per amplada de triangle (anar fent lineas)
-        if (table[y].minX <= x && x <= table[y].maxX) {
-                //fill interior
-                //calculem els pesos de les coordenades baricentriques
-                barCoord=bar_to_screen_m*Vector3(x,y,1);
-                barCoord.Clamp(0, 1);
-                float coorSum= barCoord.x+barCoord.y+barCoord.y;
-                barNormalized=barCoord/coorSum;
-                //calculem el color resultant del pixel
-            //interpolem la coordenada Z amb les baricentriques de la mateixa manera com feiem els colors
-            //respecte la z en cada vertex del triangle
-            float interpCoorZ= p0.z*barNormalized.x+p1.z*barNormalized.y+p2.z*barNormalized.z;
-            //comprovem que en la posicio actual no hi hagi un pixel mes proper a la camera
-            if(interpCoorZ< zBuffer->GetPixel(x, y)){
-                //si es la distancia mes propera a la camera la podem guardar en el zbuffer i pintar
-                zBuffer->SetPixel(x,y,interpCoorZ);
-                SetPixelSafe(x, y, c0 * barNormalized.x + c1 * barNormalized.y + c2 * barNormalized.z);
-            }*/
 
 //
 //IMAGES TOOL DRAWING

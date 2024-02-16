@@ -108,9 +108,10 @@ void Entity::Render(Image* framebuffer, Camera* camera, const Color& c, FloatIma
             Vector3 screenSpace1 = Vector3(static_cast<int>((clipSpace1.x + 1.0f) * 0.5f * framebuffer->width), static_cast<int>((clipSpace1.y + 1.0f) * 0.5f * framebuffer->height), clipSpace1.z);
             Vector3 screenSpace2 = Vector3(static_cast<int>((clipSpace2.x + 1.0f) * 0.5f * framebuffer->width), static_cast<int>((clipSpace2.y + 1.0f) * 0.5f * framebuffer->height), clipSpace2.z);
            
+            //Obtenir coordenadas de textura UV de la malla
             const std::vector<Vector2>& uvs = mesh.GetUVs();
-            //Texture
-            //uvs=mesh->GetUVS()
+           
+            //Cada vertex del triangle
             Vector2 uv0 = uvs[i];
             Vector2 uv1 = uvs[i + 1];
             Vector2 uv2 = uvs[i + 2];
@@ -136,7 +137,9 @@ void Entity::Render(Image* framebuffer, Camera* camera, const Color& c, FloatIma
                 else{framebuffer->DrawTriangleInterpolated(screenSpace0, screenSpace1,screenSpace2,Color::PURPLE, Color::BLUE, Color::RED, nullptr, nullptr,Vector2(), Vector2(), Vector2());}
             }
             if (tecla_t) {
-                // (0..W - 1, 0..H - 1
+
+                //Coordenadas de textura al espai de la textura
+                // (0..W - 1, 0..H - 1)
                 uv0.x = (uv0.x) * (texture->width - 1);
                 uv0.y = (uv0.y) * (texture->height - 1);
                 uv1.x = (uv1.x) * (texture->width - 1);
@@ -148,11 +151,7 @@ void Entity::Render(Image* framebuffer, Camera* camera, const Color& c, FloatIma
                 }
                 else{ framebuffer->DrawTriangleInterpolated(screenSpace0, screenSpace1, screenSpace2, Color::GREEN, Color::GRAY, Color::YELLOW, zBuffer, texture, uv0, uv1, uv2); }
             }
-            //else { framebuffer->DrawTriangle(vec1, vec2, vec3, Color::PURPLE, true, Color::PURPLE); }
-            /*framebuffer->DrawLineDDA(screenSpace0.x, screenSpace0.y, screenSpace1.x, screenSpace1.y, c);
-            framebuffer->DrawLineDDA(screenSpace1.x, screenSpace1.y, screenSpace2.x, screenSpace2.y, c);
-            framebuffer->DrawLineDDA(screenSpace2.x, screenSpace2.y, screenSpace0.x, screenSpace0.y, c);*/
-            
+        
             
         }
     }
